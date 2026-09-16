@@ -1,0 +1,41 @@
+<view class="main">
+    <navbar scrolltop="{{scrollTop}}" title="个性定制" withback="{{true}}"></navbar>
+    <jmplacehold></jmplacehold>
+    <view style="height:48rpx;"></view>
+    <view class="list">
+        <view style="height:48rpx;"></view>
+        <jmimage class="photo" url="all/ic_custom_woman.png"></jmimage>
+        <text class="title">{{name}}</text>
+        <view class="line"></view>
+        <text class="title-step">阶段1</text>
+        <view class="div-step">
+            <view wx:for="{{stpes}}" wx:for-index="key">
+                <view bind:tap="onClickStep" class="step-rect">
+                    <jmimage class="step-photo" url="all/{{item.icon}}.png"></jmimage>
+                    <text class="step-title">{{item.title}}</text>
+                    <div style="flex:1;"></div>
+                    <text class="step-content">{{item.content}}</text>
+                    <image class="step-arrow" src="/image/ic_arrow_right.png"></image>
+                </view>
+                <view class="step-line" wx:if="{{key!=stpes.length-1}}"></view>
+            </view>
+        </view>
+        <text class="title-step" style="margin-top:32rpx;">阶段2</text>
+        <view class="div-step">
+            <view wx:for="{{stpes2}}" wx:for-index="key">
+                <view bind:tap="onClickStep" class="step-rect">
+                    <jmimage class="step-photo" url="all/{{item.icon}}.png"></jmimage>
+                    <text class="step-title">{{item.title}}</text>
+                    <div style="flex:1;"></div>
+                    <text class="step-content">{{item.content}}</text>
+                    <image class="step-arrow" src="/image/ic_arrow_right.png"></image>
+                </view>
+                <view class="step-line" wx:if="{{key!=stpes.length-1}}"></view>
+            </view>
+        </view>
+        <view style="height:50rpx;"></view>
+    </view>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="chooseWaterPressurePopUp">
+        <jminputdialog bind:onclickcancel="onCancelChangeDeviceName" bind:onclickconfirm="onChangeDeviceName" content="xxx"></jminputdialog>
+    </bottomdialog>
+</view>

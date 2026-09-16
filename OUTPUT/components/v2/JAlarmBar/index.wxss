@@ -1,0 +1,35 @@
+.div-error {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #f7debc;
+    border-radius: 32rpx;
+    bottom: 0rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 90rpx;
+    left: 36rpx;
+    padding: 0 24rpx;
+    position: absolute;
+    right: 36rpx
+}
+
+.img-tip {
+    height: 40rpx;
+    width: 40rpx
+}
+
+.tip-error-text {
+    color: #f9a01e;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 28rpx;
+    margin-left: 16rpx
+}
+
+.img-arrow {
+    height: 48rpx;
+    margin-left: 16rpx;
+    width: 48rpx
+}

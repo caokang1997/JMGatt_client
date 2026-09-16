@@ -1,0 +1,163 @@
+.device-card {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 24rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin: 16rpx 24rpx;
+    padding: 20rpx
+}
+
+.product-img {
+    height: 128rpx;
+    margin-right: 20rpx;
+    width: 120rpx
+}
+
+.product-info {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.product-title {
+    color: #000;
+    font-size: 32rpx;
+    font-weight: 500;
+    line-height: 44rpx;
+    opacity: .9
+}
+
+.product-meta {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin-top: 8rpx
+}
+
+.product-meta,.tag {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex
+}
+
+.tag {
+    background-color: #fb7f4a;
+    border-radius: 8rpx;
+    color: #fff;
+    font-size: 20rpx;
+    height: 32rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-left: 0rpx;
+    margin-right: 10rpx;
+    padding: 0 10rpx
+}
+
+.detail,.tag {
+    font-weight: 400
+}
+
+.detail {
+    color: rgba(0,0,0,.6);
+    font-size: 28rpx
+}
+
+.buy-btn {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #724ffd;
+    border-radius: 16rpx;
+    color: #fff;
+    display: -webkit-flex;
+    display: flex;
+    font-size: 24rpx;
+    height: 56rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 144rpx
+}
+
+.buy-btn::after {
+    border: none
+}
+
+.btn-primary {
+    background-color: #724ffd;
+    color: #fff
+}
+
+.btn-success {
+    background-color: #0ce5a4;
+    color: #fff
+}
+
+.btn-warning {
+    background-color: #fb7f4a;
+    color: #fff
+}
+
+.btn-danger {
+    background-color: #ff4d4f;
+    color: #fff
+}
+
+.btn-info {
+    background-color: #eef0f8;
+    color: #724ffd
+}
+
+.btn-text {
+    background-color: initial;
+    color: #724ffd
+}
+
+.radio {
+    -webkit-align-items: center;
+    align-items: center;
+    border: 2rpx solid #e5e7f2;
+    border-radius: 16rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 56rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 0 16rpx;
+    width: 180rpx
+}
+
+.radio-dot {
+    background-color: initial;
+    border: 2rpx solid #c8ccdf;
+    border-radius: 14rpx
+}
+
+.radio-dot,.radio-dot-checked {
+    height: 28rpx;
+    margin-right: 10rpx;
+    width: 28rpx
+}
+
+.radio-dot-checked {
+    background-color: #724ffd;
+    border-radius: 14rpx
+}
+
+.radio-label {
+    color: #000;
+    font-size: 24rpx;
+    opacity: .9
+}
+
+.img-item {
+    height: 40rpx;
+    width: 40rpx
+}

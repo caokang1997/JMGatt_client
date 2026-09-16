@@ -1,0 +1,12 @@
+<view>
+    <view class="rect" style="height:{{detail.length>0?128:96}}rpx;">
+        <image class="icon" src="/image/bright/{{icon}}.png" wx:if="{{icon!=null&&icon!=''}}"></image>
+        <view class="div-title">
+            <text class="text">{{title}}</text>
+            <text class="detail" wx:if="{{detail.length>0}}">{{detail}}</text>
+        </view>
+        <div style="flex:1;"></div>
+        <jmswitch bind:onchecked="onSwitchChange" isChecked="{{checked}}"></jmswitch>
+    </view>
+    <view class="line" wx:if="{{withdivider}}"></view>
+</view>

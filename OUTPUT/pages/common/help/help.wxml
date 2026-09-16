@@ -1,0 +1,19 @@
+<view>
+    <navbar scrolltop="{{scrollTop}}" title="设备故障" withback="{{true}}"></navbar>
+    <jmplacehold></jmplacehold>
+    <view class="main">
+        <view style="position:relative;">
+            <image class="img-product" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/nfctoilet/{{model}}/product.png"></image>
+            <image class="img-warn" src="/image/ic_warn.png"></image>
+        </view>
+        <text class="error-title">{{title}}</text>
+        <view class="error-detail">
+            <text class="title">故障原因，可能是由于</text>
+            <text class="content">{{reason}}</text>
+            <text class="title" style="margin-top:32rpx;">如无法恢复，请尝试以下操作：</text>
+            <view wx:for="{{solution}}">
+                <text class="content">1.{{item}}</text>
+            </view>
+        </view>
+    </view>
+</view>

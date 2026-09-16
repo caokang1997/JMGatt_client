@@ -1,0 +1,23 @@
+<view class="main">
+    <navbar bind:onClickBack="onClickBack" title="设备搜索" withback="{{true}}"></navbar>
+    <jmplacehold></jmplacehold>
+    <view wx:if="{{!isDeviceFound}}">
+        <view class="div-scan">
+            <view style="height:244rpx;"></view>
+            <scan hasDevice="{{false}}"></scan>
+        </view>
+    </view>
+    <view style="display:flex;flex-direction:column;" wx:else>
+        <view class="div-scan" id="scanDetailView" ref="scanDetailView" style="height:240rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+            <scan hasDevice="{{true}}"></scan>
+        </view>
+        <scroll-view scrollY="true" style="height:{{scrollviewHeight}}px;padding-bottom:50rpx;">
+            <view wx:for="{{devices}}">
+                <jmitem bindtap="onDeviceClick" content="{{item.mac}} RSSI:{{item.RSSI}}" data-deviceId="{{item.deviceId}}" data-item="{{item}}" data-jmztmxm="{{item.typeCode}}" data-mac="{{item.mac}}" model="{{item.model}}" rssi="{{item.RSSI}}" title="{{item.productName}}"></jmitem>
+            </view>
+        </scroll-view>
+    </view>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmdialog bind:onclickreconnect="checkToReStartScan" confirmText="重新搜索" content="{{dialogContent}}"></jmdialog>
+    </bottomdialog>
+</view>

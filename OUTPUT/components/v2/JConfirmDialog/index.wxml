@@ -1,0 +1,18 @@
+<view class="main" style="background-color:{{backgroundColor}};">
+    <view class="header">
+        <image bindtap="onClickBack" class="back" src="/image/ic_back.png" wx:if="{{hasBack}}"></image>
+        <text class="title">{{title}}</text>
+        <view class="right-btn">
+            <slot name="right"></slot>
+        </view>
+    </view>
+    <view style="padding-top:16rpx;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+        <slot></slot>
+    </view>
+    <view class="bottom">
+        <button bindtap="onClickCancel" class="button" wx:if="{{hasCancel}}">{{cancleText}}</button>
+        <view style="width:24rpx;" wx:if="{{hasCancel&&hasConfirm}}"></view>
+        <button bindtap="onClickConfirm" class="button-high" wx:if="{{hasConfirm}}">{{confirmText}}</button>
+    </view>
+    <slot name="bottom"></slot>
+</view>

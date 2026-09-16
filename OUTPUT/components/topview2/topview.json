@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "jmtemp": "../jmtemp/jmtemp",
+    "jmimage": "../jmimage/index",
+    "jmswiper": "../jmswiper/index",
+    "Swiper": "../theswiper/theSwiper"
+  }
+}

@@ -1,0 +1,6 @@
+<view bindtap="onClickButton" class="rect">
+    <image class="image" src="/image/{{icon}}.png"></image>
+    <text class="text">{{title}}</text>
+    <div style="flex:1;"></div>
+    <image class="arrow" src="/image/ic_arrow_right.png"></image>
+</view>

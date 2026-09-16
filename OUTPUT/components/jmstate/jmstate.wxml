@@ -1,0 +1,8 @@
+<jmplacehold></jmplacehold>
+<view class="main" style="height:{{viewHeight}}rpx;">
+    <image class="circle_normal" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/bg_state_bottom.png"></image>
+    <image class="circle" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/bg_state_center.png"></image>
+    <image class="circle_normal" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/bg_state_top.png"></image>
+    <text class="title">{{title}}</text>
+    <image class="shadow" src="/image/ic_shadow.png"></image>
+</view>

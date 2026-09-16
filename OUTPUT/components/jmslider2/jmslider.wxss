@@ -1,0 +1,99 @@
+.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 158rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding-left: 24rpx;
+    padding-right: 24rpx
+}
+
+.div-left {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 96rpx
+}
+
+.div-slider-title {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin-top: 4rpx;
+    width: 100%
+}
+
+.div-slider-title-item {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-direction: row;
+    flex-direction: row
+}
+
+.div-slider-title-item-text {
+    color: #000;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 20rpx;
+    opacity: .4;
+    text-align: center;
+    width: 100%
+}
+
+.title {
+    color: #000;
+    font-size: 32rpx;
+    opacity: .9
+}
+
+.content {
+    color: #000;
+    font-size: 24rpx;
+    margin-top: 8rpx;
+    opacity: .4
+}
+
+.process_wrap {
+    position: relative;
+    width: 510rpx
+}
+
+.process_wrap .line {
+    background: #eef0f8;
+    border-radius: 24rpx;
+    height: 48rpx;
+    width: 510rpx
+}
+
+.process_wrap .active_line {
+    background: #724ffd;
+    border-radius: 24rpx;
+    height: 48rpx;
+    left: 0;
+    max-width: 510rpx;
+    position: absolute;
+    top: 0rpx
+}
+
+.process_wrap .spot {
+    background: #fff;
+    border: 3px solid #724ffd;
+    border-radius: 100%;
+    height: 36rpx;
+    position: absolute;
+    top: 0rpx;
+    width: 36rpx
+}

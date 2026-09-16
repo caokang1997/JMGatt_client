@@ -1,0 +1,7 @@
+<view bindtap="onMaskClick" class="dialog-mask {{show?'show':''}}">
+    <view catchtap="stopPropagation" class="dialog-container">
+        <view class="dialog-content">
+            <slot></slot>
+        </view>
+    </view>
+</view>

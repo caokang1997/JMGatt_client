@@ -1,0 +1,38 @@
+.hd {
+    background: #fff;
+    display: -webkit-flex;
+    display: flex;
+    height: 60rpx;
+    left: 0;
+    top: 0;
+    width: 100%
+}
+
+.hd_flex {
+    color: #999;
+    -webkit-flex: 1;
+    flex: 1;
+    font-family: PingFang SC;
+    font-size: 32rpx;
+    font-weight: 400;
+    text-align: center
+}
+
+.hd_flex_on {
+    color: #724ffd;
+    font-size: 32rpx;
+    font-weight: 500;
+    position: relative
+}
+
+.hd_flex_on::after {
+    background: #724ffd;
+    bottom: 0;
+    content: "";
+    height: 4rpx;
+    left: 50%;
+    position: absolute;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 50%
+}

@@ -1,0 +1,35 @@
+.dialog-mask {
+    background-color: rgba(0,0,0,.7);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+.dialog-mask.dialog-show {
+    opacity: 1
+}
+
+.dialog-container {
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+.dialog-page {
+    max-height: 90vh
+}
+
+.dialog-show {
+    -webkit-transform: translateY(0);
+    transform: translateY(0)
+}
+
+.dialog-hide {
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%)
+}

@@ -1,0 +1,11 @@
+<view class="main">
+    <view class="div-title">
+        <text class="title">{{title}}</text>
+    </view>
+    <input bindinput="bindKeyInput" class="input" maxlength="{{maxLength}}" placeholder="{{placeholder}}" value="{{content}}"></input>
+    <view class="bottom">
+        <button bindtap="onClickCancel" class="button">取消</button>
+        <view style="width:24rpx;"></view>
+        <button bindtap="onClickConfirm" class="button-high">确定</button>
+    </view>
+</view>

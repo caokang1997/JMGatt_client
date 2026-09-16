@@ -1,0 +1,37 @@
+<view class="container">
+    <image class="bg-shower" src="http://qiniu.labsci.top/bg_shower.png"></image>
+    <navbar scrolltop="{{scrollTop}}" title="智能淋浴器" withback="{{false}}"></navbar>
+    <image class="ic-shower" src="http://qiniu.labsci.top/ic_shower.png"></image>
+    <image class="shower-photo" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/nfctoilet/shower1/images/bg_showering.png" wx:if="{{onDischarge}}"></image>
+    <view class="div-temp">
+        <view class="div-temp-top">
+            <text class="text-temp">{{currentTemp}}</text>
+            <image class="img-centigrade" src="/image/ic_centigrade.png"></image>
+        </view>
+        <text class="div-temp-title">实时温度</text>
+    </view>
+    <image bind:tap="onClickDischarge" class="img-button" src="{{dischargeIcon}}"></image>
+    <view class="menu">
+        <image class="img-menu" src="http://qiniu.labsci.top/bg_shower_nav.png"></image>
+        <view class="div-menu-main">
+            <view bind:tap="onClickChosseShowerType" class="div-menu-btn">
+                <image class="img-menu-btn" src="{{showerTypeIcon}}"></image>
+                <text class="text-menu-btn">{{currentDischageType}}</text>
+            </view>
+            <text class="text-menu-title">{{workState}}</text>
+            <view bind:tap="onClickChosseDischargeTemp" class="div-menu-btn">
+                <image class="img-menu-btn" src="/image/ic_shower_temp.png"></image>
+                <text class="text-menu-btn">温度</text>
+            </view>
+        </view>
+    </view>
+    <bottomdialog id="showerTypeDialog">
+        <radiopicker bind:onclickcancel="onCancelDischargeTypePicker" bind:onclickconfirm="onChooseDischargeType" default="{{clocktime}}" selected="{{selectDischargeType}}" style="width:100%;"></radiopicker>
+    </bottomdialog>
+    <bottomdialog id="dischargeTempDialog">
+        <singlepicker bind:onclickcancel="onCancelDischargeTempPicker" bind:onclickconfirm="onChooseDischargeTemp" default="{{aimTemp}}" style="width:100%;"></singlepicker>
+    </bottomdialog>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmconnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" errMsg="{{bleErrMsg}}" state="{{connectState}}"></jmconnect>
+    </bottomdialog>
+</view>

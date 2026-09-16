@@ -1,0 +1,1 @@
+<canvas binderror="canvasIdErrorCallback" bindtouchend="EventHandle" bindtouchmove="EventHandleMove" bindtouchstart="EventHandleStart" disableScroll="true" id="canvas2" style="width:216rpx;height:{{height}}rpx;" type="2d"></canvas>

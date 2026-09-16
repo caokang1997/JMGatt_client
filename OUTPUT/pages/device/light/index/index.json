@@ -1,0 +1,23 @@
+{
+  "usingComponents": {
+    "jmbutton": "components/jmbutton/jmbutton",
+    "jmstate": "components/jmstate/jmstate",
+    "jmbar": "components/jmbar/jmbar",
+    "navbar": "components/navbar/navbar",
+    "jmtemp": "components/jmtemp/jmtemp",
+    "topview": "components/topview/topview",
+    "bottomdialog": "components/bottomdialog/bottomdialog",
+    "jmconnect": "components/jmconnect/jmconnect",
+    "jmswitch": "components/jmswitch/jmswitch",
+    "jmphone": "components/jmphone/jmphone",
+    "jmtab": "components/jmtab/jmtab",
+    "jmplacehold": "components/jmplacehold/jmplacehold",
+    "jmslider": "components/jmslider/jmslider",
+    "lightcolor": "components/lightcolor/lightcolor",
+    "jmmenu": "components/jmmenu/jmmenu",
+    "musicmode": "components/musicmode/musicmode",
+    "lightscene": "components/lightscene/lightscene"
+  },
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true
+}

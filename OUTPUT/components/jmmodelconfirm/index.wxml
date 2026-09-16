@@ -1,0 +1,9 @@
+<view class="main">
+    <jmimage class="div-main-product" url="{{model}}/product.png"></jmimage>
+    <text class="title">{{name}}</text>
+    <view class="bottom">
+        <button bindtap="onClickCancel" class="button">取消</button>
+        <view style="width:24rpx;"></view>
+        <button bindtap="onClickConfirm" class="button-high">确定</button>
+    </view>
+</view>

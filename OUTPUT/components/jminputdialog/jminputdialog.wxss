@@ -1,0 +1,79 @@
+.main {
+    background-color: #fff;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 16rpx 40rpx 72rpx
+}
+
+.div-title,.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex
+}
+
+.div-title {
+    height: 96rpx;
+    width: 100%
+}
+
+.input {
+    background-color: #eef0f8;
+    border-radius: 26rpx;
+    box-sizing: border-box;
+    color: #000;
+    font-size: 32rpx;
+    height: 100rpx;
+    margin-top: 16rpx;
+    padding-left: 32rpx;
+    padding-right: 32rpx;
+    width: 100%
+}
+
+.title {
+    color: #333;
+    font-size: 40rpx;
+    font-weight: 500
+}
+
+.bottom {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-top: 40rpx;
+    width: 100%
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff;
+    font-size: 36rpx
+}
+
+.button,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-left: 32rpx;
+    margin-right: 32rpx
+}
+
+.button {
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    color: #724ffd
+}

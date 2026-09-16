@@ -1,0 +1,5 @@
+<view class="page">
+    <view wx:for="{{categorys}}" wx:key="categorys">
+        <jmdetailbar bind:onclick="onClickChooseCategory" content="{{title}}" data-item="{{item}}" title="{{item.title}}" withdivider="{{true}}"></jmdetailbar>
+    </view>
+</view>

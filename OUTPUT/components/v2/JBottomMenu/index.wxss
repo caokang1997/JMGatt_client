@@ -1,0 +1,81 @@
+.div-bottom-menu {
+    bottom: 0rpx;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    position: absolute
+}
+
+.div-bottom-menu,.div-bottom-menu-container {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%
+}
+
+.div-bottom-menu-container {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fffffff0;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    padding-top: 16rpx
+}
+
+.div-bottom-menu .divider {
+    background-color: #eaeafb;
+    height: 0.75rpx;
+    width: 100%
+}
+
+.div-bottom-menu .div-center {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    margin-left: 20rpx;
+    margin-right: 20rpx
+}
+
+.div-bottom-menu .btn-stop {
+    height: 120rpx;
+    width: 120rpx
+}
+
+.div-bottom-menu .text-stop {
+    color: #000;
+    font-size: 24rpx;
+    margin-top: 8rpx;
+    opacity: .6
+}
+
+.div-bottom-menu .div-left,.div-bottom-menu .div-right {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 0rpx
+}
+
+.div-bottom-menu .btn-icon {
+    height: 48rpx;
+    width: 48rpx
+}
+
+.div-bottom-menu .btn-title {
+    color: #000;
+    font-size: 24rpx;
+    margin-top: 8rpx;
+    opacity: .6
+}
+
+.div-menuButton {
+    background-color: #fff
+}

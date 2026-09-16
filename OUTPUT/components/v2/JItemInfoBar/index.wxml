@@ -1,0 +1,14 @@
+<view>
+    <view bind:tap="onClickContent" class="rect" style="height:{{hasInfo?144:112}}rpx;">
+        <image class="icon" src="/image/bright/{{icon}}.png" wx:if="{{icon!=null&&icon!=''}}"></image>
+        <view class="div-title">
+            <text class="text">{{title}}</text>
+            <view class="content">{{info}}<slot name="info"></slot>
+            </view>
+        </view>
+        <div style="flex:1;"></div>
+        <text class="content">{{content}}</text>
+        <image class="arrow" src="/image/ic_arrow_right.png" wx:if="{{withClick}}"></image>
+    </view>
+    <view class="line" wx:if="{{withdivider}}"></view>
+</view>

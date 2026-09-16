@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "jmtemp": "../jmtemp/jmtemp"
+  }
+}

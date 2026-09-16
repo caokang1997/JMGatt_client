@@ -1,0 +1,4 @@
+<view bindtap="_selectColor" class="main" id="colorpicker">
+    <image class="image" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/icon_color_selector.png"></image>
+    <view class="circle" style="background-color:{{rgb}};left:{{spotLeft}}rpx;top:{{spotTop}}rpx"></view>
+</view>

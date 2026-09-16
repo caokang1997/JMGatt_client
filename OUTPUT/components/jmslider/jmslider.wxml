@@ -1,0 +1,11 @@
+<view class="main">
+    <view class="div-left">
+        <text class="title">{{title}}</text>
+        <text class="content">{{value}}</text>
+    </view>
+    <view class="process_wrap" id="container">
+        <view bindtap="tapLine" class="line"></view>
+        <view bindtap="tapLine" class="active_line" style="width:{{activeLineWidth}}rpx;"></view>
+        <view bindtouchend="touchEnd" bindtouchmove="moveTo" catchtouchstart="buttonStart" class="spot" style="left:{{spotLeft}}rpx"></view>
+    </view>
+</view>

@@ -1,0 +1,8 @@
+<view class="main">
+    <view class="bottom">
+        <text class="title">将拨通客服电话</text>
+        <text class="content">400-1919-999</text>
+        <button bindtap="onClickReConnect" class="button-high" style="width:78%;">拨打</button>
+        <button bindtap="onClickCancel" class="button" style="width:78%;">取消</button>
+    </view>
+</view>

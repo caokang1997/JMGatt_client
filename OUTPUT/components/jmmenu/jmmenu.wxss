@@ -1,0 +1,46 @@
+.main {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 154rpx;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    width: 100%
+}
+
+.div-small-btn,.main {
+    display: -webkit-flex;
+    display: flex
+}
+
+.div-small-btn {
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    margin-top: 42rpx
+}
+
+.small-btn-text {
+    color: #000;
+    font-size: 20rpx;
+    margin-top: 4rpx;
+    opacity: .4
+}
+
+.smallBtn {
+    height: 64rpx;
+    width: 64rpx
+}
+
+.btn {
+    height: 144rpx;
+    width: 144rpx
+}
+
+.bg {
+    height: 100%;
+    height: 154rpx;
+    position: absolute;
+    width: 100%;
+    z-index: -1
+}

@@ -1,0 +1,40 @@
+.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.list {
+    background-color: #fff;
+    width: 100%
+}
+
+.item {
+    margin-top: 32rpx
+}
+
+.image {
+    height: 338rpx;
+    margin-bottom: 16rpx;
+    margin-left: 42rpx;
+    width: 670rpx
+}
+
+.rect {
+    background-color: #fff;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+    margin-top: 48rpx;
+    padding: 40rpx 32rpx
+}
+
+::-webkit-scrollbar {
+    color: transparent;
+    height: 0;
+    width: 0
+}

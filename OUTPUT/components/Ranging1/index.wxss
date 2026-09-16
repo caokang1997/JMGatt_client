@@ -1,0 +1,54 @@
+.main-container {
+    height: 400rpx;
+    position: relative;
+    width: 100%
+}
+
+.ranging-canvas-container,.ranging-canvas-container-1 {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 400rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%
+}
+
+.ranging-canvas-container-1 {
+    z-index: 100
+}
+
+.ranging-canvas {
+    height: 400rpx;
+    width: 600rpx
+}
+
+.container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 400rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    z-index: 99
+}
+
+.photo-container {
+    height: 400rpx;
+    width: 600rpx
+}
+
+.photo {
+    height: 120rpx;
+    width: 120rpx
+}
+
+.photo1 {
+    height: 231rpx;
+    width: 219rpx
+}

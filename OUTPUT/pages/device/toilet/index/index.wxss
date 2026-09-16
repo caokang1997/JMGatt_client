@@ -1,0 +1,68 @@
+.div-top {
+    height: 744rpx;
+    position: relative;
+    width: 100vw;
+    z-index: 0
+}
+
+.bg-image {
+    position: absolute;
+    width: 100vw
+}
+
+.div-main,.div-main-container {
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    z-index: 100
+}
+
+.div-main-container {
+    padding-left: 40rpx;
+    padding-right: 40rpx
+}
+
+.div-buttons {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 100%
+}
+
+.div-bar {
+    box-sizing: border-box;
+    margin-top: 32rpx;
+    width: 100%
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff;
+    font-size: 36rpx;
+    margin-top: 72rpx
+}
+
+.button,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.button {
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    color: #724ffd;
+    margin-bottom: 32rpx;
+    margin-top: 32rpx
+}

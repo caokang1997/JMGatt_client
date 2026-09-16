@@ -1,0 +1,21 @@
+<view class="statusDisk">
+    <view class="main">
+        <view class="div-status">
+            <image class="bg-disk" mode="scaleToFill" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/bg_disk.png"></image>
+            <view class="div-real-status">
+                <image class="bg-circle {{animationClass}}" src="/image/ic_circle.png"></image>
+                <view class="div-remain-time" wx:if="{{!showIcon}}">
+                    <countDownText input="{{content}}"></countDownText>
+                </view>
+                <image class="div-photo" src="{{icon}}" wx:if="{{showIcon}}"></image>
+                <text class="text-title">{{getTitle}}</text>
+            </view>
+            <text class="{{isDryMode?'div-status-left status-unselected':'div-status-left status-selected'}}" wx:if="{{isAuto&&(!canDryWhenRedBlueLight||!isRedBlueLight)}}">水洗
+阶段</text>
+            <view class="{{isDryMode?'div-status-left-bar status-bar-unselected':'div-status-left-bar status-bar-selected'}}" wx:if="{{isAuto&&(!canDryWhenRedBlueLight||!isRedBlueLight)}}"></view>
+            <text class="{{isDryMode?'div-status-right status-selected':'div-status-right status-unselected'}}" wx:if="{{isAuto&&(!canDryWhenRedBlueLight||!isRedBlueLight)}}">暖风
+阶段</text>
+            <view class="{{isDryMode?'div-status-right-bar status-bar-selected':'div-status-right-bar status-bar-unselected'}}" wx:if="{{isAuto&&(!canDryWhenRedBlueLight||!isRedBlueLight)}}"></view>
+        </view>
+    </view>
+</view>

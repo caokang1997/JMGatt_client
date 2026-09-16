@@ -1,0 +1,15 @@
+<view class="main">
+    <view class="div-title">
+        <text class="title">{{title}}</text>
+    </view>
+    <picker-view bindchange="bindChange" class="picker-view" immediateChange="{{true}}" indicatorStyle="height: 55px;background:transparent" maskClass="mask" value="{{value}}">
+        <picker-view-column>
+            <view class="picker-view-item" wx:for="{{values}}" wx:key="item">{{item}}{{unit}}</view>
+        </picker-view-column>
+    </picker-view>
+    <view class="bottom">
+        <button bindtap="onClickCancel" class="button">取消</button>
+        <view style="width:24rpx;"></view>
+        <button bindtap="onClickConfirm" class="button-high">确定</button>
+    </view>
+</view>

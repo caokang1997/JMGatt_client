@@ -1,0 +1,7 @@
+<view class="main">
+    <scroll-view class="list" enhanced="true" scrollY="true" showScrollbar="false">
+        <view wx:for="{{musicModes}}" wx:key="title">
+            <image bindtap="onModelick" class="image" data-mode="{{item.mode}}" src="{{item.url}}"></image>
+        </view>
+    </scroll-view>
+</view>

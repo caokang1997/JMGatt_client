@@ -1,0 +1,7 @@
+build
+.codebuddy
+.vscode
+bin
+obj
+build
+.devcontainer

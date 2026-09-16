@@ -1,0 +1,9 @@
+<view class="page">
+    <view class="rect" style="margin-top:28rpx;">
+        <jmdetailbar content="{{name}}" title="设备名" witharrow="{{false}}" withdivider="{{true}}"></jmdetailbar>
+        <jmdetailbar content="{{model}}" title="设备型号" witharrow="{{false}}" withdivider="{{true}}"></jmdetailbar>
+        <jmdetailbar content="{{nfcMac}}" title="Mac地址" witharrow="{{false}}" withdivider="{{false}}"></jmdetailbar>
+    </view>
+    <view style="flex:1;"></view>
+    <view bindtap="readDeviceNFC" class="button" style="margin-bottom:60rpx;">读取NFC标签</view>
+</view>

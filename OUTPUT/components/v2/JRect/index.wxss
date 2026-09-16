@@ -1,0 +1,20 @@
+.rect {
+    background-color: #fff;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    margin-left: 30rpx;
+    margin-right: 30rpx;
+    padding-bottom: 8rpx;
+    padding-top: 8rpx;
+    position: relative;
+    width: 100% - 80rpx
+}
+
+.rect_last_item {
+    background-color: #fff;
+    bottom: 8rpx;
+    height: 4rpx;
+    margin-left: 10rpx;
+    position: absolute;
+    width: calc(100% - 20rpx)
+}

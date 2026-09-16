@@ -1,0 +1,5 @@
+<view bind:tap="onClickError" class="div-error" wx:if="{{show}}">
+    <image class="img-tip" src="/image/all/ic_error.png"></image>
+    <text class="tip-error-text">{{errorMsg}}</text>
+    <image class="img-arrow" src="/image/ic_arrow_right.png"></image>
+</view>

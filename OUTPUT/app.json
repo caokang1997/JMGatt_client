@@ -1,0 +1,162 @@
+{
+  "entryPagePath": "pages/scan/scan",
+  "pages": [
+    "pages/scan/scan",
+    "pages/device/demo/index",
+    "pages/device/bathheater/index",
+    "pages/device/xmtoilet/index/index",
+    "pages/device/xmtoilet/setting/index",
+    "pages/device/xmtoilet/demo/index",
+    "pages/device/xmtoilet/nouse/index",
+    "pages/device/xmtoilet/customedit/index",
+    "pages/device/xmtoilet/customsetting/index",
+    "pages/device/light/index/index",
+    "pages/factory/main/index",
+    "pages/device/shower/index/index",
+    "pages/factory/nfc/nfc",
+    "pages/factory/scan/scan",
+    "pages/factory/index/index",
+    "pages/factory/blescan/index",
+    "pages/factory/category/index",
+    "pages/factory/productlist/index",
+    "pages/common/help/help",
+    "pages/common/logs/logs",
+    "pages/device/toilet/index/index",
+    "pages/device/toilet/setting/setting",
+    "factory/pages/main/index",
+    "factory/pages/blescan/index"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于提供产品设备维修保养服务"
+    },
+    "scope.camera": {
+      "desc": "您的相机权限将用于扫描条形码"
+    }
+  },
+  "miniApp": {
+    "useAuthorizePage": true
+  },
+  "style": "v2",
+  "renderer": "webview",
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "componentFramework": "exparser",
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "九牧智联",
+    "navigationBarTextStyle": "black"
+  },
+  "subPackages": [
+    {
+      "root": "bathroomcabinet/",
+      "name": "bathroomcabinet",
+      "pages": [
+        "pages/index/index",
+        "pages/setting/index",
+        "pages/help/index",
+        "pages/deviceinfo/index",
+        "pages/autofrogsetting/index",
+        "pages/humansensorsetting/index"
+      ]
+    },
+    {
+      "root": "toilet/",
+      "name": "toilet",
+      "pages": [
+        "pages/index/index",
+        "pages/customlist/index",
+        "pages/help/index",
+        "pages/setting/index",
+        "pages/customedit/index",
+        "pages/consume/index",
+        "pages/light/index",
+        "pages/deviceInfo/index",
+        "pages/ota/detail/index",
+        "pages/ota/info/index",
+        "pages/ota/mtuDetail/index",
+        "pages/remotecontrol/index",
+        "pages/demo/index",
+        "pages/link/main/index",
+        "pages/link/seatday/index",
+        "pages/aitalk/index/index",
+        "pages/aitalk/chat/index",
+        "pages/ai/menstrualperiod/index",
+        "pages/ai/periodcare/index"
+      ]
+    },
+    {
+      "root": "bathheater/",
+      "name": "bathheater",
+      "pages": [
+        "pages/index/index",
+        "pages/aiclean/index",
+        "pages/aiproclean/index",
+        "pages/appointwarm/index",
+        "pages/personsense/index",
+        "pages/setting/index",
+        "pages/help/index",
+        "pages/customlist/index",
+        "pages/customdryedit/index",
+        "pages/customedit/index",
+        "pages/deviceinfo/index",
+        "pages/index/components/colorPalette/index",
+        "pages/link/main/index",
+        "pages/link/seatday/index",
+        "pages/link/showerlink/index",
+        "pages/ota/detail/index",
+        "pages/ota/info/index"
+      ]
+    },
+    {
+      "root": "deodorization/",
+      "name": "deodorization",
+      "pages": [
+        "pages/deodorization/index",
+        "pages/appoint/index",
+        "pages/appointedit/index"
+      ]
+    },
+    {
+      "root": "bathroom/",
+      "name": "bathroom",
+      "pages": [
+        "pages/wave/index",
+        "pages/waveSetting/index",
+        "pages/nightLightSetting/index"
+      ]
+    },
+    {
+      "root": "shower/",
+      "name": "shower",
+      "pages": [
+        "pages/index/index",
+        "pages/setting/index",
+        "pages/deviceinfo/index",
+        "pages/help/index",
+        "pages/link/bathlink/index",
+        "pages/demo/exact/index",
+        "pages/demo/bathlink/index",
+        "pages/demo/showerlink/index"
+      ]
+    },
+    {
+      "root": "ai/",
+      "name": "ai",
+      "pages": [
+        "pages/index/index",
+        "pages/chat/chat"
+      ]
+    },
+    {
+      "root": "donutAuthorize__/",
+      "independent": true,
+      "pages": [
+        "pages/miniProgramLoginAuthorize/miniProgramLoginAuthorize"
+      ]
+    }
+  ],
+  "plugins": {}
+}

@@ -1,0 +1,20 @@
+<view class="navigation-container">
+    <image class="bg" mode="widthFix" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/{{bgIcon}}.png"></image>
+    <view style="{{'height: '+navigationBarAndStatusBarHeight}}"></view>
+    <view class="main">
+        <view animation="{{animationData}}" class="div-toilet">
+            <image class="bg-toilet" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/nfctoilet/{{model}}/product_open.png"></image>
+            <image src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/{{toiletSeatIcon}}.png"></image>
+        </view>
+        <jmtemp allTemp="{{allTemp}}" bind:onstep="onTempSelected" bind:ontouch="onTouchTemp" class="div-jmtemp" enable="{{enable}}" step="{{seatTempLevel+1}}"></jmtemp>
+        <view class="div-temp">
+            <text class="text-temp-value">{{tempState}}</text>
+            <text class="text-temp-title">座温</text>
+        </view>
+        <view bind:tap="onClickErrorBar" class="div-error" wx:if="{{showError}}">
+            <image class="img-tip" src="../../image/ic_tips.png"></image>
+            <text class="tip-text">{{errorMsg}}</text>
+            <image class="img-arrow" src="../../image/ic_arrow_right.png"></image>
+        </view>
+    </view>
+</view>

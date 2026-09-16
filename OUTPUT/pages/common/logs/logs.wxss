@@ -1,0 +1,47 @@
+page {
+    background-color: #fff;
+    height: 100%;
+    padding-bottom: 20rpx
+}
+
+.div-top {
+    height: 334rpx;
+    width: 100%
+}
+
+.swiper {
+    background-color: #fff;
+    height: 1200rpx;
+    padding-top: 30rpx
+}
+
+.container {
+    background-color: #eef0f8;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.div-main {
+    background-color: #fff;
+    -webkit-flex: 1;
+    flex: 1;
+    height: 100vh
+}
+
+.rect_white {
+    background-color: #fff;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+    padding: 40rpx 32rpx
+}
+
+.devices {
+    height: 1208rpx;
+    margin-left: 40rpx;
+    width: 670rpx
+}

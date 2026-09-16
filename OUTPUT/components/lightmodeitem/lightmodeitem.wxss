@@ -1,0 +1,45 @@
+.main {
+    position: relative
+}
+
+.bg-photo,.main {
+    height: 672rpx;
+    width: 500rpx
+}
+
+.bg-photo {
+    border-radius: 32rpx
+}
+
+.div-blur {
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(0,0,0,.2);
+    border-radius: 0rpx 0rpx 32rpx 32rpx;
+    bottom: 0;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 180rpx;
+    padding-left: 40rpx;
+    padding-right: 40rpx;
+    position: absolute;
+    width: 500rpx
+}
+
+.title {
+    color: #fff;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 40rpx;
+    font-weight: 600
+}
+
+.btn {
+    height: 88rpx;
+    width: 88rpx
+}

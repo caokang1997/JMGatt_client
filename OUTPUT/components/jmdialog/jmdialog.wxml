@@ -1,0 +1,7 @@
+<view class="main">
+    <view class="bottom">
+        <text class="title">提示</text>
+        <text class="content">{{content}}</text>
+        <button bindtap="onClickReConnect" class="button-high" style="width:78%;">{{confirmText}}</button>
+    </view>
+</view>

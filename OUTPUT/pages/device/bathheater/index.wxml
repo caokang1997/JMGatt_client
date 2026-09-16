@@ -1,0 +1,28 @@
+<view class="container">
+    <navbar backscan="{{false}}" scrolltop="{{scrollTop}}" title="小牧多功能智能浴霸" withback="{{true}}"></navbar>
+    <view class="div-main">
+        <jmimage class="div-main-top" url="jd176s/bg_bathheater_top.png"></jmimage>
+        <jmimage class="div-main-product" url="jd176s/ic_product.png"></jmimage>
+        <div class="div-info">
+            <jminfoitem style="flex:1;" title="实时温度" unit="℃" value="{{temp}}"></jminfoitem>
+            <div class="div-info-line"></div>
+            <jminfoitem style="flex:1;" title="{{firstTitle}}" value="{{firstTime}}"></jminfoitem>
+            <div class="div-info-line"></div>
+            <jminfoitem style="flex:1;" title="{{secondTitle}}" value="{{secondTime}}"></jminfoitem>
+        </div>
+        <div class="div-action">
+            <jmbuttonbar bind:onclick="clickOpenLight" icon="jd176s/ic_light" on="{{light}}" style="flex:1;" title="照明"></jmbuttonbar>
+            <jmbuttonbar bind:onclick="clickNightLight" icon="jd176s/ic_nightlight" on="{{nightLight}}" style="flex:1;margin-left:24rpx;" title="夜灯"></jmbuttonbar>
+        </div>
+        <div class="div-action2">
+            <jmactionitem bind:onclick="clickDry" icon="jd176s/ic_dry" on="{{dry}}" style="flex:1;" title="干燥"></jmactionitem>
+            <jmactionitem bind:onclick="clickWind" icon="jd176s/ic_wind" on="{{wind}}" style="flex:1;" title="清新"></jmactionitem>
+            <jmactionitem bind:onclick="clickWarmStrong" icon="jd176s/ic_warmstrong" on="{{strongWarm}}" style="flex:1;" title="强暖"></jmactionitem>
+            <jmactionitem bind:onclick="clickWarmWeak" icon="jd176s/ic_warmweak" on="{{weakWarm}}" style="flex:1;" title="弱暖"></jmactionitem>
+        </div>
+        <jmbuttonbig bind:onclick="clickVentilation" icon="jd176s/ic_air" on="{{ventilation}}" style="margin-left:40rpx;margin-right:40rpx;" title="换气"></jmbuttonbig>
+    </view>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmconnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" errMsg="{{bleErrMsg}}" state="{{connectState}}"></jmconnect>
+    </bottomdialog>
+</view>

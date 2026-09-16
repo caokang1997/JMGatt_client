@@ -1,0 +1,12 @@
+<view bindtap="onClickButton" class="rect" style="{{enable?'opacity:1':'opacity:0.6'}}">
+    <image class="image" src="{{imageIcon}}"></image>
+    <view class="div-info">
+        <view class="div-title">
+            <text class="title">{{title}}</text>
+            <text class="state" wx:if="{{insufficient&&showState}}">{{insufficientName}}</text>
+            <text class="state_sufficient" wx:if="{{!insufficient&&showState}}">充足</text>
+        </view>
+        <text class="content">{{content}}</text>
+    </view>
+    <image class="arrow" src="../../image/ic_arrow_right.png"></image>
+</view>

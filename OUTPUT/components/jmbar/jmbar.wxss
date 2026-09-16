@@ -1,0 +1,32 @@
+.rect {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 128rpx;
+    padding-left: 24rpx;
+    padding-right: 24rpx;
+    width: 100%
+}
+
+.image {
+    height: 64rpx;
+    width: 64rpx
+}
+
+.arrow {
+    height: 48rpx;
+    width: 24rpx
+}
+
+.text {
+    color: #000;
+    font-size: 32rpx;
+    margin-left: 24rpx;
+    opacity: .9
+}

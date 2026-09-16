@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "navbar": "components/navbar/navbar",
+    "jmplacehold": "components/jmplacehold/jmplacehold"
+  },
+  "navigationStyle": "custom"
+}

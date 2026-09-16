@@ -1,0 +1,9 @@
+<jmplacehold></jmplacehold>
+<view class="main">
+    <canvas class="bg-disk-canvas" id="myCanvas" type="2d"></canvas>
+    <view class="body">
+        <text class="title">{{topTitle}}</text>
+        <text class="center_value">{{centerValue}}</text>
+        <text class="bottom_txt">剩余时长</text>
+    </view>
+</view>

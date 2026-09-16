@@ -1,0 +1,10 @@
+<view>
+    <view bindtap="onClickBar" class="rect">
+        <text class="text-style">{{title}}</text>
+        <view class="red-point" wx:if="{{showRedPoint}}"></view>
+        <div style="flex:1;"></div>
+        <text class="content">{{content}}</text>
+        <image class="arrow" src="../../image/ic_arrow_right.png" wx:if="{{witharrow}}"></image>
+    </view>
+    <view class="line" wx:if="{{withdivider}}"></view>
+</view>

@@ -1,0 +1,21 @@
+.main {
+    position: relative
+}
+
+.image,.main {
+    border-radius: 100%;
+    height: 620rpx;
+    width: 620rpx
+}
+
+.circle,.image {
+    position: absolute
+}
+
+.circle {
+    background-color: #639;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    height: 60rpx;
+    width: 60rpx
+}

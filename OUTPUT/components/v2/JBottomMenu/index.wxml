@@ -1,0 +1,12 @@
+<view class="div-bottom-menu">
+    <view class="divider"></view>
+    <view class="div-bottom-menu-container" style="padding-bottom:{{bottomSafeHeight}}px;">
+        <view class="div-left"></view>
+        <view class="div-center">
+            <image bind:tap="onClickPause" class="btn-stop" src="./src/ic_menu_btn_{{powerOn?'on':'off'}}.png"></image>
+            <view class="text-stop" wx:if="{{showStopText}}">待机</view>
+        </view>
+        <view bind:tap="onClickSaveCustomMode" class="div-right"></view>
+    </view>
+    <view class="div-menuButton" style="height:{{menuButtonHeight}}rpx"></view>
+</view>

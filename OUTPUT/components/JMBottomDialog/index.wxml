@@ -1,0 +1,8 @@
+<view bind:tap="OnClickMask" class="dialog-mask {{showDialog?'dialog-show':'dialog-hide'}}" style="z-index:{{zIndexMaskValue}}"></view>
+<view class="dialog-container {{showDialog?'dialog-show':'dialog-hide'}}" style="background-color:{{bgColor}};z-index:{{zIndexMaskValue+1}}">
+    <view class="dialog-content">
+        <scroll-view scrollY class="dialog-body">
+            <slot></slot>
+        </scroll-view>
+    </view>
+</view>

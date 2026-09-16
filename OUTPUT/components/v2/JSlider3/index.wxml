@@ -1,0 +1,20 @@
+<view class="slider">
+    <view class="slider-left">
+        <view class="slider-title {{titleFontClass}}">{{title}}</view>
+        <view class="slider-value" wx:if="{{showHandle}}">{{valueString}}</view>
+    </view>
+    <view class="slider-component">
+        <view catch:tap="onSliderTap" class="slider-container">
+            <view class="slider-track"></view>
+            <view class="slider-progress" style="width:{{sliderProgressWidth}}px" wx:if="{{showHandle}}"></view>
+            <view catch:touchend="onSliderTouchEnd" catch:touchmove="onSliderTouchMove" catch:touchstart="onSliderTouchStart" class="slider-handle" style="left:{{sliderLeft}}px;" wx:if="{{showHandle}}">
+                <view class="item"></view>
+            </view>
+        </view>
+        <view class="component-text">
+            <view class="div-slider-title-item" wx:for="{{titles}}" wx:key="titles">
+                <view bind:tap="onClickItem" class="div-slider-title-item-text" data-index="{{index}}">{{item}}</view>
+            </view>
+        </view>
+    </view>
+</view>

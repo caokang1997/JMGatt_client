@@ -1,0 +1,8 @@
+<view class="main-container">
+    <view class="ranging-canvas-container">
+        <canvas class="ranging-canvas" id="myCanvas" type="2d"></canvas>
+    </view>
+    <view class="ranging-canvas-container-1">
+        <canvas class="ranging-canvas" id="myCanvas1" type="2d"></canvas>
+    </view>
+</view>

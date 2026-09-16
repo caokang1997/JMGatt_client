@@ -1,0 +1,6 @@
+<view class="jbuttonsContainer">
+    <view class="{{mainClass}}" style="{{mainStyle}}">
+        <slot></slot>
+    </view>
+    <slot name="bottom-view"></slot>
+</view>

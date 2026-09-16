@@ -1,0 +1,18 @@
+<view class="xmswitchbar-main">
+    <view bind:tap="onClickMain" class="{{isRoundRect?'rect-round':'rect'}}" style="height:{{detail.length>0?128:96}}rpx;">
+        <view bind:tap="onClickItem" class="left">
+            <view class="title-container">
+                <text class="text" style="opacity:{{enable?1:0.4}};" wx:if="{{!hasTip}}">{{title}}</text>
+                <view bind:tap="onClickTitleTip" class="title-container1" wx:if="{{hasTip}}">
+                    <text class="text" style="opacity:{{enable?1:0.4}};">{{title}}</text>
+                    <image class="title-tip" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/ic_tip.png"></image>
+                </view>
+                <view class="state-change-container1" wx:if="{{showStateChange}}">未同步</view>
+            </view>
+            <view class="detail" style="opacity:{{enable?0.6:0.4}};" wx:if="{{detail.length>0}}">{{detail}}</view>
+        </view>
+        <jmswitch bind:onchecked="onSwitchChange" enable="{{enable}}" isChecked="{{checked}}" style="opacity:{{enable?1:0.6}};" wx:if="{{isExecute}}"></jmswitch>
+        <view bind:tap="onClickState" class="{{checked?'content_checked':'content'}}" wx:else>{{checked?'已开启':'已关闭'}}</view>
+    </view>
+    <view class="divider" wx:if="{{withdivider}}"></view>
+</view>

@@ -1,0 +1,396 @@
+{
+  "subPackages": [
+    { "root": "bathroomcabinet/", "name": "bathroomcabinet" },
+    { "root": "toilet/", "name": "toilet" },
+    { "root": "bathheater/", "name": "bathheater" },
+    { "root": "deodorization/", "name": "deodorization" },
+    { "root": "bathroom/", "name": "bathroom" },
+    { "root": "shower/", "name": "shower" },
+    { "root": "ai/", "name": "ai" },
+    { "root": "donutAuthorize__/", "independent": true }
+  ],
+  "entryPagePath": "pages/scan/scan.html",
+  "pages": [
+    "pages/scan/scan",
+    "pages/device/demo/index",
+    "pages/device/bathheater/index",
+    "pages/device/xmtoilet/index/index",
+    "pages/device/xmtoilet/setting/index",
+    "pages/device/xmtoilet/demo/index",
+    "pages/device/xmtoilet/nouse/index",
+    "pages/device/xmtoilet/customedit/index",
+    "pages/device/xmtoilet/customsetting/index",
+    "pages/device/light/index/index",
+    "pages/factory/main/index",
+    "pages/device/shower/index/index",
+    "pages/factory/nfc/nfc",
+    "pages/factory/scan/scan",
+    "pages/factory/index/index",
+    "pages/factory/blescan/index",
+    "pages/factory/category/index",
+    "pages/factory/productlist/index",
+    "pages/common/help/help",
+    "pages/common/logs/logs",
+    "pages/device/toilet/index/index",
+    "pages/device/toilet/setting/setting",
+    "factory/pages/main/index",
+    "factory/pages/blescan/index",
+    "bathroomcabinet/pages/index/index",
+    "bathroomcabinet/pages/setting/index",
+    "bathroomcabinet/pages/help/index",
+    "bathroomcabinet/pages/deviceinfo/index",
+    "bathroomcabinet/pages/autofrogsetting/index",
+    "bathroomcabinet/pages/humansensorsetting/index",
+    "toilet/pages/index/index",
+    "toilet/pages/customlist/index",
+    "toilet/pages/help/index",
+    "toilet/pages/setting/index",
+    "toilet/pages/customedit/index",
+    "toilet/pages/consume/index",
+    "toilet/pages/light/index",
+    "toilet/pages/deviceInfo/index",
+    "toilet/pages/ota/detail/index",
+    "toilet/pages/ota/info/index",
+    "toilet/pages/ota/mtuDetail/index",
+    "toilet/pages/remotecontrol/index",
+    "toilet/pages/demo/index",
+    "toilet/pages/link/main/index",
+    "toilet/pages/link/seatday/index",
+    "toilet/pages/aitalk/index/index",
+    "toilet/pages/aitalk/chat/index",
+    "toilet/pages/ai/menstrualperiod/index",
+    "toilet/pages/ai/periodcare/index",
+    "bathheater/pages/index/index",
+    "bathheater/pages/aiclean/index",
+    "bathheater/pages/aiproclean/index",
+    "bathheater/pages/appointwarm/index",
+    "bathheater/pages/personsense/index",
+    "bathheater/pages/setting/index",
+    "bathheater/pages/help/index",
+    "bathheater/pages/customlist/index",
+    "bathheater/pages/customdryedit/index",
+    "bathheater/pages/customedit/index",
+    "bathheater/pages/deviceinfo/index",
+    "bathheater/pages/index/components/colorPalette/index",
+    "bathheater/pages/link/main/index",
+    "bathheater/pages/link/seatday/index",
+    "bathheater/pages/link/showerlink/index",
+    "bathheater/pages/ota/detail/index",
+    "bathheater/pages/ota/info/index",
+    "deodorization/pages/deodorization/index",
+    "deodorization/pages/appoint/index",
+    "deodorization/pages/appointedit/index",
+    "bathroom/pages/wave/index",
+    "bathroom/pages/waveSetting/index",
+    "bathroom/pages/nightLightSetting/index",
+    "shower/pages/index/index",
+    "shower/pages/setting/index",
+    "shower/pages/deviceinfo/index",
+    "shower/pages/help/index",
+    "shower/pages/link/bathlink/index",
+    "shower/pages/demo/exact/index",
+    "shower/pages/demo/bathlink/index",
+    "shower/pages/demo/showerlink/index",
+    "ai/pages/index/index",
+    "ai/pages/chat/chat",
+    "donutAuthorize__/pages/miniProgramLoginAuthorize/miniProgramLoginAuthorize"
+  ],
+  "page": {
+    "pages/scan/scan.html": { "window": { "navigationStyle": "custom" } },
+    "pages/device/demo/index.html": { "window": {} },
+    "pages/device/bathheater/index.html": {
+      "window": { "disableScroll": true, "navigationStyle": "custom" }
+    },
+    "pages/device/xmtoilet/index/index.html": {
+      "window": { "enablePullDownRefresh": true, "navigationStyle": "custom" }
+    },
+    "pages/device/xmtoilet/setting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "pages/device/xmtoilet/demo/index.html": {
+      "window": { "enablePullDownRefresh": true, "navigationStyle": "custom" }
+    },
+    "pages/device/xmtoilet/nouse/index.html": { "window": {} },
+    "pages/device/xmtoilet/customedit/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "pages/device/xmtoilet/customsetting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "pages/device/light/index/index.html": {
+      "window": { "enablePullDownRefresh": true, "navigationStyle": "custom" }
+    },
+    "pages/factory/main/index.html": {
+      "window": { "navigationBarTitleText": "NFC标签烧录" }
+    },
+    "pages/device/shower/index/index.html": {
+      "window": { "disableScroll": true, "navigationStyle": "custom" }
+    },
+    "pages/factory/nfc/nfc.html": {
+      "window": { "navigationBarTitleText": "产品详情" }
+    },
+    "pages/factory/scan/scan.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "pages/factory/index/index.html": { "window": {} },
+    "pages/factory/blescan/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "pages/factory/category/index.html": {
+      "window": { "navigationBarTitleText": "选择产品品类" }
+    },
+    "pages/factory/productlist/index.html": {
+      "window": { "navigationBarTitleText": "选择产品" }
+    },
+    "pages/common/help/help.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "pages/common/logs/logs.html": {
+      "window": { "navigationBarTitleText": "", "navigationStyle": "custom" }
+    },
+    "pages/device/toilet/index/index.html": {
+      "window": { "enablePullDownRefresh": true, "navigationStyle": "custom" }
+    },
+    "pages/device/toilet/setting/setting.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "factory/pages/main/index.html": {
+      "window": { "navigationBarTitleText": "NFC标签烧录" }
+    },
+    "factory/pages/blescan/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathroomcabinet/pages/index/index.html": {
+      "window": { "disableScroll": true, "navigationStyle": "custom" }
+    },
+    "bathroomcabinet/pages/setting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathroomcabinet/pages/help/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathroomcabinet/pages/deviceinfo/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathroomcabinet/pages/autofrogsetting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathroomcabinet/pages/humansensorsetting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/index/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/customlist/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "toilet/pages/help/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/setting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/customedit/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "toilet/pages/consume/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "toilet/pages/light/index.html": {
+      "window": { "enablePullDownRefresh": true, "navigationStyle": "custom" }
+    },
+    "toilet/pages/deviceInfo/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/ota/detail/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/ota/info/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/ota/mtuDetail/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/remotecontrol/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/demo/index.html": { "window": {} },
+    "toilet/pages/link/main/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "toilet/pages/link/seatday/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "toilet/pages/aitalk/index/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/aitalk/chat/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/ai/menstrualperiod/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "toilet/pages/ai/periodcare/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathheater/pages/index/index.html": {
+      "window": { "disableScroll": true, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/aiclean/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/aiproclean/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/appointwarm/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/personsense/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/setting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathheater/pages/help/index.html": { "window": {} },
+    "bathheater/pages/customlist/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/customdryedit/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/customedit/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathheater/pages/deviceinfo/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathheater/pages/index/components/colorPalette/index.html": {
+      "window": { "component": true }
+    },
+    "bathheater/pages/link/main/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "bathheater/pages/link/seatday/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "bathheater/pages/link/showerlink/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "bathheater/pages/ota/detail/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathheater/pages/ota/info/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "deodorization/pages/deodorization/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "deodorization/pages/appoint/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "deodorization/pages/appointedit/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "bathroom/pages/wave/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathroom/pages/waveSetting/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "bathroom/pages/nightLightSetting/index.html": {
+      "window": { "enablePullDownRefresh": false, "navigationStyle": "custom" }
+    },
+    "shower/pages/index/index.html": {
+      "window": { "disableScroll": true, "navigationStyle": "custom" }
+    },
+    "shower/pages/setting/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "shower/pages/deviceinfo/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "shower/pages/help/index.html": {
+      "window": { "navigationStyle": "custom" }
+    },
+    "shower/pages/link/bathlink/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "shower/pages/demo/exact/index.html": {
+      "window": {
+        "navigationBarTitleText": "沐浴模式联动调试",
+        "navigationBarBackgroundColor": "#f3f5f9",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#f3f5f9"
+      }
+    },
+    "shower/pages/demo/bathlink/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "shower/pages/demo/showerlink/index.html": {
+      "window": {
+        "navigationBarTitleText": "场景联动",
+        "navigationStyle": "custom"
+      }
+    },
+    "ai/pages/index/index.html": { "window": {} },
+    "ai/pages/chat/chat.html": {
+      "window": {
+        "navigationBarTitleText": "AI语音助手",
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false
+      }
+    },
+    "donutAuthorize__/pages/miniProgramLoginAuthorize/miniProgramLoginAuthorize.html": {
+      "window": {
+        "navigationStyle": "default",
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#ffffff",
+        "backgroundTextStyle": "light",
+        "backgroundColorTop": "ffffff",
+        "backgroundColorBottom": "ffffff",
+        "renderer": "webview"
+      }
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于提供产品设备维修保养服务"
+    },
+    "scope.camera": { "desc": "您的相机权限将用于扫描条形码" }
+  },
+  "global": {
+    "window": {
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTitleText": "九牧智联",
+      "navigationBarTextStyle": "black"
+    }
+  },
+  "miniApp": { "useAuthorizePage": true },
+  "style": "v2",
+  "renderer": { "allUsed": ["webview"], "default": "webview" },
+  "requiredPrivateInfos": ["getLocation"],
+  "componentFramework": { "allUsed": ["exparser"], "default": "exparser" }
+}

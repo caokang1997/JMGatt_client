@@ -1,0 +1,1 @@
+<view style="{{'height: '+navigationBarAndStatusBarHeight+'px'}}"></view>

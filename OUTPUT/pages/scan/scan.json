@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "jmplacehold": "components/jmplacehold/jmplacehold",
+    "navbar": "components/navbar/navbar",
+    "scan": "components/scan/scan",
+    "jmitem": "components/jmitem/jmitem",
+    "bottomdialog": "components/bottomdialog/bottomdialog",
+    "jmdialog": "components/jmdialog/jmdialog"
+  },
+  "navigationStyle": "custom"
+}

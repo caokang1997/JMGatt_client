@@ -1,0 +1,15 @@
+<view class="main-container">
+    <text class="title">{{title}}</text>
+    <picker-view bindchange="onChange" class="picker-view" immediateChange="{{true}}" indicatorClass="picker-indicator" value="{{value}}">
+        <picker-view-column>
+            <view class="picker-item" wx:for="{{items}}" wx:key="*this">
+                <text class="{{value[0]===index?'selected':''}}">{{item}}</text>
+            </view>
+        </picker-view-column>
+    </picker-view>
+    <view class="bottom">
+        <button bindtap="onCancel" class="button">取消</button>
+        <view style="width:24rpx;"></view>
+        <button bindtap="onConfirm" class="button-high">确定</button>
+    </view>
+</view>

@@ -1,0 +1,12 @@
+<view bindtap="onClickButton" class="{{on?'rect-on':'rect'}}" style="{{enable?'opacity:1':'opacity:0.4'}}">
+    <view animation="{{buttonAnimation}}" class="{{on?'icon-on':'icon'}}" style="{{on?'background-color: '+colorOn:'background-color: '+colorOff}}">
+        <image class="image" src="{{imageIcon}}"></image>
+    </view>
+    <div class="div-info">
+        <view class="div-title-with-point">
+            <text class="{{on?'text-on':'text'}}">{{title}}</text>
+            <view class="red-point" wx:if="{{showRedPoint}}"></view>
+        </view>
+        <text class="text-state" wx:if="{{showContent}}">{{content}}</text>
+    </div>
+</view>

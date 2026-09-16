@@ -1,0 +1,25 @@
+{
+  "usingComponents": {
+    "jmbutton": "components/jmbutton/jmbutton",
+    "jmstate": "components/jmstate/jmstate",
+    "jmbar": "components/jmbar/jmbar",
+    "navbar": "components/navbar/navbar",
+    "jmtemp": "components/jmtemp/jmtemp",
+    "topview": "components/topview/topview",
+    "bottomdialog": "components/bottomdialog/bottomdialog",
+    "jmconnect": "components/jmconnect/jmconnect",
+    "jmbuttonbar": "components/jmbuttonbar/index",
+    "jmswitch": "components/jmswitch/jmswitch",
+    "jmphone": "components/jmphone/jmphone",
+    "showeranim": "components/showeranim/index",
+    "timepicker": "components/timepicker/index",
+    "singlepicker": "components/singlepicker/index",
+    "radiopicker": "components/radiopicker/index",
+    "jmimage": "components/jmimage/index",
+    "jmactionitem": "components/jmactionitem/index",
+    "jmbuttonbig": "components/jmbuttonbig/index",
+    "jminfoitem": "components/jminfoitem/index"
+  },
+  "navigationStyle": "custom",
+  "disableScroll": true
+}

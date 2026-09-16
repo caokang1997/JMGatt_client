@@ -1,0 +1,3 @@
+<view class="grid-container">
+    <slot></slot>
+</view>

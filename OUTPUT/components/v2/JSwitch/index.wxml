@@ -1,0 +1,1 @@
+<view bindtap="tapSwitch" class="switch {{isChecked?'toggle-on':'toggle-off'}}" id="{{id}}" style="background-color:{{isChecked?onTintColor||'#724FFD':'#EAEAFB'}}"></view>

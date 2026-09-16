@@ -1,0 +1,130 @@
+.main {
+    background-color: #fff;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 16rpx 40rpx 72rpx
+}
+
+.div-title,.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex
+}
+
+.div-title {
+    height: 96rpx;
+    width: 100%
+}
+
+.title {
+    color: #333;
+    font-size: 40rpx;
+    font-weight: 500
+}
+
+.intro {
+    margin: 30px;
+    text-align: center
+}
+
+.main-container {
+    margin-top: 80px;
+    width: 100%
+}
+
+.picker-view {
+    box-sizing: border-box;
+    height: 400rpx;
+    padding-left: 88rpx;
+    padding-right: 88rpx;
+    width: 100%
+}
+
+.picker-view-item {
+    color: #724ffd;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    font-size: 40rpx;
+    font-weight: 500
+}
+
+.bottom,.picker-view-item {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.bottom {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin-top: 40rpx;
+    width: 100%
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff;
+    font-size: 36rpx
+}
+
+.button,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-left: 32rpx;
+    margin-right: 32rpx
+}
+
+.button {
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    color: #724ffd
+}
+
+.div-repeat {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #eef0f8;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 128rpx;
+    margin: 40rpx 40rpx 100rpx;
+    padding-left: 24rpx;
+    padding-right: 24rpx;
+    width: 100%
+}
+
+.title-repeat {
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 32rpx;
+    font-weight: 500
+}
+
+.content-repeat {
+    font-size: 24rpx;
+    font-weight: 400
+}
+
+.arrow-repeat {
+    height: 48rpx;
+    margin-left: 8rpx;
+    width: 24rpx
+}

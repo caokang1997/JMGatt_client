@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "选择产品",
+  "usingComponents": {
+    "jmdetailbar": "components/jmdetailbar/jmdetailbar"
+  }
+}

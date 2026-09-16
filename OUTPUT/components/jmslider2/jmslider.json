@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "jmconnect": "components/jmconnect/jmconnect",
+    "jmmenu": "components/jmmenu/jmmenu",
+    "lightmodeitem": "components/lightmodeitem/lightmodeitem"
+  }
+}

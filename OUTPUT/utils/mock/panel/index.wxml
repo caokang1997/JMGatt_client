@@ -1,0 +1,114 @@
+<block wx:if="{{visible}}">
+    <view bindtap="onBallTap" bindtouchmove="onBallTouchMove" bindtouchstart="onBallTouchStart" class="mock-ball" style="top:{{ballTop}}px;left:{{ballLeft}}px" wx:if="{{!expanded}}">
+        <text class="mock-ball-text">MOCK</text>
+    </view>
+    <view bindtap="onClose" catchtouchmove="preventTouchMove" class="mock-mask" wx:if="{{expanded}}">
+        <view catchtap="stopTap" class="mock-sheet">
+            <view class="mock-head">
+                <text class="mock-title">模拟数据调试</text>
+                <text class="mock-reason">依据：{{reason}}</text>
+                <text bindtap="onClose" class="mock-close">收起</text>
+            </view>
+            <scroll-view scrollY class="mock-body" showScrollbar="{{false}}">
+                <block wx:if="{{!isLinkPage}}">
+                    <view class="mock-section">
+                        <view class="mock-section-title">演示剧本</view>
+                        <view class="mock-step-note">{{stepIndex>=0?'第 '+stepIndex+1+'/'+stepTotal+' 步 · '+stepNote:'未开始'}}</view>
+                        <view class="mock-row">
+                            <view bindtap="onPrevStep" class="mock-btn">上一步</view>
+                            <view bindtap="onTogglePlay" class="mock-btn mock-btn-primary">{{playing?'暂停':'播放'}}</view>
+                            <view bindtap="onNextStep" class="mock-btn">下一步</view>
+                            <view bindtap="onReplay" class="mock-btn">重播</view>
+                        </view>
+                    </view>
+                    <view class="mock-section">
+                        <view class="mock-section-title">闪回复现</view>
+                        <view class="mock-row">
+                            <view bindtap="onReproSlowStart" class="mock-btn">复现·慢启动</view>
+                            <view bindtap="onReproEnum2" class="mock-btn">复现·回报2</view>
+                        </view>
+                        <text class="mock-hint">
+              慢启动：置 0 并暂停剧本，6 秒后自动跳到 1，模拟指令有物理启动延迟、期间仍回报旧值的窗口；
+              回报2：钉在 2 不回退，模拟真机样帧里预排开启态实际回报的是非 1 枚举值。
+            </text>
+                    </view>
+                    <view class="mock-section">
+                        <view class="mock-section-title">一键跳到 UI 分支</view>
+                        <view class="mock-row mock-row-wrap">
+                            <view bindtap="onPresetTap" class="mock-chip" data-index="{{index}}" wx:for="{{presets}}" wx:key="name">{{item.name}}</view>
+                        </view>
+                    </view>
+                    <view class="mock-section">
+                        <view class="mock-section-title">状态直控<text class="mock-hint">（改动会自动暂停剧本）</text>
+                        </view>
+                        <view class="mock-field">
+                            <text class="mock-label">冷水预排 preDischarge</text>
+                            <view class="mock-row">
+                                <view bindtap="onPreDischargeTap" class="mock-chip {{state.preDischarge===0?'on':''}}" data-value="0">0 关</view>
+                                <view bindtap="onPreDischargeTap" class="mock-chip {{state.preDischarge===1?'on':''}}" data-value="1">1 开</view>
+                                <view bindtap="onPreDischargeTap" class="mock-chip {{state.preDischarge===2?'on':''}}" data-value="2">2</view>
+                                <view bindtap="onPreDischargeTap" class="mock-chip {{state.preDischarge===3?'on':''}}" data-value="3">3</view>
+                            </view>
+                            <text class="mock-hint">0 为关闭，1/2/3 一律算预排激活（页面判据走语义表 PRE_DRAIN_ACTIVE）。2 是真机样帧里的实际取值</text>
+                        </view>
+                        <view class="mock-field">
+                            <text class="mock-label">水温 {{state.temp}} ℃</text>
+                            <slider activeColor="#724FFD" bindchange="onTempChange" bindchanging="onTempChanging" blockSize="20" max="60" min="0" showValue="{{false}}" value="{{state.temp}}"></slider>
+                        </view>
+                        <view class="mock-field">
+                            <text class="mock-label">电池 batteryState</text>
+                            <view class="mock-row">
+                                <view bindtap="onBatteryTap" class="mock-chip {{state.batteryState===0?'on':''}}" data-value="0">0 正常</view>
+                                <view bindtap="onBatteryTap" class="mock-chip {{state.batteryState===1?'on':''}}" data-value="1">1 低压故障</view>
+                                <view bindtap="onBatteryTap" class="mock-chip {{state.batteryState===2?'on':''}}" data-value="2">2 欠压</view>
+                            </view>
+                        </view>
+                        <view class="mock-field">
+                            <view class="mock-row mock-row-wrap">
+                                <view bindtap="onToggleBool" class="mock-chip {{item.value?'on':''}}" data-key="{{item.key}}" wx:for="{{boolFields}}" wx:key="key">{{item.label}}</view>
+                            </view>
+                        </view>
+                        <view class="mock-row">
+                            <view bindtap="onResetDevice" class="mock-btn">复位设备状态</view>
+                        </view>
+                    </view>
+                    <view class="mock-section">
+                        <view class="mock-section-title">场景联动卡片</view>
+                        <view class="mock-row">
+                            <view bindtap="onToggleSceneLink" class="mock-chip {{sceneEnabled?'on':''}}">{{sceneEnabled?'已联动':'未联动'}}</view>
+                        </view>
+                        <text class="mock-hint">
+              卡片状态来自云端假响应，改完需退回上一页再进来（触发 onShow 重新拉取）才会刷新。
+            </text>
+                    </view>
+                    <view class="mock-section">
+                        <view class="mock-section-title">当前上报帧（0xFC 透传）</view>
+                        <text class="mock-hex">{{frameHex||'（尚未上报）'}}</text>
+                    </view>
+                </block>
+                <view class="mock-section" wx:if="{{isLinkPage}}">
+                    <view class="mock-section-title">联动状态</view>
+                    <view class="mock-row mock-row-wrap">
+                        <view bindtap="onLinkBound" class="mock-btn mock-btn-primary">跳到已绑定态</view>
+                        <view bindtap="onLinkOffline" class="mock-btn">触发掉线</view>
+                        <view bindtap="onLinkUnbind" class="mock-btn">清空绑定</view>
+                    </view>
+                    <text class="mock-hint">
+              「跳到已绑定态」只摆页面呈现状态，不重放配置帧；要验证真实配置时序请走页面上的正常绑定流程
+              （连接 0.3s + 等待 2s + 5 × 600ms 步进）。
+            </text>
+                </view>
+                <view class="mock-section">
+                    <view class="mock-row">
+                        <view bindtap="onResetSwitch" class="mock-btn">恢复默认开关</view>
+                        <view bindtap="onDisableMock" class="mock-btn mock-btn-danger">关闭模拟数据</view>
+                    </view>
+                    <text class="mock-hint">
+            「关闭」会写入持久化设置，优先级最高 —— 之后要再打开，用「恢复默认开关」回落到环境判定。
+          </text>
+                </view>
+                <view style="height:40rpx;"></view>
+            </scroll-view>
+        </view>
+    </view>
+</block>

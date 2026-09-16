@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "jmslider": "components/jmslider/jmslider",
+    "colorpalette": "components/color-picker/color-picker"
+  }
+}

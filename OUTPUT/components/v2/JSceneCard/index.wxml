@@ -1,0 +1,10 @@
+<view bindtap="onTap" class="scene-card" style="{{viewStyle}}">
+    <JImage class="scene-img" mode="aspectFill" url="{{imageUrl}}"></JImage>
+    <view class="scene-info">
+        <view class="row-top">
+            <text class="title">{{title}}</text>
+            <view class="status-pill" style="background-color:#EEF0F8;color:{{enable?'#724FFD':'#000000'}};">{{statusText}}</view>
+        </view>
+        <text class="desc">{{desc}}</text>
+    </view>
+</view>

@@ -1,0 +1,1 @@
+<view class="watermark" style="background-image:url({{watermarkImg}})" wx:if="{{isShow}}"></view>

@@ -1,0 +1,18 @@
+<view class="main-container">
+    <view class="ranging-canvas-container">
+        <canvas class="ranging-canvas" id="myCanvas" type="2d"></canvas>
+    </view>
+    <view class="container" id="myPhoto" wx:if="{{hasHuman}}">
+        <view class="photo-container" id="myPhoto">
+            <image class="photo1" id="photo" src="../../images/ic_user_pos_1.png" style="margin-left:{{humanX}};margin-top:{{humanY}};"></image>
+        </view>
+    </view>
+    <view class="container" wx:if="{{!hasHuman}}">
+        <view class="photo-container">
+            <image class="photo1" mode="aspectFill" src="../../images/ic_user_pos_1.png" style="margin-left:40rpx;margin-top:200rpx;"></image>
+        </view>
+    </view>
+    <view class="ranging-canvas-container-1">
+        <canvas class="ranging-canvas" id="myCanvas1" type="2d"></canvas>
+    </view>
+</view>

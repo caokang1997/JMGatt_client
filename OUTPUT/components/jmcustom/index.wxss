@@ -1,0 +1,52 @@
+.rect {
+    background-color: #fff;
+    border-radius: 32rpx;
+    height: 152rpx;
+    margin-bottom: 32rpx;
+    padding-left: 24rpx;
+    padding-right: 24rpx;
+    width: 100%
+}
+
+.left,.rect {
+    -webkit-align-items: center;
+    align-items: center;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row
+}
+
+.left {
+    -webkit-flex: 1;
+    flex: 1
+}
+
+.photo {
+    height: 88rpx;
+    width: 88rpx
+}
+
+.text {
+    color: #000;
+    font-size: 36rpx;
+    font-weight: 600;
+    opacity: .9
+}
+
+.line,.text {
+    margin-left: 24rpx
+}
+
+.line {
+    height: 32rpx;
+    margin-right: 24rpx;
+    width: 100% - 48rpx
+}
+
+.switch {
+    color: #724ffd;
+    height: 44rpx;
+    width: 72rpx
+}

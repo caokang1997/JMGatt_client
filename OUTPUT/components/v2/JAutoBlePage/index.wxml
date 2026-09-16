@@ -1,0 +1,21 @@
+<view class="container">
+    <JNavbar backscan="{{true}}" bind:onBackScan="onBackScan" scrolltop="{{scrollTop}}" title="{{title}}" titleInCenter="{{titleInCenter}}" withback="{{withback}}"></JNavbar>
+    <view class="div-main">
+        <JImage class="div-main-top" style="height:{{bgUrlHeight}}rpx;" url="{{bgUrl}}" wx:if="{{showBg}}"></JImage>
+        <view class="div-top">
+            <slot name="top"></slot>
+        </view>
+        <JImage class="div-main-product" url="{{productPhotoUrl}}" wx:if="{{showProduct}}"></JImage>
+        <scroll-view scrollY bindscroll="handleScroll" class="div-content" enhanced="{{true}}" showScrollbar="{{false}}" style="margin-top:{{mainTop}}rpx;">
+            <view class="div-column">
+                <slot></slot>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="div-bottom">
+        <slot name="bottom"></slot>
+    </view>
+    <JBottomDialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="connect-dialog">
+        <JBleConnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" cancleText="返回搜索" errMsg="{{bleErrMsg}}" state="{{connectState}}"></JBleConnect>
+    </JBottomDialog>
+</view>

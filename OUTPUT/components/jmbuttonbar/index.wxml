@@ -1,0 +1,7 @@
+<view bindtap="onClickButton" class="{{on?'rect-on':'rect'}}" style="{{enable?'opacity:1':'opacity:0.6'}}">
+    <image class="image" src="{{imageIcon}}"></image>
+    <div class="div-info">
+        <text class="{{on?'text-on':'text'}}">{{title}}</text>
+        <text class="{{on?'text-state-on':'text-state'}}" wx:if="{{showContent}}">{{on?'已开启':'关闭'}}</text>
+    </div>
+</view>

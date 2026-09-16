@@ -1,0 +1,4 @@
+<view class="rect" style="{{jStyle}}">
+    <slot></slot>
+    <view class="rect_last_item"></view>
+</view>

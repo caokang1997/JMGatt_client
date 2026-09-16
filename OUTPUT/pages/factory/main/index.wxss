@@ -1,0 +1,90 @@
+.page {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 100vh;
+    position: relative
+}
+
+.title {
+    margin-left: 50rpx;
+    margin-top: 20rpx
+}
+
+.button {
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    border-radius: 32rpx;
+    color: #724ffd;
+    margin: 32rpx 50rpx
+}
+
+.button,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff;
+    font-size: 36rpx;
+    margin-top: 72rpx
+}
+
+.button-high,.rect {
+    border-radius: 32rpx
+}
+
+.rect {
+    background-color: #fff;
+    box-sizing: border-box;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+    padding-bottom: 8rpx;
+    padding-top: 8rpx;
+    width: 100% - 80rpx
+}
+
+.div-bottom {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    padding-left: 20rpx;
+    padding-right: 20rpx
+}
+
+.btn-back {
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    border-radius: 32rpx;
+    color: #724ffd;
+    -webkit-flex: 1;
+    flex: 1;
+    margin-right: 20rpx
+}
+
+.btn-back,.btn-next {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.btn-next {
+    background: #724ffd;
+    border-radius: 32rpx;
+    color: #fff;
+    -webkit-flex: 3;
+    flex: 3;
+    font-size: 36rpx
+}

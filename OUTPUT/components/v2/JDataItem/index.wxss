@@ -1,0 +1,39 @@
+.rect {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 134rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    min-width: 112rpx
+}
+
+.rect .text {
+    color: #000;
+    font-size: 24rpx;
+    margin-top: 2rpx;
+    opacity: .6
+}
+
+.rect .text-on {
+    color: #724ffd;
+    font-size: 24rpx;
+    margin-top: 16rpx
+}
+
+.rect .value {
+    color: #000;
+    font-size: 48rpx;
+    opacity: .9
+}
+
+.rect .unit {
+    color: #000;
+    font-size: 24rpx;
+    margin-left: 4rpx;
+    opacity: .6
+}

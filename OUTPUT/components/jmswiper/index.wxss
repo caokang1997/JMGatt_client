@@ -1,0 +1,45 @@
+.swiper-block {
+    height: 500rpx;
+    width: 100%
+}
+
+.swiper-item {
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: start;
+    justify-content: start;
+    overflow: unset;
+    padding-bottom: 20rpx;
+    padding-top: 70rpx;
+    width: 550rpx
+}
+
+.slide-image {
+    border-radius: 10rpx;
+    box-shadow: 10rpx 5px 40rpx rgba(0,0,0,.5);
+    height: 300rpx;
+    margin: 0rpx 50rpx;
+    width: 450rpx;
+    z-index: 1
+}
+
+.active {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+    z-index: 20
+}
+
+.active,.common {
+    transition: all .5s ease-in 0s
+}
+
+.common {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    z-index: 0
+}

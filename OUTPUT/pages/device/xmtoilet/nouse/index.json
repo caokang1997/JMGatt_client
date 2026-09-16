@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "Swiper": "../../../../components/theswiper/theSwiper",
+    "topview": "components/topview2/topview"
+  }
+}

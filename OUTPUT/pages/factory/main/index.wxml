@@ -1,0 +1,31 @@
+<view class="page">
+    <text style="width:100%;text-align:center;color:red;" wx:if="{{!nfcWriteValid}}">只支持Android系统烧录标签</text>
+    <text class="title">产品信息</text>
+    <view class="rect" style="margin-top:20rpx;">
+        <jmdetailbar content="{{category.title}}" title="产品品类" witharrow="{{false}}" withdivider="{{category.id>0}}"></jmdetailbar>
+        <jmdetailbar content="{{product.title}}" title="产品名" witharrow="{{false}}" withdivider="{{true}}" wx:if="{{category.id>0}}"></jmdetailbar>
+        <jmdetailbar content="{{product.jmZtmxm}}" title="条码型码" witharrow="{{false}}" withdivider="{{false}}" wx:if="{{category.id>0}}"></jmdetailbar>
+    </view>
+    <text class="title" wx:if="{{showBleView}}">设备信息</text>
+    <view class="rect" style="margin-top:20rpx;" wx:if="{{showBleView}}">
+        <jmdetailbar bind:onclick="onClickChooseDevice" content="{{ble.mac}}" title="MAC地址" witharrow="{{true}}" withdivider="{{true}}"></jmdetailbar>
+        <jmdetailbar content="{{ble.jmZtmxm}}" title="条码型码" witharrow="{{true}}" withdivider="{{connectState==1}}"></jmdetailbar>
+        <jmdetailbar bind:onclick="onClickOpenNightLight" content="" title="打开夜灯" witharrow="{{true}}" withdivider="{{true}}" wx:if="{{connectState==1&&categoryId==1}}"></jmdetailbar>
+        <jmdetailbar bind:onclick="onClickCloseNightLight" content="" title="关闭夜灯" witharrow="{{true}}" withdivider="{{false}}" wx:if="{{connectState==1&&categoryId==1}}"></jmdetailbar>
+    </view>
+    <text class="title" wx:if="{{showNFCView}}">NFC标签信息</text>
+    <view class="rect" style="margin-top:20rpx;" wx:if="{{showNFCView}}">
+        <jmdetailbar content="{{nfcMac}}" title="MAC地址" witharrow="{{false}}" withdivider="{{true}}"></jmdetailbar>
+        <jmdetailbar content="{{nfcJmZtmxm}}" title="条码型码" witharrow="{{false}}" withdivider="{{false}}"></jmdetailbar>
+    </view>
+    <view style="flex:1;"></view>
+    <view class="div-bottom">
+        <view bindtap="startNextAction" class="btn-next" style="margin-bottom:100rpx;" wx:if="{{showNextStep}}">{{btnTitle}}</view>
+    </view>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmconnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" showOld="{{true}}" state="{{connectState}}"></jmconnect>
+    </bottomdialog>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="model-dialog">
+        <jmmodelconfirm bind:onclickcancel="onClickCancelModel" bind:onclickconfirm="onClickConfirmModel" model="{{product.model}}" name="{{product.showName}}"></jmmodelconfirm>
+    </bottomdialog>
+</view>

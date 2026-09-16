@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "NFC标签烧录",
+  "usingComponents": {
+    "jmdetailbar": "components/jmdetailbar/jmdetailbar",
+    "bottomdialog": "components/bottomdialog/bottomdialog",
+    "jmconnect": "components/jmconnect/jmconnect",
+    "jmmodelconfirm": "components/jmmodelconfirm/index"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "JTimePicker": "../JTimePicker/index",
+    "JSwitch": "../JSwitch/index"
+  }
+}

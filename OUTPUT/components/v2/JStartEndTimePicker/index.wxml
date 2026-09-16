@@ -1,0 +1,20 @@
+<view class="main-container">
+    <view class="div-title">
+        <view class="div-title-left">
+            <text class="title">{{title}}</text>
+            <text class="div-title-left-value">{{timeString}}</text>
+        </view>
+        <JSwitch bind:onchecked="onSwitchChange" isChecked="{{checked}}" wx:if="{{showEnableSwitch}}"></JSwitch>
+    </view>
+    <view class="div-nav">
+        <div bind:tap="onClickStartTime" class="{{showStartTime?'div-nav-selected':'div-nav-unSelected'}}">开始时间</div>
+        <div bind:tap="onClickEndTime" class="{{!showStartTime?'div-nav-selected':'div-nav-unSelected'}}">结束时间</div>
+    </view>
+    <JTimePicker bind:onChange="onStartTimeChange" defaultHour="{{startHour}}" defaultMinute="{{startMinute}}" showButton="{{false}}" showTitile="{{false}}" wx:if="{{showStartTime}}"></JTimePicker>
+    <JTimePicker bind:onChange="onEndTimeChange" defaultHour="{{endHour}}" defaultMinute="{{endMinute}}" showButton="{{false}}" showTitile="{{false}}" wx:if="{{!showStartTime}}"></JTimePicker>
+    <view class="bottom">
+        <button bindtap="onCancel" class="button">取消</button>
+        <view style="width:24rpx;"></view>
+        <button bindtap="onConfirm" class="button-high">确定</button>
+    </view>
+</view>

@@ -1,0 +1,32 @@
+page {
+    --primary-color: #724ffd;
+    --themeColor: #eef0f8;
+    background-color: #eef0f8
+}
+
+.container {
+    background-color: var(--themeColor);
+    box-sizing: border-box;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.container,.wxss_main_title {
+    display: -webkit-flex;
+    display: flex
+}
+
+.wxss_main_title {
+    -webkit-align-items: center;
+    align-items: center;
+    color: #000;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    font-size: 32rpx;
+    font-weight: 500;
+    height: 80rpx;
+    margin-top: 16rpx;
+    opacity: .9;
+    padding-left: 80rpx;
+    width: 100%
+}

@@ -1,0 +1,9 @@
+.main {
+    margin-left: 40rpx;
+    margin-right: 40rpx
+}
+
+.title {
+    font-size: 32rpx;
+    font-weight: 500
+}

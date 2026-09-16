@@ -1,0 +1,92 @@
+.main-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    padding: 16rpx 44rpx
+}
+
+.picker-view {
+    height: 400rpx;
+    width: 100%
+}
+
+.picker-item {
+    color: #333;
+    font-size: 32rpx;
+    line-height: 110rpx;
+    text-align: center
+}
+
+.picker-indicator {
+    height: 110rpx
+}
+
+.picker-item wx-text {
+    display: block;
+    transition: color .2s
+}
+
+.picker-item wx-text.selected {
+    color: #724ffd;
+    font-size: 40rpx;
+    font-weight: 500
+}
+
+.picker-item wx-text {
+    color: #333
+}
+
+.bottom {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-bottom: 40rpx;
+    margin-top: 40rpx;
+    width: 100%
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff
+}
+
+.button,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 24rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 34rpx;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-left: 32rpx;
+    margin-right: 32rpx
+}
+
+.button {
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    color: #724ffd
+}
+
+.title {
+    color: #333;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    font-size: 40rpx;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 100%
+}

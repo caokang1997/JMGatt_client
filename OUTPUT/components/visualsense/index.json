@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "Ranging": "components/RangingGear/index"
+  }
+}

@@ -1,0 +1,8 @@
+<view class="main">
+    <image binderror="imageLoadError" class="image" src="{{avatar}}"></image>
+    <view class="div-detail">
+        <text class="title">{{title}}</text>
+        <text class="content">{{content}}</text>
+    </view>
+    <image class="imglevel" src="{{rssiImageIcon}}"></image>
+</view>

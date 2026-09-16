@@ -1,0 +1,67 @@
+.scene-card {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 24rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    padding: 24rpx
+}
+
+.scene-img {
+    border-radius: 16rpx;
+    height: 160rpx;
+    width: 160rpx
+}
+
+.scene-info {
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    margin-left: 26rpx
+}
+
+.row-top,.scene-info {
+    display: -webkit-flex;
+    display: flex
+}
+
+.row-top {
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-flex-direction: row;
+    flex-direction: row
+}
+
+.title {
+    color: #000;
+    font-size: 32rpx;
+    font-weight: 500;
+    line-height: 46rpx;
+    opacity: .9
+}
+
+.status-pill {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 20rpx;
+    color: #fff;
+    display: -webkit-flex;
+    display: flex;
+    font-size: 24rpx;
+    height: 40rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-left: 8rpx;
+    padding: 0 16rpx
+}
+
+.desc {
+    color: rgba(0,0,0,.4);
+    font-size: 24rpx;
+    line-height: 32rpx;
+    margin-top: 10rpx
+}

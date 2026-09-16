@@ -1,0 +1,16 @@
+.grid-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 24rpx;
+    padding-bottom: 24rpx
+}
+
+.grid-container > wx-view {
+    width: calc(50% - 14rpx)
+}
+
+.grid-container > wx-view:last-child:nth-child(odd) {
+    width: 100%
+}

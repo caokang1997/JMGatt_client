@@ -1,0 +1,6 @@
+<view class="main">
+    <colorpalette bind:selectColor="selectColor"></colorpalette>
+    <view class="rect">
+        <jmslider bind:onchange="onBrightnessChange" maxvalue="100" minvalue="1" title="亮度" value="{{brightness}}"></jmslider>
+    </view>
+</view>

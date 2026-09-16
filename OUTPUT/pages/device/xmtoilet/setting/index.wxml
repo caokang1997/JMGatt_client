@@ -1,0 +1,17 @@
+<view>
+    <navbar scrolltop="{{scrollTop}}" title="设置" withback="{{true}}"></navbar>
+    <jmplacehold></jmplacehold>
+    <view class="rect" style="margin-top:48rpx;">
+        <jmswitchbar bind:onSwitch="doSwitchAutoBubble" checked="{{isAutoBubble}}" title="自动发泡"></jmswitchbar>
+        <jmswitchbar bind:onSwitch="doSwitchAutoFlush" checked="{{isAutoFlush}}" title="自动冲刷"></jmswitchbar>
+        <jmswitchbar bind:onSwitch="doSwitchAutoFoot" checked="{{isAutoFoot}}" title="脚感控制"></jmswitchbar>
+        <jmswitchbar bind:onSwitch="doSwitchAutoLight" checked="{{isAutoLight}}" title="光感夜灯" withdivider="{{showPreWet}}"></jmswitchbar>
+        <jmswitchbar bind:onSwitch="doSwitchPreWetting" checked="{{isPreWetting}}" title="着座预湿润" withdivider="{{false}}" wx:if="{{showPreWet}}"></jmswitchbar>
+    </view>
+    <view class="rect" style="margin-top:28rpx;">
+        <jmdetailbar bind:onclick="onClickDeviceName" content="{{deviceName}}" title="设备名称" withdivider="{{false}}"></jmdetailbar>
+    </view>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jminputdialog bind:onclickcancel="onCancelChangeDeviceName" bind:onclickconfirm="onChangeDeviceName" content="{{deviceName}}"></jminputdialog>
+    </bottomdialog>
+</view>

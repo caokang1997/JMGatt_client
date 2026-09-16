@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "JImage": "components/v2/JImage/index"
+  }
+}

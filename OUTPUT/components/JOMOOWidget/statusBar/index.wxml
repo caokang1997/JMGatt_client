@@ -1,0 +1,4 @@
+<view class="div-main" style="{{visible?'opacity:100':'opacity:0'}}">
+    <canvas class="div-canvas" id="myCanvas" type="2d"></canvas>
+    <image class="photo" src="/image/{{icon}}.png"></image>
+</view>

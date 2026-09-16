@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "jmcustom": "components/jmcustom/index",
+    "navbar": "components/navbar/navbar",
+    "jmplacehold": "components/jmplacehold/jmplacehold",
+    "jmimage": "components/jmimage/index",
+    "bottomdialog": "components/bottomdialog/bottomdialog",
+    "jminputdialog": "components/jminputdialog/jminputdialog"
+  },
+  "navigationStyle": "custom"
+}

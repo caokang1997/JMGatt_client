@@ -1,0 +1,7 @@
+<view class="main">
+    <image class="bg-photo" src="{{src}}"></image>
+    <view class="div-blur">
+        <text class="title">{{title}}</text>
+        <image bind:tap="onClickBtn" class="btn" src="{{iconBtn}}"></image>
+    </view>
+</view>

@@ -1,0 +1,151 @@
+.xmswitchbar-main {
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.rect {
+    height: 96rpx;
+    padding-left: 28rpx;
+    padding-right: 28rpx
+}
+
+.rect,.rect-round {
+    -webkit-align-items: center;
+    align-items: center;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    width: 100%
+}
+
+.rect-round {
+    background-color: #fff;
+    border-radius: 32rpx;
+    height: 112rpx;
+    padding-left: 24rpx;
+    padding-right: 24rpx
+}
+
+.left {
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.photo {
+    border-radius: 24rpx;
+    height: 88rpx;
+    width: 88rpx
+}
+
+.title-container {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row
+}
+
+.text {
+    color: #000;
+    font-size: 32rpx;
+    font-weight: 500;
+    opacity: .9
+}
+
+.title-container1 {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    width: 100%
+}
+
+.title-tip {
+    height: 40rpx;
+    margin-left: 8rpx;
+    width: 40rpx
+}
+
+.state-change-container {
+    height: 40rpx;
+    margin-left: 10rpx;
+    margin-top: 8rpx;
+    position: relative;
+    width: 36rpx
+}
+
+.state-change-icon {
+    height: 40rpx;
+    position: absolute;
+    width: 36rpx
+}
+
+.state-change-text {
+    color: #724ffd;
+    font-size: 24rpx;
+    line-height: 40rpx;
+    position: absolute;
+    text-align: center;
+    width: 100%
+}
+
+.detail {
+    color: #000;
+    font-size: 28rpx;
+    opacity: .6
+}
+
+.line {
+    height: 32rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    width: 100% - 48rpx
+}
+
+.switch {
+    color: #724ffd;
+    height: 44rpx;
+    width: 72rpx
+}
+
+.divider {
+    background: #eaeafb;
+    height: 1rpx;
+    margin-left: 22rpx;
+    margin-right: 22rpx
+}
+
+.content {
+    color: rgba(0,0,0,.6);
+    font-size: 28rpx
+}
+
+.content_checked {
+    color: #724ffd;
+    font-size: 28rpx
+}
+
+.state-change-container1 {
+    background-color: #e3dcff;
+    border-radius: 8rpx;
+    color: #724ffd;
+    font-size: 20rpx;
+    height: 30rpx;
+    line-height: 30rpx;
+    margin-left: 10rpx;
+    text-align: center;
+    width: 76rpx
+}

@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "jmcustom": "components/jmcustom/index",
+    "navbar": "components/navbar/navbar",
+    "jmplacehold": "components/jmplacehold/jmplacehold",
+    "jmimage": "components/jmimage/index"
+  },
+  "navigationStyle": "custom"
+}

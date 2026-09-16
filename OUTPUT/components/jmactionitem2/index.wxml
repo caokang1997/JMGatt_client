@@ -1,0 +1,4 @@
+<view bindtap="onClickButton" class="{{on?'rect-on':'rect'}}" style="{{enable?'opacity:1':'opacity:0.6'}}">
+    <image animation="{{buttonAnimation}}" class="image" src="{{imageIcon}}"></image>
+    <text class="{{on?'text-on':'text'}}">{{title}}</text>
+</view>

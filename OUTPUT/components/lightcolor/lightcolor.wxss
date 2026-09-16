@@ -1,0 +1,30 @@
+.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.list {
+    height: 672rpx;
+    overflow-x: hidden;
+    white-space: nowrap;
+    width: 100%
+}
+
+.item {
+    display: inline-block;
+    margin-left: 32rpx
+}
+
+.rect {
+    background-color: #fff;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+    margin-top: 40rpx;
+    padding: 40rpx 32rpx
+}

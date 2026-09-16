@@ -1,0 +1,24 @@
+<view class="main-container" style="{{enable?'opacity: 1':'opacity: 0.4'}}">
+    <view class="component-left">
+        <text class="text-title">{{title}}</text>
+        <text class="text-content">{{valueContent}}</text>
+    </view>
+    <view class="component-right" id="jmSlider">
+        <view class="div-canvas-custom">
+            <view class="front" style="{{mainSliderWidth}}">
+                <view class="ball">
+                    <view class="smallball"></view>
+                </view>
+            </view>
+        </view>
+        <view class="component-text">
+            <view class="div-slider-title-item" wx:for="{{titles}}" wx:key="titles">
+                <view bind:tap="onClickItem" class="div-slider-title-item-text" data-index="{{index}}">{{item}}</view>
+            </view>
+        </view>
+        <view class="rawSlider">
+            <slider bindchange="sliderchange" bindchanging="sliderchanging" blockSize="28" disabled="{{!enable}}" max="{{max}}" min="{{min}}" value="{{value}}"></slider>
+        </view>
+        <view bind:tap="onUnableClick" class="div-canvas" wx:if="{{!enable}}"></view>
+    </view>
+</view>

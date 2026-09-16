@@ -1,0 +1,36 @@
+page {
+    background-color: #fff
+}
+
+.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    position: relative;
+    width: 100%
+}
+
+.item-slider {
+    margin-bottom: 24rpx;
+    margin-top: 100rpx;
+    width: 100%
+}
+
+.container_1 {
+    background-color: red
+}
+
+.container_1,.container_2 {
+    height: 200rpx;
+    position: absolute;
+    width: 200rpx
+}
+
+.container_2 {
+    background-color: hsla(0,0%,100%,.8);
+    border: 1px solid #000;
+    top: 100rpx
+}

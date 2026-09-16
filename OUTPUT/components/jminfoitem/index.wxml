@@ -1,0 +1,7 @@
+<view class="main">
+    <div>
+        <text class="text-value">{{value}}</text>
+        <text class="text-unit" wx:if="{{unitVisible}}">{{unit}}</text>
+    </div>
+    <text class="text-title">{{title}}</text>
+</view>

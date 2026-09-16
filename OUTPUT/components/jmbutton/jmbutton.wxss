@@ -1,0 +1,40 @@
+.rect {
+    background-color: #fff
+}
+
+.rect,.rect-on {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 240rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 206rpx
+}
+
+.rect-on {
+    background-color: #724ffd
+}
+
+.image {
+    height: 64rpx;
+    width: 64rpx
+}
+
+.text {
+    color: #000
+}
+
+.text,.text-on {
+    font-size: 32rpx;
+    margin-top: 24rpx;
+    opacity: .9
+}
+
+.text-on {
+    color: #fff
+}

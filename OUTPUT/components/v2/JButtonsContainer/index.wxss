@@ -1,0 +1,49 @@
+.jbuttonsContainer {
+    background-color: #fff;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    margin-bottom: 24rpx
+}
+
+.div-action-bar-4 {
+    grid-template-columns: auto auto auto auto;
+    padding: 48rpx 28rpx
+}
+
+.div-action-bar-3,.div-action-bar-4 {
+    grid-row-gap: 40rpx;
+    box-sizing: border-box;
+    display: grid;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 100%
+}
+
+.div-action-bar-3 {
+    grid-template-columns: auto auto auto;
+    padding: 48rpx 55rpx
+}
+
+.div-action-bar-2 {
+    grid-template-columns: auto auto;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    padding: 48rpx 55rpx
+}
+
+.div-action-bar-1,.div-action-bar-2 {
+    grid-row-gap: 40rpx;
+    box-sizing: border-box;
+    display: grid;
+    width: 100%
+}
+
+.div-action-bar-1 {
+    grid-template-columns: auto;
+    -webkit-justify-content: left;
+    justify-content: left;
+    padding: 40rpx 32rpx
+}

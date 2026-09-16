@@ -1,0 +1,3 @@
+<view class="main">
+    <JWheelPicker bind:cancel="onCancel" bind:confirm="onConfirm" defaultValue="{{5}}" max="{{9}}" min="{{3}}" title="选择时间" unit="秒"></JWheelPicker>
+</view>

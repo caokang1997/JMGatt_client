@@ -1,0 +1,100 @@
+.main {
+    margin-left: 40rpx;
+    margin-right: 40rpx
+}
+
+.title {
+    font-size: 32rpx
+}
+
+.list {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding-left: 34rpx;
+    padding-right: 34rpx
+}
+
+.photo {
+    height: 128rpx;
+    width: 128rpx
+}
+
+.title {
+    color: #000;
+    font-size: 36rpx;
+    font-weight: 500;
+    margin-top: 72rpx
+}
+
+.line {
+    background-color: #000;
+    height: 2rpx;
+    margin-bottom: 64rpx;
+    margin-top: 16rpx;
+    opacity: .4;
+    width: 100%
+}
+
+.title-step {
+    color: #000;
+    font-size: 32rpx;
+    font-weight: 500;
+    width: 100%
+}
+
+.div-step {
+    background-color: #fff;
+    border-radius: 32rpx;
+    margin-top: 8rpx;
+    min-height: 100rpx;
+    padding: 8rpx 24rpx;
+    width: 100%
+}
+
+.step-rect {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 96rpx;
+    width: 100%
+}
+
+.step-photo {
+    height: 48rpx;
+    width: 48rpx
+}
+
+.step-title {
+    color: #000;
+    font-size: 32rpx;
+    font-weight: 500;
+    margin-left: 16rpx;
+    opacity: .9
+}
+
+.step-content {
+    color: #000;
+    font-size: 24rpx;
+    opacity: .6
+}
+
+.step-arrow {
+    height: 48rpx;
+    margin-left: 8rpx;
+    width: 24rpx
+}
+
+.step-line {
+    background-color: #eaeafb;
+    height: 2rpx;
+    width: 100%
+}

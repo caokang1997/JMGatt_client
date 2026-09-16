@@ -1,0 +1,8 @@
+<view class="half-screen">
+    <view catchtap="hideModal" class="background_screen" wx:if="{{showModalStatus}}"></view>
+    <view animation="{{animationData}}" class="attr_box" wx:if="{{showModalStatus}}">
+        <view class="dialog-box">
+            <slot></slot>
+        </view>
+    </view>
+</view>

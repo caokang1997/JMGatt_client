@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "lightmodeitem": "components/lightmodeitem/lightmodeitem",
+    "jmslider": "components/jmslider/jmslider"
+  }
+}

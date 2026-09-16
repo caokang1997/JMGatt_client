@@ -1,0 +1,15 @@
+<view class="container">
+    <image class="div-top" src="http://qiniu.labsci.top/jomoo/exhibition/bg_house_main_top1.png"></image>
+    <jmtab bind:onTabSelected="onTabSelected" nav_type="{{tabIndex}}" type="home"></jmtab>
+    <swiper autoplay="{{false}}" bindchange="swiperChange" class="swiper" current="{{tabIndex}}" indicatorDots="{{false}}">
+        <swiper-item>
+            <jmscene bind:onModeChange="onModeChange"></jmscene>
+        </swiper-item>
+        <swiper-item>
+            <image class="devices" src="http://qiniu.labsci.top/jomoo/exhibition/ic_devices.png"></image>
+        </swiper-item>
+    </swiper>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmconnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" errMsg="{{bleErrMsg}}" state="{{connectState}}"></jmconnect>
+    </bottomdialog>
+</view>

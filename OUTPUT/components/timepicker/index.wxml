@@ -1,0 +1,23 @@
+<view class="main">
+    <view class="div-title">
+        <text class="title">编辑闹钟</text>
+    </view>
+    <picker-view bindchange="bindChange" class="picker-view" indicatorStyle="height: 55px;background:transparent" maskClass="mask" value="{{value}}">
+        <picker-view-column>
+            <view class="picker-view-item" wx:for="{{hours}}" wx:key="item">{{item}}时</view>
+        </picker-view-column>
+        <picker-view-column>
+            <view class=" picker-view-item" wx:for="{{mins}}" wx:key="item">{{item}}分</view>
+        </picker-view-column>
+    </picker-view>
+    <view bindtap="onClickRepeat" class="div-repeat">
+        <text class="title-repeat">重复</text>
+        <text class="content-repeat">{{weekStrings}}</text>
+        <image class="arrow-repeat" src="/image/ic_arrow_right.png"></image>
+    </view>
+    <view class="bottom">
+        <button bindtap="onClickCancel" class="button">取消</button>
+        <view style="width:24rpx;"></view>
+        <button bindtap="onClickConfirm" class="button-high">确定</button>
+    </view>
+</view>

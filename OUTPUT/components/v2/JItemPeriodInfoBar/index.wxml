@@ -1,0 +1,13 @@
+<view>
+    <view bind:tap="onClickContent" class="rect" style="height:{{hasInfo?144:112}}rpx;">
+        <image class="icon" src="/image/bright/{{icon}}.png" style="opacity:{{enable?1:0.4}};" wx:if="{{icon!=null&&icon!=''}}"></image>
+        <view class="div-title" style="opacity:{{enable?1:0.4}};">
+            <text class="text">{{title}}</text>
+            <text class="content">{{info}}</text>
+        </view>
+        <div style="flex:1;"></div>
+        <text class="content" style="opacity:{{enable?1:0.4}};">{{content}}</text>
+        <image class="arrow" src="/image/ic_arrow_right.png" style="opacity:{{enable?1:0.4}};" wx:if="{{withClick&&enable}}"></image>
+    </view>
+    <view class="line" wx:if="{{withdivider}}"></view>
+</view>

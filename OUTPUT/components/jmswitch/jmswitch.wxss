@@ -1,0 +1,56 @@
+.switch {
+    border-radius: 22rpx;
+    height: 44rpx;
+    overflow: hidden;
+    position: relative;
+    width: 72rpx
+}
+
+.switch::before {
+    border-radius: 20rpx;
+    transition: all .3s ease-out;
+    -webkit-transition: all .3s
+}
+
+.switch::after,.switch::before {
+    background-color: #fff;
+    content: "";
+    position: absolute
+}
+
+.switch::after {
+    border-radius: 50%;
+    display: inline-block;
+    height: 36rpx;
+    margin-top: 5rpx;
+    transition: left .2s ease-out;
+    -webkit-transition: left .2s ease-out;
+    width: 36rpx
+}
+
+.toggle-off {
+    background-color: #e5e5e5
+}
+
+.toggle-off::before {
+    height: 40rpx;
+    left: 1rpx;
+    top: 1rpx;
+    width: 70rpx
+}
+
+.toggle-off::after {
+    box-shadow: 1rpx 2rpx 4rpx #aaa;
+    left: 1rpx
+}
+
+.toggle-on::before {
+    height: 0rpx;
+    left: 30rpx;
+    top: 15rpx;
+    width: 0rpx
+}
+
+.toggle-on:after {
+    left: 31rpx
+}

@@ -1,0 +1,17 @@
+{
+  "usingComponents": {
+    "jmbutton": "components/jmbutton/jmbutton",
+    "jmstate": "components/jmstate/jmstate",
+    "jmbar": "components/jmbar/jmbar",
+    "navbar": "components/navbar/navbar",
+    "jmtemp": "components/jmtemp/jmtemp",
+    "topview": "components/topview/topview",
+    "bottomdialog": "components/bottomdialog/bottomdialog",
+    "jmconnect": "components/jmconnect/jmconnect",
+    "jmswitch": "components/jmswitch/jmswitch",
+    "jmphone": "components/jmphone/jmphone",
+    "jmbuttonbar": "components/jmbuttonbar/index"
+  },
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true
+}

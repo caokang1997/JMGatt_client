@@ -1,0 +1,18 @@
+<view class="navigation-container">
+    <view class="main">
+        <jmimage class="image-bg" url="all/bg_toilet_v2.png"></jmimage>
+        <view class="div-product-info">
+            <text class="product-name"></text>
+            <jmimage class="image-logo" url="temp/ic_jomoo.png"></jmimage>
+            <view class="div-state" style="opacity:{{isOnWorking?1:0}}">
+                <jmimage class="image-state" url="temp/{{workIcon}}.png"></jmimage>
+                <text class="text-state">{{workState}}</text>
+            </view>
+        </view>
+        <view bind:tap="onClickCustomSetting" class="div-custom" wx:if="{{version2}}">
+            <jmimage class="image-custom" url="temp/ic_custom_setting.png"></jmimage>
+            <text class="text-custom">私人定制</text>
+        </view>
+        <Swiper class="product-list" imgUrls="{{toiletPhoto}}"></Swiper>
+    </view>
+</view>

@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "jmswitchbar": "components/jmswitchbar/jmswitchbar",
+    "jmdetailbar": "components/jmdetailbar/jmdetailbar",
+    "navbar": "components/navbar/navbar",
+    "jmplacehold": "components/jmplacehold/jmplacehold",
+    "bottomdialog": "components/bottomdialog/bottomdialog",
+    "jminputdialog": "components/jminputdialog/jminputdialog",
+    "jmdialog": "components/jmdialog/jmdialog"
+  },
+  "navigationStyle": "custom"
+}

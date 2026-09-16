@@ -1,0 +1,7 @@
+<view bindtap="onClickButton" class="rect" style="{{enable?'opacity:1':'opacity:0.6'}}">
+    <view>
+        <text class="value" style="color:{{mainColor}};">{{value}}</text>
+        <text class="unit" style="color:{{mainColor}};">{{unit}}</text>
+    </view>
+    <text class="text" style="color:{{mainColor}};">{{title}}</text>
+</view>

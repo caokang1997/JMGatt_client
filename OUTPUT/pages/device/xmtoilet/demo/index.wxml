@@ -1,0 +1,43 @@
+<view class="container">
+    <view class="div-main">
+        <topview allTemp="{{showAllTemp}}" bind:onclickcustomsetting="onClickCustomSetting" bind:onclickerrorbar="onClickErrorBar" bind:onstep="onTempSelected" enable="{{true}}" errorCode="{{toiletErrorCode}}" errorMsg="{{toiletError.title}}" isOnWorking="{{isOnWorking}}" model="{{model}}" seatTempLevel="{{seatTempLevel}}" workState="{{workTitle}}"></topview>
+        <view class="div-main-container">
+            <view class="div-action-custom" wx:if="{{selectedList.length>0}}">
+                <div class="div-custom-first" wx:if="{{selectedList.length==1}}">
+                    <jmbuttonbar bind:onclick="onClickCustom" data-item="{{item}}" icon="{{item.icon}}" on="{{currentCustomTitle==item.title}}" showContent="{{false}}" style="flex:1;" title="{{item.title}}" wx:for="{{selectedList}}" wx:key="{{index}}"></jmbuttonbar>
+                </div>
+                <div class="div-custom-first" wx:if="{{selectedList.length>1&&selectedList.length!=4}}">
+                    <jmactionitem bind:onclick="onClickCustom" data-item="{{item}}" icon="{{item.icon}}" on="{{currentCustomTitle==item.title}}" style="flex:1;" title="{{item.title}}" wx:if="{{index<3}}" wx:for="{{selectedList}}" wx:key="{{index}}"></jmactionitem>
+                </div>
+                <div class="div-custom-first" wx:if="{{selectedList.length>3&&selectedList.length!=4}}">
+                    <jmactionitem bind:onclick="onClickCustom" data-item="{{item}}" icon="{{item.icon}}" on="{{currentCustomTitle==item.title}}" style="flex:1;" title="{{item.title}}" wx:if="{{index>=3}}" wx:for="{{selectedList}}" wx:key="{{index}}"></jmactionitem>
+                </div>
+                <div class="div-custom-first" wx:if="{{selectedList.length==4}}">
+                    <jmactionitem bind:onclick="onClickCustom" data-item="{{item}}" icon="{{item.icon}}" on="{{currentCustomTitle==item.title}}" style="flex:1;" title="{{item.title}}" wx:if="{{index<2}}" wx:for="{{selectedList}}" wx:key="{{index}}"></jmactionitem>
+                </div>
+                <div class="div-custom-first" wx:if="{{selectedList.length==4}}">
+                    <jmactionitem bind:onclick="onClickCustom" data-item="{{item}}" icon="{{item.icon}}" on="{{currentCustomTitle==item.title}}" style="flex:1;" title="{{item.title}}" wx:if="{{index>1}}" wx:for="{{selectedList}}" wx:key="{{index}}"></jmactionitem>
+                </div>
+            </view>
+            <div class="div-action-top">
+                <jmactionitem bind:onclick="onClickflushingLarge" icon="jd176s/ic_dry" on="{{flushingLarge}}" style="flex:1;" title="大冲"></jmactionitem>
+                <jmactionitem bind:onclick="onClickflushingSmall" icon="jd176s/ic_wind" on="{{flushingSmall}}" style="flex:1;" title="小冲"></jmactionitem>
+                <jmactionitem bind:onclick="onClickBubble" icon="jd176s/ic_warmstrong" on="{{bubble}}" style="flex:1;" title="魔力泡"></jmactionitem>
+            </div>
+            <div class="div-action-top">
+                <jmslider bind:onchange="onSpeedChange" maxvalue="5" minvalue="0" title="座温" value="{{seatTempLevel}}"></jmslider>
+            </div>
+            <div class="div-action">
+                <jmbuttonbar bind:onclick="onClickSetting" icon="temp/ic_setting" on="{{light}}" showContent="{{false}}" style="flex:1;" title="设置"></jmbuttonbar>
+                <jmbuttonbar bind:onclick="onClickCallService" icon="temp/ic_call_service" on="{{nightLight}}" showContent="{{false}}" style="flex:1;margin-left:24rpx;" title="联系客服"></jmbuttonbar>
+            </div>
+            <view style="margin-bottom:50rpx;"></view>
+        </view>
+    </view>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmconnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" errMsg="{{bleErrMsg}}" state="{{connectState}}"></jmconnect>
+    </bottomdialog>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="telephone-dialog">
+        <jmphone bind:onclickcancel="onClickCancelPhone" bind:onclickreconnect="onClickCallPhone"></jmphone>
+    </bottomdialog>
+</view>

@@ -1,0 +1,8 @@
+<view class="navigation-container" style="{{'background-color:'+navBarColor+';'}}">
+    <view style="{{'height: '+statusBarHeight}}"></view>
+    <view class="navigation-bar" style="{{'height:'+navigationBarHeight}}">
+        <image bindtap="onBack" class="nav-img" src="/image/ic_back.png" wx:if="{{withback}}"></image>
+        <view class="navigation-title" style="{{'line-height:'+navigationBarHeight}}">{{title}}</view>
+    </view>
+    <slot></slot>
+</view>

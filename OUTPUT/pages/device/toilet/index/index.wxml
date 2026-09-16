@@ -1,0 +1,31 @@
+<view class="container">
+    <navbar backscan="{{true}}" bind:onClickBack="onClickBack" scrolltop="{{scrollTop}}" title="{{deviceName}}" withback="{{true}}"></navbar>
+    <view class="div-main">
+        <topview allTemp="{{showAllTemp}}" bind:onclickerrorbar="onClickErrorBar" bind:onstep="onTempSelected" enable="{{isDeviceReady}}" errorCode="{{toiletErrorCode}}" errorMsg="{{toiletError.title}}" model="{{model}}" seatTempLevel="{{seatTempLevel}}" wx:if="{{!isOnWorking}}"></topview>
+        <jmstate title="{{workTitle}}" wx:else></jmstate>
+        <view class="div-main-container">
+            <view class="div-buttons" wx:if="{{showCoverRing}}">
+                <jmbuttonbar bind:onclick="onClickCover" enable="{{isCoverEnable}}" icon="mzy7260/ic_cover" on="{{isCoverOn}}" style="flex:1;" title="翻盖"></jmbuttonbar>
+                <jmbuttonbar bind:onclick="onClickRing" enable="{{isRingEnable}}" icon="mzy7260/ic_ring" on="{{isRingOn}}" style="flex:1;margin-left:24rpx;" title="翻圈"></jmbuttonbar>
+            </view>
+            <view class="div-buttons" style="margin-top:32rpx;">
+                <jmbutton bind:onclick="onClickflushingLarge" enable="{{isFlushingLargeEnable}}" icon="ic_flush_large" on="{{flushingLarge}}" title="大冲"></jmbutton>
+                <jmbutton bind:onclick="onClickflushingSmall" enable="{{isFlushingSmallEnable}}" icon="ic_flush_small" on="{{flushingSmall}}" title="小冲"></jmbutton>
+                <jmbutton bind:onclick="onClickBubble" enable="{{isBubbleEnable}}" icon="ic_bubble" on="{{bubble}}" title="魔力泡"></jmbutton>
+            </view>
+            <view class="div-bar">
+                <jmbar bind:onclick="onClickSetting" icon="ic_setting" title="设置"></jmbar>
+            </view>
+            <view class="div-bar">
+                <jmbar bind:onclick="onClickCallService" icon="ic_service" title="联系客服"></jmbar>
+            </view>
+            <view style="margin-bottom:50rpx;"></view>
+        </view>
+    </view>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmconnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" errMsg="{{bleErrMsg}}" state="{{connectState}}"></jmconnect>
+    </bottomdialog>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="telephone-dialog">
+        <jmphone bind:onclickcancel="onClickCancelPhone" bind:onclickreconnect="onClickCallPhone"></jmphone>
+    </bottomdialog>
+</view>

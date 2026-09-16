@@ -1,0 +1,23 @@
+<view class="card-wrapper {{isEditing?'is-editing':''}}">
+    <view bindtap="onClickItem" class="card-main">
+        <text class="time">{{time}}</text>
+        <view class="sub-row">
+            <text class="sub-text">{{name}}</text>
+            <image class="arrow" mode="aspectFit" src="/image/ic_arrow_right.png"></image>
+        </view>
+    </view>
+    <view class="card-right" wx:if="{{!isEditing}}">
+        <JSwitch bind:onchecked="onToggleSwitch" enable="{{true}}" isChecked="{{enabled}}"></JSwitch>
+    </view>
+    <view catchtap="onClickDelete" class="delete-btn" wx:else>
+        <view class="trash">
+            <view class="trash-handle"></view>
+            <view class="trash-lid"></view>
+            <view class="trash-body">
+                <view class="trash-line"></view>
+                <view class="trash-line"></view>
+                <view class="trash-line"></view>
+            </view>
+        </view>
+    </view>
+</view>

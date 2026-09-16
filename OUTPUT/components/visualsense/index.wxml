@@ -1,0 +1,31 @@
+<view class="auto-ranging-container">
+    <view class="auto-ranging-bg-container">
+        <image class="auto-ranging-bg" mode="widthFix" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/ic_toilet_visual_sense_gear_bg.png"></image>
+    </view>
+    <view class="whole-container1">
+        <view class="tip-for-show">功能示意图，外观以实物为准</view>
+        <view class="whole-container-center">
+            <image class="angle-pos" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/ic_toilet_visual_sense_angle_pos.png"></image>
+            <view class="angle-pos-txt">感应角度：约30°</view>
+        </view>
+    </view>
+    <view class="ranging-container">
+        <Ranging class="auto-ranging" hasHuman="{{true}}" isQuickMode="{{false}}" rangingAngle="{{45}}" rangingDistance="{{rangingRadio}}" settingDistance="{{quickDistanceDesc}}" wx:if="{{true}}"></Ranging>
+    </view>
+    <view class="auto-ranging-card">
+        <view class="row-container" style="margin-top:8rpx;">
+            <view class="row-title">当前感应距离：</view>
+            <view class="row-value">{{quickDistanceDesc}}</view>
+        </view>
+        <view class="row-container" style="margin-top:8rpx;">
+            <view class="row-title">当前感应范围：</view>
+            <view class="row-value">扇形区域</view>
+        </view>
+    </view>
+    <view class="whole-container">
+        <view class="whole-container-center">
+            <image class="human-img" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/photo/ic_toilet_visual_sense_human.png" style="margin-top:{{humanMarginTop}}rpx;"></image>
+        </view>
+        <view class="current-distance-desc" style="margin-top:{{currentDistanceTop}}rpx;">距离:{{quickDistanceDesc}}</view>
+    </view>
+</view>

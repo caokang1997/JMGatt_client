@@ -1,0 +1,64 @@
+.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    height: 744rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    position: relative;
+    width: 100vw
+}
+
+.circle,.circle_normal {
+    height: 500rpx;
+    position: absolute;
+    width: 500rpx
+}
+
+.circle {
+    -webkit-animation: rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%
+}
+
+.shadow {
+    height: 22rpx;
+    margin-top: 500rpx;
+    width: 338rpx
+}
+
+.shadow,.title {
+    position: absolute
+}
+
+.title {
+    color: #333;
+    font-size: 72rpx;
+    font-weight: 500
+}
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0)
+    }
+
+    100% {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0)
+    }
+
+    100% {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}

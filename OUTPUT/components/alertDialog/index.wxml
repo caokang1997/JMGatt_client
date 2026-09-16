@@ -1,0 +1,8 @@
+<view class="main">
+    <view class="container">
+        <text class="content">{{alertContent}}</text>
+    </view>
+    <view class="bottom">
+        <view bindtap="onClickConfirm" class="bottom-btn">{{confirmText}}</view>
+    </view>
+</view>

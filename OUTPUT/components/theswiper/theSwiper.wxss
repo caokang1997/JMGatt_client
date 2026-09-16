@@ -1,0 +1,73 @@
+.main-container {
+    height: 600rpx;
+    width: 100%
+}
+
+.swiper-block {
+    height: 528rpx;
+    width: 100%
+}
+
+.swiper-item {
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 450rpx;
+    -webkit-justify-content: start;
+    justify-content: start;
+    overflow: unset;
+    padding-bottom: 20rpx;
+    padding-top: 70rpx;
+    width: 550rpx
+}
+
+.slide-image {
+    height: 300rpx;
+    margin: 0rpx 50rpx;
+    width: 300rpx;
+    z-index: 1
+}
+
+.active {
+    opacity: 1;
+    -webkit-transform: scale(1.78);
+    transform: scale(1.78);
+    z-index: 20
+}
+
+.active,.common {
+    transition: all .5s ease-in 0s
+}
+
+.common {
+    opacity: .4;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    z-index: 0
+}
+
+.dots-box {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.dots {
+    background-color: #aaa;
+    border-radius: 6rpx;
+    height: 12rpx;
+    margin: -80rpx 4rpx 0;
+    width: 12rpx
+}
+
+.bg-333 {
+    background-color: #724ffd;
+    width: 24rpx
+}

@@ -1,0 +1,71 @@
+.rect {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 134rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 112rpx
+}
+
+.icon {
+    background-color: #f1f1f1
+}
+
+.icon,.icon-on {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 24rpx;
+    display: -webkit-flex;
+    display: flex;
+    height: 88rpx;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 88rpx
+}
+
+.icon-on {
+    background-color: var(--primary-color)
+}
+
+.image {
+    height: 48rpx;
+    width: 48rpx
+}
+
+.rect .text {
+    color: #000;
+    opacity: .6
+}
+
+.rect .text,.rect .text-on {
+    font-size: 24rpx;
+    margin-top: 16rpx
+}
+
+.rect .text-on {
+    color: #724ffd
+}
+
+.rect-row {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.rect-row .text,.rect-row .text-on {
+    color: #000;
+    font-size: 32rpx;
+    margin-left: 16rpx;
+    opacity: .9
+}

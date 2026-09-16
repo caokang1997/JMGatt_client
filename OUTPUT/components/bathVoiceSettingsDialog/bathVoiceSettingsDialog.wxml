@@ -1,0 +1,33 @@
+<bottomdialog bind:onClickHide="onClose" catchtouchmove="preventTouchMove" clickOutHide="{{true}}" id="settings-dialog">
+    <view class="bath_voice_dlg_container">
+        <view class="bath_voice_dlg_title_container">
+            <image bind:tap="onClose" class="photo-back" src="/image/ic_back.png"></image>
+            <view class="bath_voice_dlg_title">{{title}}</view>
+        </view>
+        <view style="height:40rpx;"></view>
+        <view class="bath_voice_dlg_title_2">1. 免唤醒功能开启或关闭使用区别</view>
+        <view style="height:24rpx;"></view>
+        <view class="bath_voice_dlg_content_line">
+            <view class="bath_voice_dlg_dot">·</view>
+            <view class="bath_voice_dlg_label">免唤醒开启：</view>
+            <view class="bath_voice_dlg_content_1">可直接说指令</view>
+        </view>
+        <view style="height:16rpx;"></view>
+        <view class="bath_voice_dlg_desc_container">{{wakeFreeOnExample}}</view>
+        <view style="height:24rpx;"></view>
+        <view class="bath_voice_dlg_content_line">
+            <view class="bath_voice_dlg_dot">·</view>
+            <view class="bath_voice_dlg_label">免唤醒关闭：</view>
+            <view class="bath_voice_dlg_content_1">唤醒词+指令</view>
+        </view>
+        <view style="height:16rpx;"></view>
+        <view class="bath_voice_dlg_desc_container_1">{{wakeFreeOffExample}}</view>
+        <view style="height:40rpx;"></view>
+        <view class="bath_voice_dlg_title_2">2. 语音指令集</view>
+        <view style="height:24rpx;"></view>
+        <view class="bath-voice-setting-container">
+            <view class="bath-voice-setting-item" wx:for="{{orders}}" wx:key="index">{{index+1}}. {{item}}</view>
+        </view>
+        <view style="height:100rpx;"></view>
+    </view>
+</bottomdialog>

@@ -1,0 +1,31 @@
+<bottomdialog bind:onClickHide="onClose" catchtouchmove="preventTouchMove" clickOutHide="{{true}}" id="settings-dialog">
+    <view class="ia_voice_setting_dlg_container">
+        <view class="ia_voice_setting_dlg_title_container">
+            <image bind:tap="onClose" class="photo-back" src="/image/ic_back.png"></image>
+            <view class="ia_voice_setting_dlg_title">离线语音</view>
+        </view>
+        <view style="height:40rpx;"></view>
+        <view wx:if="{{hasNotNeedWakeUpOrders}}">
+            <view class="ia_voice_setting_dlg_title_2">免唤醒指令</view>
+            <view class="ia_voice_setting_dlg_content_1">无需唤醒词，直接说出指令，设备立马响应</view>
+            <view style="height:24rpx;"></view>
+            <view class="ia_voice_setting_dlg_desc_container">例：直接说“我要开盖”</view>
+            <view style="height:24rpx;"></view>
+            <view class="ai-voice-setting-container">
+                <view class="ai-voice-setting-item" wx:for="{{notNeedWakeUpOrders}}" wx:key="index">{{index+1}}.{{item.name}}</view>
+            </view>
+        </view>
+        <view style="height:40rpx;"></view>
+        <view wx:if="{{hasNeedWakeUpOrders}}">
+            <view class="ia_voice_setting_dlg_title_2">需唤醒指令</view>
+            <view class="ia_voice_setting_dlg_content_1">先说唤醒词，再说出控制指令</view>
+            <view style="height:24rpx;"></view>
+            <view class="ia_voice_setting_dlg_desc_container_1">例：“小牧小牧，座圈常温” 或 “你好小牧，座圈常温”</view>
+            <view style="height:24rpx;"></view>
+            <view class="ai-voice-setting-container">
+                <view class="ai-voice-setting-item" wx:for="{{needWakeUpOrders}}" wx:key="index">{{index+1}}.{{item.name}}</view>
+            </view>
+        </view>
+        <view style="height:100rpx;"></view>
+    </view>
+</bottomdialog>

@@ -1,0 +1,59 @@
+.rect {
+    background-color: #fff
+}
+
+.rect,.rect-on {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    height: 168rpx;
+    padding-left: 32rpx;
+    padding-right: 32rpx
+}
+
+.rect-on {
+    background-color: #724ffd
+}
+
+.image {
+    height: 88rpx;
+    width: 88rpx
+}
+
+.div-info {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    margin-left: 16rpx
+}
+
+.text {
+    color: #000
+}
+
+.text,.text-on {
+    font-size: 32rpx;
+    font-weight: 400;
+    opacity: .9
+}
+
+.text-on {
+    color: #fff
+}
+
+.text-state {
+    color: #000;
+    font-size: 24rpx;
+    opacity: .4
+}
+
+.text-state-on {
+    color: #fff;
+    font-size: 24rpx;
+    opacity: .8
+}

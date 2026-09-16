@@ -1,0 +1,14 @@
+<view bind:tap="{{computed.onClick}}" bind:touchcancel="{{computed.onTouchEnd}}" bind:touchend="{{computed.onTouchEnd}}" bind:touchstart="{{computed.onTouchStart}}" catch:touchmove="{{computed.onTouchMove}}" change:prop="{{computed.propObserver}}" class="n-slider {{disabled?'n-slider__disabled':''}}" prop="{{propValue}}">
+    <view class="n-slider-rail">
+        <view class="n-slider-rail__fill"></view>
+        <view class="n-slider-handles">
+            <view class="n-slider-handle-wrapper">
+                <view class="n-slider-handle">
+                    <slot></slot>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<wxs module="computed" src="index.wxs"/>

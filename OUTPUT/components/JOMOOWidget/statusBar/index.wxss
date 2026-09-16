@@ -1,0 +1,22 @@
+.div-main {
+    height: 92rpx;
+    position: relative
+}
+
+.div-canvas {
+    height: 100%;
+    left: 32rpx;
+    position: absolute;
+    width: 100% - 32rpx
+}
+
+.photo {
+    box-sizing: border-box;
+    height: 80rpx;
+    left: 38rpx;
+    padding: 16rpx;
+    position: absolute;
+    top: 6rpx;
+    width: 80rpx;
+    z-index: 10000
+}

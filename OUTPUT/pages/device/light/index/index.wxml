@@ -1,0 +1,18 @@
+<view class="container">
+    <navbar backscan="{{false}}" color="#FFFFFF" scrolltop="{{scrollTop}}" title="九牧智能灯镜" withback="{{false}}">
+        <view style="height:32rpx;"></view>
+        <jmtab bind:onTabSelected="onTabSelected"></jmtab>
+    </navbar>
+    <jmplacehold height="46"></jmplacehold>
+    <view scrollY class="div-main">
+        <view style="height:36rpx;"></view>
+        <lightcolor bind:onBrightnessChange="onBrightnessChange" bind:onColorChange="onColorChange" brightness="{{brightness}}" wx:if="{{tabIndex==0}}"></lightcolor>
+        <musicmode bind:onBrightnessChange="onBrightnessChange" bind:onModeChange="onModeChange" brightness="{{selectedModeBrightness}}" mode="{{mode}}" speed="{{selectedModeSpeed}}" wx:if="{{tabIndex==1}}"></musicmode>
+        <lightscene bind:onBrightnessChange="onBrightnessChange" bind:onModeChange="onModeChange" brightness="{{selectedModeBrightness}}" mode="{{mode}}" speed="{{selectedModeSpeed}}" wx:if="{{tabIndex==2}}"></lightscene>
+        <view style="height:100rpx;"></view>
+    </view>
+    <jmmenu bind:onPowerBtnClick="onPowerBtnClick" on="{{powerOn}}" style="position:absolute;bottom:0;width:100%;z-index:999;"></jmmenu>
+    <bottomdialog bind:customEventHandler="customEvent" catchtouchmove="preventTouchMove" id="dialog">
+        <jmconnect bind:onclickcancel="onClickCancelConnect" bind:onclickreconnect="onClickReconnect" errMsg="{{bleErrMsg}}" state="{{connectState}}"></jmconnect>
+    </bottomdialog>
+</view>

@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "jmbuttonbarLarge": "components/JOMOOWidget/jmItembar/index",
+    "jmbutton": "components/JOMOOWidget/jmItem/index"
+  }
+}

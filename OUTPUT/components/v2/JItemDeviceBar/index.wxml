@@ -1,0 +1,14 @@
+<view class="device-card">
+    <JImage class="product-img" mode="{{imageMode}}" url="{{imageUrl}}"></JImage>
+    <view class="product-info">
+        <text class="product-title">{{title}}</text>
+        <view class="product-meta">
+            <view class="tag" wx:if="{{tagText&&tagText.length>0}}">{{tagText}}</view>
+            <view class="detail">{{detailText}}</view>
+        </view>
+    </view>
+    <view bindtap="onClickButton" class="buy-btn btn-{{buttonType}}" wx:if="{{rightType=='button'}}">{{buttonText}}</view>
+    <view bindtap="onRadioToggle" style="padding:25rpx;" wx:if="{{rightType=='radio'}}">
+        <image class="img-item" src="/image/{{checked?'ic_radio_on':'ic_radio_off'}}.png"></image>
+    </view>
+</view>

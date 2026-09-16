@@ -1,0 +1,7 @@
+<view class="rect">
+    <view bind:tap="onClickItem" class="left">
+        <image class="photo" src="/image/bright/modelist/{{icon}}.png"></image>
+        <text class="text">{{title}}</text>
+    </view>
+    <jmswitch bind:onchecked="onSwitchChange" isChecked="{{checked}}"></jmswitch>
+</view>

@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "JNavbar": "components/v2/JNavbar/index",
+    "JImage": "components/v2/JImage/index",
+    "JBottomDialog": "components/v2/JBottomDialog/index",
+    "JBleConnect": "components/v2/JBleConnect/index"
+  }
+}

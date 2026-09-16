@@ -1,0 +1,124 @@
+.main {
+    background-color: #fff;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 16rpx 40rpx 72rpx
+}
+
+.div-title,.main {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex
+}
+
+.div-title {
+    height: 96rpx;
+    width: 100%
+}
+
+.title {
+    color: #333;
+    font-size: 40rpx;
+    font-weight: 500
+}
+
+.intro {
+    margin: 30px;
+    text-align: center
+}
+
+.main-container {
+    margin-top: 80px;
+    width: 100%
+}
+
+.picker-view {
+    box-sizing: border-box;
+    height: 400rpx;
+    padding-left: 88rpx;
+    padding-right: 88rpx;
+    width: 100%
+}
+
+.div-radio,.picker-view-item {
+    height: 96rpx;
+    width: 100%
+}
+
+.div-radio {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    position: relative
+}
+
+.text-item {
+    color: #333;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 32rpx;
+    font-weight: 500
+}
+
+.img-item {
+    height: 40rpx;
+    width: 40rpx
+}
+
+.img-line {
+    background-color: #eaeafb;
+    bottom: 0rpx;
+    height: 1rpx;
+    position: absolute;
+    width: 100%
+}
+
+.bottom {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin-top: 40rpx;
+    width: 100%
+}
+
+.bottom,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff;
+    font-size: 36rpx
+}
+
+.button,.button-high {
+    border-radius: 26rpx;
+    -webkit-flex: 1;
+    flex: 1;
+    font-weight: 500;
+    height: 96rpx;
+    margin-left: 32rpx;
+    margin-right: 32rpx
+}
+
+.button {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    color: #724ffd;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center
+}

@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "jmplacehold": "components/jmplacehold/jmplacehold"
+  }
+}

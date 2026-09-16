@@ -1,0 +1,92 @@
+.main {
+    background-color: #fff;
+    border-radius: 32rpx 32rpx 0rpx 0rpx;
+    box-sizing: border-box;
+    padding: 16rpx 40rpx 72rpx
+}
+
+.main,.title {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.title {
+    color: #333;
+    font-size: 40rpx;
+    height: 96rpx;
+    width: 100%
+}
+
+.div-main-product {
+    height: 300rpx;
+    width: 300rpx
+}
+
+.div-title {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    height: 96rpx;
+    width: 100%
+}
+
+.input {
+    background-color: #eef0f8;
+    border-radius: 26rpx;
+    box-sizing: border-box;
+    color: #000;
+    font-size: 32rpx;
+    height: 100rpx;
+    margin-top: 16rpx;
+    padding-left: 32rpx;
+    padding-right: 32rpx;
+    width: 100%
+}
+
+.bottom {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin-top: 40rpx;
+    width: 100%
+}
+
+.bottom,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff
+}
+
+.button,.button-high {
+    border-radius: 24rpx;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 34rpx;
+    height: 96rpx;
+    margin-left: 32rpx;
+    margin-right: 32rpx
+}
+
+.button {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    color: #724ffd;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center
+}

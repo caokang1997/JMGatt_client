@@ -1,0 +1,30 @@
+<view class="rect">
+    <view bind:tap="onClickItem" class="top-container">
+        <image class="photo" src="{{icon}}"></image>
+        <view class="top-head">
+            <view class="top-head-title-container">
+                <text class="text">{{title}}</text>
+                <view class="title2">{{whoSet}}</view>
+            </view>
+            <view class="top-head-title-container">
+                <text class="subtitle1">已绑定: </text>
+                <text class="subtitle2">{{selectedModeTitle}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="line"></view>
+    <view class="custom-desc-container">
+        <text class="custom-desc">切换以下功能可更新定制洗{{remoteId}}按键绑定关系</text>
+    </view>
+    <view class="page-body">
+        <view class="button-group">
+            <view class="btn-card" wx:for="{{customs}}">
+                <view bindtap="onSelectCustom" class="logo-container" data-index="{{index}}" data-item="{{item}}">
+                    <image class="btn-logo" mode="aspectFit" src="https://muyun.jomoo.cn/jomoo/organic/muyun/wechat/images/{{item.icon}}.png"></image>
+                    <image class="new-badge" src="../../image/{{item.mode==selectedId?'ic_check_on':'ic_check_off'}}.png"></image>
+                </view>
+                <text class="btn-title">{{item.title}}</text>
+            </view>
+        </view>
+    </view>
+</view>

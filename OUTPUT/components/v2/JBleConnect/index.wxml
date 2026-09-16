@@ -1,0 +1,19 @@
+<view class="main">
+    <view class="top" wx:if="{{state!=0}}">
+        <image class="icon" src="/image/{{icon}}.png"></image>
+        <text class="text">{{title}}</text>
+    </view>
+    <view class="state-connect" wx:if="{{state==0}}">
+        <image class="icon-connect" src="/image/{{icon}}.png"></image>
+        <text class="text">{{title}}</text>
+    </view>
+    <view class="bottom" wx:if="{{state==2}}">
+        <text class="detail">请检查:</text>
+        <text class="detail" wx:if="{{showMsg}}">1.{{errMsg}};</text>
+        <text class="detail" wx:if="{{!showMsg}}">1.设备已上电且手机蓝牙已开启;</text>
+        <text class="detail" wx:if="{{!showMsg}}">2.设备与手机的距离是否小于10米;</text>
+        <text class="detail" wx:if="{{!showMsg}}">3.设备是否未被其他手机连接;</text>
+        <button bindtap="onClickReConnect" class="button-high" style="width:78%;">重新连接</button>
+        <button bindtap="onClickCancel" class="button" style="width:78%;">{{cancleText}}</button>
+    </view>
+</view>

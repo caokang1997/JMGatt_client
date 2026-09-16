@@ -1,0 +1,29 @@
+page {
+    height: 100%;
+    padding-bottom: 20rpx
+}
+
+.container {
+    background-color: #eef0f8;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 100%
+}
+
+.div-main {
+    -webkit-flex: 1;
+    flex: 1;
+    height: 100vh
+}
+
+.rect_white {
+    background-color: #fff;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+    padding: 40rpx 32rpx
+}

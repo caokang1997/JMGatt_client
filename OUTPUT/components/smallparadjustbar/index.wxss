@@ -1,0 +1,83 @@
+.paradjustbar-small {
+    background-color: #fff;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    width: 100%
+}
+
+.div-title {
+    color: #000;
+    font-size: 32rpx;
+    margin-left: 24rpx;
+    margin-top: 32rpx;
+    opacity: .9
+}
+
+.div-button {
+    margin-bottom: 44rpx;
+    margin-top: 32rpx
+}
+
+.div-button,.div-button-small {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-around;
+    justify-content: space-around
+}
+
+.div-button-small {
+    margin-top: 24rpx
+}
+
+.div-value {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.txt-value {
+    color: #000;
+    font-size: 72rpx;
+    opacity: .9
+}
+
+.txt-value-small {
+    color: #000;
+    font-size: 48rpx;
+    opacity: .9
+}
+
+.txt-unit,.txt-unit-small {
+    color: #000;
+    font-size: 24rpx;
+    opacity: .4
+}
+
+.button {
+    height: 88rpx;
+    width: 88rpx
+}
+
+.button-small {
+    height: 72rpx;
+    width: 72rpx
+}
+
+.bottom {
+    height: 44rpx;
+    width: 100%
+}

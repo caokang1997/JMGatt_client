@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "jmslider": "components/jmSliderV4/index",
+    "JWheelPicker": "components/v2/JWheelPicker/index"
+  }
+}

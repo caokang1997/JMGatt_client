@@ -1,0 +1,15 @@
+<view>
+    <view class="main_hasdevice" wx:if="{{hasDevice}}">
+        <image class="img-scan-small" src="/image/ic_scan.png"></image>
+        <text class="title-hasdevice">正在扫描</text>
+    </view>
+    <view class="main_nodevice" wx:else>
+        <image class="img-scan" src="/image/ic_scan.png"></image>
+        <text class="title">正在扫描</text>
+        <text class="detail">请将手机尽量靠近要添加的设备</text>
+        <view class="div-detail">
+            <text class="detail">{{hintMsg}}</text>
+            <text class="detail" style="color:#724FFD;font-weight:500;">蓝牙开启</text>
+        </view>
+    </view>
+</view>

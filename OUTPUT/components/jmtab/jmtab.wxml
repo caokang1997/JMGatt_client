@@ -1,0 +1,3 @@
+<view class="hd">
+    <view catchtap="changeType" class="hd_flex {{nav_type==index?'hd_flex_on':''}}" data-index="{{index}}" wx:for="{{navList}}" wx:key="navList">{{item}}</view>
+</view>

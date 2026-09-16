@@ -1,0 +1,12 @@
+<div class="paradjustbar-small">
+    <text class="div-title">{{title}}</text>
+    <div class="div-button-small">
+        <jmimage bindtap="onReduce" class="button-small" style="opacity:{{reduceBtnValid?1:0.3}}" url="all/ic_reduce.png"></jmimage>
+        <div class="div-value">
+            <text class="txt-value-small">{{temp}}{{unit}}</text>
+            <text class="txt-unit-small">{{content}}</text>
+        </div>
+        <jmimage bindtap="onAdd" class="button-small" style="opacity:{{addBtnValid?1:0.3}}" url="all/ic_add.png"></jmimage>
+    </div>
+    <div class="bottom"></div>
+</div>

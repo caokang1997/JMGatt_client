@@ -1,0 +1,7 @@
+<view bindtap="onClickButton" class="rect" style="{{enable?'opacity:1':'opacity:0.6'}}">
+    <image class="image" src="{{imageIcon}}"></image>
+    <div class="div-info">
+        <text class="text">{{title}}</text>
+        <text class="text-state}">{{on?'开启':'关闭'}}</text>
+    </div>
+</view>

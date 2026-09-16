@@ -1,0 +1,32 @@
+<view class="div-main">
+    <view bind:tap="onClickCustomMore" class="div-main-custom-setting" wx:if="{{isCustomEnable}}">
+        <view class="div-main-custom-setting-title">私人定制</view>
+        <view class="div-main-custom-setting-right-block">
+            <view class="div-main-custom-setting-right-title">更多></view>
+        </view>
+    </view>
+    <view class="div-main-custom-setting-divider" wx:if="{{isCustomEnable&&customList.length>0}}"></view>
+    <view class="custom-button-wrapper" wx:if="{{customList.length==1&&isCustomEnable}}" wx:for="{{customList}}" wx:key="mode">
+        <jmbuttonbarLarge bind:onclick="onClickCustomMode" enable="{{isStartCleanActionEnable}}" icon="{{item.icon}}" mode="{{item.mode}}" on="{{customMode==item.mode}}" showContent="{{false}}" style="flex:1;" title="{{item.title}}"></jmbuttonbarLarge>
+        <view class="period-badge-large" style="opacity:{{isStartCleanActionEnable?1:0.4}};" wx:if="{{item.cleanModeId==2&&isShowPeriodBadge}}">
+            <text class="period-badge-text">{{periodBadgeText}}</text>
+        </view>
+    </view>
+    <view class="{{customListStyle}}" wx:if="{{customList.length>1&&isCustomEnable}}">
+        <view class="custom-button-wrapper" wx:for="{{customList}}" wx:key="mode">
+            <jmbutton bind:onclick="onClickCustomMode" enable="{{isStartCleanActionEnable}}" icon="{{item.icon}}" mode="{{item.mode}}" on="{{customMode==item.mode}}" title="{{item.title}}"></jmbutton>
+            <view class="period-badge" style="opacity:{{isStartCleanActionEnable?1:0.4}};" wx:if="{{item.cleanModeId==2&&isShowPeriodBadge}}">
+                <text class="period-badge-text">{{periodBadgeText}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="div-slot" wx:if="{{customMode>0}}">
+        <slot wx:if="{{expand}}"></slot>
+    </view>
+    <view class="div-expand" wx:if="{{isExpandVisible}}">
+        <view bind:tap="onClickExpand" class="div-view-expand">
+            <image class="{{expand?'arrow-rotated':'arrow'}}" src="/image/ic_arrow_down.png"></image>
+            <text class="title">{{expand?'收起':'展开'}}</text>
+        </view>
+    </view>
+</view>

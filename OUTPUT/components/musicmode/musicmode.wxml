@@ -1,0 +1,12 @@
+<view class="main">
+    <scroll-view class="list" enhanced="true" scrollX="true" showScrollbar="false">
+        <view class="item" wx:for="{{musicModes}}" wx:key="{{item.title}}">
+            <lightmodeitem bindtap="onModelick" data-mode="{{item.mode}}" on="{{mode==item.mode}}" src="{{item.url}}" title="{{item.title}}"></lightmodeitem>
+        </view>
+    </scroll-view>
+    <view class="rect" wx:if="{{showSpeedBrightness}}">
+        <jmslider bind:onchange="onBrightnessChange" maxvalue="100" minvalue="0" title="亮度" value="{{brightness}}"></jmslider>
+        <view style="height:48rpx;"></view>
+        <jmslider bind:onchange="onSpeedChange" maxvalue="10" minvalue="1" title="速度" value="{{speed}}"></jmslider>
+    </view>
+</view>

@@ -1,0 +1,133 @@
+.div-top {
+    height: 744rpx;
+    position: relative;
+    width: 100vw;
+    z-index: 0
+}
+
+.bg-image {
+    position: absolute;
+    width: 100vw
+}
+
+.div-main,.div-main-container {
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    z-index: 100
+}
+
+.div-main-container {
+    padding-left: 40rpx;
+    padding-right: 40rpx
+}
+
+.div-buttons {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 100%
+}
+
+.div-bar {
+    box-sizing: border-box;
+    margin-top: 32rpx;
+    width: 100%
+}
+
+.button-high {
+    background: #724ffd;
+    color: #fff;
+    font-size: 36rpx;
+    margin-top: 72rpx
+}
+
+.button,.button-high {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 32rpx;
+    display: -webkit-flex;
+    display: flex;
+    height: 96rpx;
+    -webkit-justify-content: center;
+    justify-content: center
+}
+
+.button {
+    background-color: #fff;
+    border: 1px solid #724ffd;
+    color: #724ffd;
+    margin-bottom: 32rpx;
+    margin-top: 32rpx
+}
+
+.div-action-top {
+    background-color: #fff;
+    border-radius: 32rpx;
+    margin-bottom: 30rpx;
+    padding-bottom: 48rpx;
+    padding-top: 48rpx
+}
+
+.div-action,.div-action-top {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row
+}
+
+.div-action-custom {
+    background: linear-gradient(107.43deg,#f0e6ff 4.68%,#c6b3ff 99.87%);
+    border: 2rpx solid #fff;
+    border-radius: 32rpx 32rpx 98rpx 32rpx;
+    margin-bottom: 30rpx;
+    padding-bottom: 8rpx;
+    padding-top: 8rpx
+}
+
+.div-action-custom,.div-title-custom {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column
+}
+
+.div-title-custom {
+    box-sizing: border-box;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding-left: 40rpx;
+    padding-right: 40rpx;
+    width: 100%
+}
+
+.title-custom {
+    -webkit-align-items: center;
+    align-items: center;
+    color: #000;
+    display: -webkit-flex;
+    display: flex;
+    font-size: 32rpx;
+    height: 80rpx
+}
+
+.title-line {
+    background-color: #eef0f8;
+    height: 1rpx;
+    width: 100%
+}
+
+.div-custom-first {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin-bottom: 24rpx;
+    margin-top: 24rpx
+}

@@ -1,0 +1,165 @@
+var DRAG_STATUS = ({
+  START: 'start',
+  MOVING: 'moving',
+  END: 'end',
+});
+var dragStatus = DRAG_STATUS.START;
+var propValue = ({
+  disabled: false,
+  max: 100,
+  min: 0,
+  step: 1,
+  value: 0,
+  hasClick: false,
+});
+var newValue;
+var touchStartX;
+
+function onTouchStart(event, ins) {
+  console.log("slider 按下");
+  var isHuawei = propValue.isHuawei;
+  if (isHuawei) {
+    var touch = event.touches[(0)];
+    touchStartX = touch.clientX;
+    var disabled = propValue.disabled;
+    if (disabled) {
+      return
+    };
+    newValue = propValue.value;
+    dragStatus = DRAG_STATUS.START
+  } else {
+    var touch = event.touches[(0)];
+    touchStartX = touch.clientX;
+    var disabled = propValue.disabled;
+    if (disabled) {
+      return
+    };
+    newValue = propValue.value;
+    dragStatus = DRAG_STATUS.START
+  }
+};
+
+function onTouchMove(event, ins) {
+  var isHuawei = propValue.isHuawei;
+  if (isHuawei) {
+    var disabled = propValue.disabled;
+    if (disabled) {
+      return
+    };
+    var touch = event.touches[(0)];
+    var rect = ins.selectComponent('.n-slider-handles').getBoundingClientRect();
+    var delta = rect.width / (2 * (propValue.max - propValue.min));
+    if (Math.abs(touchStartX - touch.clientX) < delta) {
+      return
+    };
+    if (dragStatus === DRAG_STATUS.START) {
+      ins.triggerEvent('drag-start')
+    };
+    dragStatus = DRAG_STATUS.MOVING;
+    var percentage = (touch.clientX - rect.left) / rect.width;
+    newValue = percentageToValue(percentage);
+    updateValue(ins, newValue, false, true)
+  } else {
+    var disabled = propValue.disabled;
+    if (disabled) {
+      return
+    };
+    var touch = event.touches[(0)];
+    var rect = ins.selectComponent('.n-slider-handles').getBoundingClientRect();
+    var delta = rect.width / (2 * (propValue.max - propValue.min));
+    if (Math.abs(touchStartX - touch.clientX) < delta) {
+      return
+    };
+    if (dragStatus === DRAG_STATUS.START) {
+      ins.triggerEvent('drag-start')
+    };
+    dragStatus = DRAG_STATUS.MOVING;
+    var percentage = (touch.clientX - rect.left) / rect.width;
+    newValue = percentageToValue(percentage);
+    updateValue(ins, newValue, false, true)
+  }
+};
+
+function onTouchEnd(event, ins) {
+  var disabled = propValue.disabled;
+  if (disabled) {
+    return
+  };
+  if (dragStatus === DRAG_STATUS.MOVING) {
+    dragStatus = DRAG_STATUS.END;
+    updateValue(ins, newValue, true);
+    ins.triggerEvent('drag-end')
+  }
+};
+
+function onClick(event, ins) {
+  console.log("slider 点击");
+  var disabled = propValue.disabled;
+  var hasClick = propValue.hasClick;
+  if (disabled) {
+    return
+  };
+  if (hasClick) {
+    return
+  };
+  var touch = event.touches[(0)];
+  var rect = ins.selectComponent('.n-slider-handles').getBoundingClientRect();
+  var percentage = (touch.clientX - rect.left) / rect.width;
+  updateValue(ins, percentageToValue(percentage), true, false, true)
+};
+
+function format(value) {
+  return (Math.round(Math.max(propValue.min, Math.min(value, propValue.max)) / propValue.step) * propValue.step)
+};
+
+function updateValue(ins, val, end, drag, isClick) {
+  value = format(val);
+  ins.selectComponent('.n-slider-handle-wrapper').setStyle(({
+    "left": getOffsetWidth(value),
+    "transition": drag ? "none" : "all .2s",
+  }));
+  ins.selectComponent('.n-slider-rail__fill').setStyle(({
+    "width": getOffsetWidth(value),
+    "transition": drag ? "none" : "all .2s",
+  }));
+  if (drag) {
+    ins.triggerEvent('drag', ({
+      value: value,
+    }))
+  };
+  if (end) {
+    if (isClick) {
+      ins.callMethod('setVal', value)
+    };
+    ins.triggerEvent('change', ({
+      value: value,
+    }))
+  }
+};
+
+function getScope() {
+  return (Number)(propValue.max) - Number(propValue.min)
+};
+
+function getOffsetWidth(current) {
+  var scope = getScope();
+  return ("".concat(Math.max(((current - Number(propValue.min)) * 100) / scope, 0), "%"))
+};
+
+function percentageToValue(percentage) {
+  return (propValue.min + (propValue.max - propValue.min) * percentage)
+};
+
+function propObserver(newValue, oldValue, ownerInstance, instance) {
+  if (newValue.value || newValue.value === 0) {
+    propValue = newValue;
+    updateValue(ownerInstance, propValue.value)
+  }
+};
+module.exports = ({
+  onTouchStart: onTouchStart,
+  onTouchMove: onTouchMove,
+  onTouchEnd: onTouchEnd,
+  onClick: onClick,
+  propObserver: propObserver,
+});

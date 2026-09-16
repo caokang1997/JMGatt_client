@@ -1,0 +1,19 @@
+<view class="main">
+    <view class="div-title">
+        <text class="title">{{title}}</text>
+    </view>
+    <view style="width:100%;display:flex;flex-direction:column;">
+        <view class="picker-view-item" wx:for="{{values}}" wx:key="item">
+            <view bind:tap="onChooseRadio" class="div-radio" data-index="{{index}}" data-value="{{item}}">
+                <text class="text-item">{{item}}</text>
+                <image class="img-item" src="/image/ic_radio_on.png" wx:if="{{index==selected}}"></image>
+                <image class="img-item" src="/image/ic_radio_off.png" wx:if="{{index!=selected}}"></image>
+                <view class="img-line" wx:if="{{index!=values.length-1}}"></view>
+            </view>
+        </view>
+    </view>
+    <view class="bottom">
+        <button bindtap="onClickCancel" class="button">取消</button>
+        <button bindtap="onClickConfirm" class="button-high" style="margin-left:24rpx;">确定</button>
+    </view>
+</view>

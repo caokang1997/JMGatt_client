@@ -1,0 +1,11 @@
+<view class="main">
+    <text class="title">{{title}}</text>
+    <view style="padding-top:16rpx;">
+        <slot></slot>
+    </view>
+    <view class="bottom">
+        <button bindtap="onClickCancel" class="button" wx:if="{{hasCancel}}">{{cancleText}}</button>
+        <view style="width:24rpx;" wx:if="{{hasCancel&&hasConfirm}}"></view>
+        <button bindtap="onClickConfirm" class="button-high" wx:if="{{hasConfirm}}">{{confirmText}}</button>
+    </view>
+</view>

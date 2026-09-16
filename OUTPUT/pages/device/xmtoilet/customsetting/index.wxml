@@ -1,0 +1,9 @@
+<view class="main">
+    <navbar scrolltop="{{scrollTop}}" title="选择模式" withback="{{true}}"></navbar>
+    <jmplacehold></jmplacehold>
+    <view style="height:48rpx;"></view>
+    <text class="title">请选择希望执行模式</text>
+    <view wx:for="{{customs}}">
+        <jmcustom bind:onclick="onClickItem" bind:onclickitem="onClickEdit" checked="{{item.on}}" data-index="{{index}}" data-item="{{item}}" icon="{{item.icon}}" title="{{item.title}}"></jmcustom>
+    </view>
+</view>

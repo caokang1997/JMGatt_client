@@ -1,0 +1,10 @@
+.rect {
+    background-color: #fff;
+    border-radius: 32rpx;
+    box-sizing: border-box;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+    padding-bottom: 8rpx;
+    padding-top: 8rpx;
+    width: 100% - 80rpx
+}
