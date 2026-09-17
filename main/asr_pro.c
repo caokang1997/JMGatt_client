@@ -16,6 +16,7 @@
 
 #include "asr_pro.h"
 #include "ble_toilet.h"
+#include "power_save.h"
 #include "sdkconfig.h"
 
 #define TAG                     "ASR_PRO"
@@ -129,6 +130,9 @@ static void handle_asr_cmd(uint8_t asr_cmd)
     esp_err_t ret = ble_toilet_execute(tcmd);
     if (ret == ESP_OK) {
         asr_pro_send_feedback(cmd_to_feedback(tcmd));   /* 语音: 命令确认 */
+        /* 通知省电模式调度器: 座圈加热被手动改过, 避免自动调度覆盖用户操作 */
+        if (tcmd == TOILET_CMD_SEAT_HEAT_ON)  power_save_report_manual(true);
+        if (tcmd == TOILET_CMD_SEAT_HEAT_OFF) power_save_report_manual(false);
     } else {
         ESP_LOGE(TAG, "Execute failed: %s", esp_err_to_name(ret));
         asr_pro_send_feedback(FB_CONNECT_FAIL);

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>九牧智能马桶控制器</title>
+<style>
+  :root {
+    --primary: #0a7cff;
+    --primary-dark: #0868d9;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --text: #1f2937;
+    --text-2: #6b7280;
+    --bg: #f3f4f6;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text);
+    max-width: 520px; margin: 0 auto; padding: 16px 14px 40px;
+    font-size: 15px;
+  }
+  .header { text-align: center; padding: 10px 0 16px; }
+  .header h1 { font-size: 19px; font-weight: 600; }
+  .header p { font-size: 12px; color: var(--text-2); margin-top: 4px; }
+
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  .card h2 { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card h2::before { content: ""; width: 4px; height: 16px; background: var(--primary); border-radius: 2px; }
+
+  /* 状态栏 */
+  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+  .status-item { min-width: 0; }
+  .status-item .k { font-size: 12px; color: var(--text-2); margin-bottom: 2px; }
+  .status-item .v { font-size: 13px; font-weight: 500; word-break: break-all; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: 1px; }
+  .dot.ok { background: var(--success); }
+  .dot.err { background: var(--danger); }
+  .dot.warn { background: var(--warning); }
+  .dot.idle { background: #9ca3af; }
+
+  /* 提示横幅 */
+  .banner {
+    display: none; padding: 10px 12px; border-radius: 10px; margin-bottom: 14px;
+    font-size: 13px; line-height: 1.5;
+  }
+  .banner.warn { display: block; background: #fff7e6; color: #92600a; border: 1px solid #ffe3a3; }
+
+  /* Tab */
+  .tabs { display: flex; background: #e9ecf1; border-radius: 12px; padding: 4px; margin-bottom: 14px; }
+  .tabs button {
+    flex: 1; border: 0; background: transparent; padding: 9px 0;
+    font-size: 14px; color: var(--text-2); border-radius: 9px; cursor: pointer;
+    transition: all .15s;
+  }
+  .tabs button.active { background: var(--card); color: var(--primary); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* 开关 */
+  .switch-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .switch-row .desc { font-size: 12px; color: var(--text-2); margin-top: 3px; line-height: 1.4; }
+  .switch { position: relative; width: 50px; height: 28px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; inset: 0; background: #d1d5db; border-radius: 28px;
+    transition: .2s; cursor: pointer;
+  }
+  .slider::before {
+    content: ""; position: absolute; width: 22px; height: 22px; left: 3px; top: 3px;
+    background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  }
+  input:checked + .slider { background: var(--success); }
+  input:checked + .slider::before { transform: translateX(22px); }
+
+  /* 时段编辑 */
+  .slot-group { margin-bottom: 14px; }
+  .slot-group .group-title { font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 8px; }
+  .slot-row {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 8px;
+    background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 8px;
+  }
+  .slot-row .sep { color: var(--text-2); font-size: 13px; }
+  .time-pick { display: flex; align-items: center; gap: 2px; flex: 1; min-width: 0; }
+  select {
+    border: 1px solid var(--border); border-radius: 8px; background: #fff;
+    padding: 6px 2px; font-size: 14px; color: var(--text); text-align: center; flex: 1; min-width: 0;
+  }
+  .del-btn {
+    border: 0; background: #fee2e2; color: var(--danger); width: 30px; height: 30px;
+    border-radius: 8px; font-size: 16px; cursor: pointer; flex-shrink: 0; line-height: 1;
+  }
+  .add-btn {
+    width: 100%; border: 1px dashed #c3d4f0; background: #f4f8ff; color: var(--primary);
+    padding: 9px; border-radius: 10px; font-size: 13px; cursor: pointer;
+  }
+  .add-btn:disabled { opacity: .4; }
+
+  /* 通用按钮 */
+  .btn {
+    display: block; width: 100%; border: 0; border-radius: 12px;
+    padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn:disabled { opacity: .5; }
+  .btn.primary { background: var(--primary); color: #fff; }
+  .btn.danger { background: #fee2e2; color: var(--danger); }
+  .btn.ghost { background: #f3f4f6; color: var(--text); font-weight: 500; }
+
+  /* 控制按钮网格 */
+  .ctrl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ctrl-grid .wide { grid-column: span 2; }
+  .ctrl-btn {
+    border: 0; border-radius: 12px; padding: 16px 8px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 600; transition: transform .1s, opacity .15s;
+  }
+  .ctrl-btn:active { transform: scale(.96); }
+  .ctrl-btn:disabled { opacity: .5; }
+  .ctrl-btn .ico { font-size: 24px; }
+  .ctrl-btn.blue   { background: #e8f1ff; color: var(--primary-dark); }
+  .ctrl-btn.green  { background: #e7f8f1; color: #0b8a62; }
+  .ctrl-btn.red    { background: #fee9e9; color: #c53030; }
+  .ctrl-btn.gray   { background: #f3f4f6; color: #4b5563; }
+  .ctrl-btn.orange { background: #fff4e5; color: #b45309; }
+  .hint { font-size: 12px; color: var(--text-2); line-height: 1.6; margin-top: 10px; }
+
+  /* 输入框 */
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 13px; color: var(--text-2); margin-bottom: 5px; }
+  .field input {
+    width: 100%; border: 1px solid var(--border); border-radius: 10px;
+    padding: 11px 12px; font-size: 15px; outline: none; background: #fff;
+  }
+  .field input:focus { border-color: var(--primary); }
+
+  /* Toast */
+  #toast {
+    position: fixed; left: 50%; bottom: 12%; transform: translateX(-50%) translateY(20px);
+    background: rgba(17,24,39,.92); color: #fff; padding: 10px 20px; border-radius: 10px;
+    font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s;
+    max-width: 86%; text-align: center; z-index: 99;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>九牧智能马桶控制器</h1>
+  <p id="ver-line">SQ9650 · 语音 / 网页双控制</p>
+</div>
+
+<div class="banner warn" id="ap-banner">
+  设备当前处于<b>配网模式</b>，请在下方填入家里的 WiFi 信息，保存后设备将自动重启并连接。
+</div>
+
+<!-- 状态卡片 -->
+<div class="card">
+  <h2>设备状态</h2>
+  <div class="status-grid">
+    <div class="status-item">
+      <div class="k">蓝牙连接</div>
+      <div class="v" id="st-ble"><span class="dot idle"></span>未知</div>
+    </div>
+    <div class="status-item">
+      <div class="k">当前时间</div>
+      <div class="v" id="st-time">-</div>
+    </div>
+    <div class="status-item">
+      <div class="k">网络</div>
+      <div class="v" id="st-net">-</div>
+    </div>
+    <div class="status-item">
+      <div class="k">省电模式</div>
+      <div class="v" id="st-ps">-</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 切换 -->
+<div class="tabs">
+  <button id="tab-btn-ps" class="active" onclick="switchTab('ps')">省电模式</button>
+  <button id="tab-btn-ctrl" onclick="switchTab('ctrl')">马桶控制</button>
+  <button id="tab-btn-net" onclick="switchTab('net')">网络设置</button>
+</div>
+
+<!-- ============ 省电模式 ============ -->
+<div class="page active" id="page-ps">
+  <div class="card">
+    <div class="switch-row">
+      <div>
+        <div style="font-weight:600">启用省电模式</div>
+        <div class="desc">时段内自动开启座圈加热，时段外自动关闭，其余功能不受影响</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="ps-enable">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="slot-group">
+      <div class="group-title">工作日（周一 ~ 周五）</div>
+      <div id="slots-wd"></div>
+      <button class="add-btn" id="add-wd" onclick="addSlot('wd')">＋ 添加时段</button>
+    </div>
+
+    <div class="slot-group">
+      <div class="group-title">周末（周六 / 周日）</div>
+      <div id="slots-we"></div>
+      <button class="add-btn" id="add-we" onclick="addSlot('we')">＋ 添加时段</button>
+    </div>
+
+    <button class="btn primary" id="ps-save" onclick="savePsConfig()">保存配置</button>
+    <div class="hint">
+      · 时间由网络自动校准（NTP），需保持设备联网<br>
+      · 示例：07:00 ~ 08:30 表示早上 7 点到 8 点 30 分开启加热<br>
+      · 结束时间选 24:00 表示到午夜；开始大于结束表示跨夜时段（如 22:00 ~ 06:00）
+    </div>
+  </div>
+</div>
+
+<!-- ============ 马桶控制 ============ -->
+<div class="page" id="page-ctrl">
+  <div class="card">
+    <h2>手动控制</h2>
+    <div class="ctrl-grid">
+      <button class="ctrl-btn blue wide" data-cmd="wake" onclick="sendCmd(this)">
+        <span class="ico">🔗</span>唤醒连接马桶
+      </button>
+      <button class="ctrl-btn green" data-cmd="seaton" onclick="sendCmd(this)">
+        <span class="ico">♨️</span>座圈加热 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="seatoff" onclick="sendCmd(this)">
+        <span class="ico">❄️</span>座圈加热 关
+      </button>
+      <button class="ctrl-btn green" data-cmd="footon" onclick="sendCmd(this)">
+        <span class="ico">🦶</span>脚感 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="footoff" onclick="sendCmd(this)">
+        <span class="ico">🚫</span>脚感 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="flushl" onclick="sendCmd(this)">
+        <span class="ico">🌊</span>大冲
+      </button>
+      <button class="ctrl-btn blue" data-cmd="flushs" onclick="sendCmd(this)">
+        <span class="ico">💧</span>小冲
+      </button>
+      <button class="ctrl-btn red wide" data-cmd="stop" onclick="sendCmd(this)">
+        <span class="ico">⏹️</span>停止
+      </button>
+    </div>
+    <div class="hint">
+      · 点击按钮后指令通过语音通道下发，效果与语音控制完全一致<br>
+      · 连接后 30 秒无操作将自动断开，不占用家人手机小程序的蓝牙
+    </div>
+  </div>
+</div>
+
+<!-- ============ 网络设置 ============ -->
+<div class="page" id="page-net">
+  <div class="card">
+    <h2>WiFi 设置</h2>
+    <div class="field">
+      <label>WiFi 名称 (SSID)</label>
+      <input type="text" id="wf-ssid" maxlength="32" placeholder="请输入 WiFi 名称" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>WiFi 密码（开放网络可留空）</label>
+      <input type="password" id="wf-pass" maxlength="64" placeholder="请输入 WiFi 密码">
+    </div>
+    <button class="btn primary" id="wf-save" onclick="saveWifi()">保存并重启</button>
+    <div class="hint">保存后设备将重启并连接新网络，届时请通过新 IP 访问本页面。</div>
+  </div>
+
+  <div class="card">
+    <h2>恢复出厂</h2>
+    <button class="btn danger" onclick="factoryReset()">清除 WiFi 配置</button>
+    <div class="hint">清除后设备将重启进入配网模式（热点 Toilet-Setup-XXXX），需重新配网。</div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+const MAX_SLOTS = 4;
+let psCfg = { enable: false, weekday: [], weekend: [] };
+
+/* ---------- 工具 ---------- */
+function $(id) { return document.getElementById(id); }
+let toastTimer = null;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function switchTab(name) {
+  ['ps', 'ctrl', 'net'].forEach(n => {
+    $('page-' + n).classList.toggle('active', n === name);
+    $('tab-btn-' + (n === 'ps' ? 'ps' : n)).classList.toggle('active', n === name);
+  });
+}
+
+async function api(path, opts) {
+  const r = await fetch(path, opts);
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.msg || ('HTTP ' + r.status));
+  return j;
+}
+
+/* ---------- 状态刷新 ---------- */
+function bleLabel(s) {
+  const map = { READY: ['ok', '已连接'], IDLE: ['idle', '未连接'], SCANNING: ['warn', '扫描中'],
+                CONNECTING: ['warn', '连接中'], DISCOVERING: ['warn', '发现服务'], DISCONNECTING: ['warn', '断开中'] };
+  const m = map[s] || ['idle', s || '未知'];
+  return `<span class="dot ${m[0]}"></span>${m[1]}`;
+}
+
+async function refreshStatus() {
+  try {
+    const s = await api('/api/status');
+    $('st-ble').innerHTML = bleLabel(s.ble);
+    $('st-time').textContent = s.time_synced ? s.time : '未同步(需联网)';
+    $('st-net').textContent = s.mode === 'sta'
+      ? `${s.ssid} · ${s.ip}` : `配网热点 ${s.ssid}`;
+
+    let psTxt;
+    if (!s.ps_enable) psTxt = '已关闭';
+    else if (!s.time_synced) psTxt = '已开启 · 等待校时';
+    else if (s.ps_desired === 1) psTxt = '<span class="dot ok"></span>加热时段中';
+    else if (s.ps_desired === 0) psTxt = '<span class="dot idle"></span>待机时段';
+    else psTxt = '已开启';
+    $('st-ps').innerHTML = psTxt;
+
+    const apMode = (s.mode === 'ap');
+    $('ap-banner').style.display = apMode ? 'block' : 'none';
+    if (apMode && !$('wf-ssid').value) {
+      /* 配网模式自动聚焦到网络页签 */
+      if (!$('page-net').classList.contains('active') && !window._apVisited) {
+        window._apVisited = true;
+        switchTab('net');
+      }
+    }
+  } catch (e) { /* 设备重启中 etc */ }
+}
+
+/* ---------- 省电模式配置 ---------- */
+function fillSelect(sel, from, to, step, val) {
+  sel.innerHTML = '';
+  for (let v = from; v <= to; v += step) {
+    const o = document.createElement('option');
+    o.value = v;
+    o.textContent = String(v).padStart(2, '0');
+    if (v === val) o.selected = true;
+    sel.appendChild(o);
+  }
+}
+
+/* 渲染一行时段: type 'wd'|'we', mins {start,end} 分钟值 */
+function renderSlotRow(container, type, start, end) {
+  const row = document.createElement('div');
+  row.className = 'slot-row';
+
+  const mk = (isEnd, defMin) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'time-pick';
+    const hs = document.createElement('select');
+    const ms = document.createElement('select');
+    const h = Math.floor(defMin / 60);
+    let m = defMin % 60;
+    if (m % 5 !== 0) m = Math.min(55, Math.round(m / 5) * 5);   /* 非 5 分钟粒度时就近取整 */
+    fillSelect(hs, 0, isEnd ? 24 : 23, 1, Math.min(h, isEnd ? 24 : 23));
+    fillSelect(ms, 0, 55, 5, m);
+    hs.addEventListener('change', () => {           /* 24 小时时分钟强制为 00 */
+      if (parseInt(hs.value) === 24) { ms.value = '0'; ms.disabled = true; }
+      else ms.disabled = false;
+    });
+    if (parseInt(hs.value) === 24) { ms.value = '0'; ms.disabled = true; }
+    wrap.appendChild(hs); wrap.appendChild(ms);
+    return { wrap, hs, ms };
+  };
+
+  const s = mk(false, start), e = mk(true, end);
+  const sep = document.createElement('span');
+  sep.className = 'sep'; sep.textContent = '—';
+
+  const del = document.createElement('button');
+  del.className = 'del-btn'; del.textContent = '✕';
+  del.onclick = () => { row.remove(); updateAddBtns(); };
+
+  row.appendChild(s.wrap); row.appendChild(sep); row.appendChild(e.wrap); row.appendChild(del);
+  container.appendChild(row);
+}
+
+function collectSlots(type) {
+  const arr = [];
+  document.querySelectorAll('#slots-' + type + ' .slot-row').forEach(row => {
+    const sels = row.querySelectorAll('select');
+    const start = parseInt(sels[0].value) * 60 + parseInt(sels[1].value);
+    const end   = parseInt(sels[2].value) * 60 + parseInt(sels[3].value);
+    if (start !== end) arr.push({ start, end });
+  });
+  return arr;
+}
+
+function updateAddBtns() {
+  $('add-wd').disabled = collectSlots('wd').length >= MAX_SLOTS;
+  $('add-we').disabled = collectSlots('we').length >= MAX_SLOTS;
+}
+
+function addSlot(type) {
+  if (collectSlots(type).length >= MAX_SLOTS) return;
+  renderSlotRow($('slots-' + type), type, 7 * 60, 8 * 60 + 30);
+  updateAddBtns();
+}
+
+async function loadPsConfig() {
+  try {
+    const c = await api('/api/config');
+    psCfg = c;
+    $('ps-enable').checked = !!c.enable;
+    $('slots-wd').innerHTML = '';
+    $('slots-we').innerHTML = '';
+    (c.weekday || []).forEach(s => renderSlotRow($('slots-wd'), 'wd', s.start, s.end));
+    (c.weekend || []).forEach(s => renderSlotRow($('slots-we'), 'we', s.start, s.end));
+    updateAddBtns();
+  } catch (e) { toast('读取配置失败: ' + e.message); }
+}
+
+async function savePsConfig() {
+  const btn = $('ps-save');
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    const body = {
+      enable: $('ps-enable').checked,
+      weekday: collectSlots('wd'),
+      weekend: collectSlots('we')
+    };
+    await api('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    toast('✓ 配置已保存并生效');
+    refreshStatus();
+  } catch (e) {
+    toast('保存失败: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '保存配置';
+  }
+}
+
+/* ---------- 马桶控制 ---------- */
+async function sendCmd(btn) {
+  const cmd = btn.dataset.cmd;
+  const names = { wake: '唤醒连接', footon: '打开脚感', footoff: '关闭脚感', flushl: '大冲',
+                  flushs: '小冲', stop: '停止', seaton: '座圈加热开', seatoff: '座圈加热关' };
+  btn.disabled = true;
+  try {
+    await api('/api/cmd', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cmd })
+    });
+    toast('已下发: ' + (names[cmd] || cmd));
+    /* 唤醒类指令需要时间建立连接, 连续刷新几次状态 */
+    let n = 0;
+    const timer = setInterval(() => { refreshStatus(); if (++n >= 5) clearInterval(timer); }, 2000);
+  } catch (e) {
+    toast('下发失败: ' + e.message);
+  } finally {
+    setTimeout(() => { btn.disabled = false; }, 800);
+  }
+}
+
+/* ---------- 网络设置 ---------- */
+async function saveWifi() {
+  const ssid = $('wf-ssid').value.trim();
+  if (!ssid) { toast('请输入 WiFi 名称'); return; }
+  const btn = $('wf-save');
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    await api('/api/wifi', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ssid, pass: $('wf-pass').value })
+    });
+    toast('✓ 已保存, 设备即将重启...');
+  } catch (e) {
+    toast('保存失败: ' + e.message);
+    btn.disabled = false; btn.textContent = '保存并重启';
+  }
+}
+
+async function factoryReset() {
+  if (!confirm('确认清除 WiFi 配置？设备将重启进入配网模式。')) return;
+  try {
+    await api('/api/factory', { method: 'POST' });
+    toast('已清除, 设备即将重启...');
+  } catch (e) { toast('操作失败: ' + e.message); }
+}
+
+/* ---------- 启动 ---------- */
+window.addEventListener('load', () => {
+  loadPsConfig();
+  refreshStatus();
+  setInterval(refreshStatus, 5000);
+});
+</script>
+</body>
+</html>

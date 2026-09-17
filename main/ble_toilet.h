@@ -84,6 +84,23 @@ bool ble_toilet_is_busy(void);
  */
 void ble_toilet_set_event_cb(ble_toilet_event_cb_t cb);
 
+/**
+ * @brief 主动断开与马桶的 BLE 连接 (省电模式执行完命令后调用, 尽快释放蓝牙)
+ *        仅在 READY 状态有效, 其他状态返回 ESP_ERR_INVALID_STATE
+ */
+esp_err_t ble_toilet_disconnect(void);
+
+/**
+ * @brief 阻塞等待 BLE 进入 READY 状态 (轮询实现, 供省电模式等非实时调用方使用)
+ * @return true 已就绪; false 超时或连接失败回到 IDLE
+ */
+bool ble_toilet_wait_ready(int timeout_ms);
+
+/**
+ * @brief 获取当前状态机名称: "IDLE"/"SCANNING"/"CONNECTING"/"DISCOVERING"/"READY"/"DISCONNECTING"
+ */
+const char *ble_toilet_state_name(void);
+
 #ifdef __cplusplus
 }
 #endif

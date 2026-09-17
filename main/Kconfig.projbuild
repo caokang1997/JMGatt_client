@@ -45,4 +45,18 @@ menu "JOMOO SQ9650 Voice Controller"
             to test BLE control before the ASR-PRO voice module arrives.
             Disable this for production firmware.
 
+    config TOILET_AP_SSID
+        string "Provisioning hotspot SSID prefix"
+        default "Toilet-Setup"
+        help
+            WiFi provisioning hotspot SSID prefix. The last 2 bytes of
+            the MAC address are appended to avoid conflicts, e.g.
+            "Toilet-Setup-A1B2".
+
+    config TOILET_AP_PASS
+        string "Provisioning hotspot password"
+        default "12345678"
+        help
+            WPA2 password of the provisioning hotspot (min 8 chars).
+
 endmenu

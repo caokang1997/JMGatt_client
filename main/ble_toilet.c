@@ -551,6 +551,34 @@ bool ble_toilet_is_busy(void)
     return (s_state == STATE_SCANNING || s_state == STATE_CONNECTING || s_state == STATE_DISCOVERING);
 }
 
+const char *ble_toilet_state_name(void)
+{
+    return state_names[s_state];
+}
+
+esp_err_t ble_toilet_disconnect(void)
+{
+    if (s_state != STATE_READY) {
+        return ESP_ERR_INVALID_STATE;
+    }
+    ESP_LOGI(TAG, "Manual disconnect requested");
+    set_state(STATE_DISCONNECTING);
+    esp_ble_gap_disconnect(gl_profile_tab[PROFILE_A_APP_ID].remote_bda);
+    return ESP_OK;
+}
+
+bool ble_toilet_wait_ready(int timeout_ms)
+{
+    int waited = 0;
+    while (waited < timeout_ms) {
+        if (s_state == STATE_READY) return true;
+        if (s_state == STATE_IDLE)  return false;   /* 连接失败已复位 */
+        vTaskDelay(pdMS_TO_TICKS(100));
+        waited += 100;
+    }
+    return false;
+}
+
 void ble_toilet_set_event_cb(ble_toilet_event_cb_t cb)
 {
     s_event_cb = cb;

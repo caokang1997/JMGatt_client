@@ -4,6 +4,11 @@
 
 语音模块识别到指令后通过 UART 发送十六进制帧给 ESP32，ESP32 再转换成马桶的 BLE 私有协议指令下发。
 
+**v2 新增功能：**
+- **WiFi 配网**：首次上电自动开启热点 `Toilet-Setup-XXXX`，手机连上后浏览器访问 `192.168.4.1` 完成配网，凭据存入 NVS
+- **Web 控制台**：配网成功后启动 HTTP 服务，提供网页版马桶控制按钮（与语音控制同路径）
+- **省电模式**：按时间段自动开关座圈加热（如工作日 07:00-08:30、17:30-24:00 开启，其余时间关闭），时间段可在网页自由配置，NTP 网络自动校时
+
 ---
 
 ## 目录
@@ -19,7 +24,8 @@
 - [九、可配置项](#九可配置项)
 - [十、硬件接线](#十硬件接线)
 - [十一、测试方法](#十一测试方法)
-- [十二、注意事项](#十二注意事项)
+- [十二、Web 配网与省电模式](#十二web-配网与省电模式)
+- [十三、注意事项](#十三注意事项)
 
 ---
 
@@ -33,11 +39,14 @@
 | 语音模块 | 天问 ASR-PRO（UART 通信） |
 | 连接模式 | 唤醒按需连接（非常驻连接） |
 | 目标 MAC | `A4:C1:38:5E:79:76` |
+| 网络功能 | WiFi STA + 热点配网 + Web 页面 + NTP 校时 |
 
 **核心特性：**
 - 平时不占用马桶蓝牙（家人仍可用手机小程序）
 - 说唤醒词后才连接，30 秒无操作自动断开
 - 支持脚感开关、大小冲、停止、座圈加热开关
+- 网页可远程控制马桶 + 配置省电模式时间段
+- 省电模式在时间段边界自动开/关座圈加热，手动操作不会被覆盖
 
 > 协议来源：反编译九牧微信小程序（`OUTPUT/` 目录），从 `TechramicToiletController.js` 提取。SQ9650 的 `bleProtocol=1`，对应 Techramic 协议。
 
@@ -60,12 +69,20 @@
 │   用户说话    │ ───────> │  天问 ASR-PRO │ ───────> │    ESP32     │ ───────> │  SQ9650 马桶  │
 │ "打开脚感"    │          │  (识别+发帧)  │  HEX帧   │  (协议转换)   │  私有协议 │  (执行动作)   │
 └──────────────┘          └──────────────┘          └──────────────┘          └──────────────┘
+                                                         │  ▲
+                                                 WiFi/HTTP │  └── 省电模式定时任务(自动开/关座圈加热)
+                                                         ▼  │
+┌──────────────┐                            ┌──────────────────────────┐
+│ 手机浏览器    │ ─────── HTTP ─────────────>│ Web 服务 (控制按钮/配置页) │
+└──────────────┘                            └──────────────────────────┘
 ```
 
 1. 用户说唤醒词 → ASR-PRO 发 `AA 55 00 00 55` → ESP32 扫描并连接马桶
 2. 用户说"打开脚感" → ASR-PRO 发 `AA 55 01 00 55` → ESP32 转成 BLE 帧 `FC 50 01 00 00 00 40 0E 01 FC` 下发
 3. 马桶执行动作
 4. 30 秒内无新指令 → ESP32 主动断开 BLE → 回到待机
+5. Web 页面按钮走 `asr_pro_inject_cmd()` → 与语音完全相同的执行路径
+6. 省电模式每 30 秒检查一次：跨入时段 → 连接马桶开座圈加热；跨出时段 → 连接马桶关座圈加热，执行完立即断开
 
 ---
 
@@ -331,14 +348,19 @@ ESP32 执行动作后，会通过 **GPIO16(TX) → ASR-PRO PA3(UART1_RX)** 回�
 ```
 JMGatt_client/
 ├── main/
-│   ├── main.c              # 应用入口: NVS -> BLE init -> UART init
+│   ├── main.c              # 应用入口: NVS -> BLE -> WiFi -> Web -> 省电调度 -> UART
 │   ├── ble_toilet.h/.c     # BLE 客户端: 扫描/连接/指令帧构造/状态机
 │   ├── asr_pro.h/.c        # UART 驱动 + 语音帧解析状态机
 │   ├── debug_console.h/.c  # UART0 调试控制台 (无语音模块时手动测试)
-│   ├── CMakeLists.txt      # 组件注册 (依赖 bt/driver/nvs_flash/console)
+│   ├── app_config.h/.c     # NVS 配置管理 (WiFi 凭据 + 省电模式时间段)
+│   ├── app_wifi.h/.c       # WiFi STA/AP 配网切换 + SNTP 时间同步
+│   ├── web_server.h/.c     # HTTP 服务 (REST API + 静态页面分发)
+│   ├── power_save.h/.c     # 省电模式调度 (时间段边界检测 + 自动开/关座圈加热)
+│   ├── www/index.html      # 前端页面 (编译时嵌入固件, 无外部依赖)
+│   ├── CMakeLists.txt      # 组件注册 (bt/wifi/http_server/json 等依赖)
 │   └── Kconfig.projbuild   # menuconfig 配置项 (纯英文, 避免GBK问题)
 ├── OUTPUT/                 # 反编译的九牧微信小程序 (协议参考)
-├── sdkconfig.defaults      # 精简配置 (关闭WiFi等)
+├── sdkconfig.defaults      # 默认配置 (WiFi+BLE 共存, SNTP, HTTPD)
 ├── CMakeLists.txt
 └── README.md               # 本文档
 ```
@@ -351,12 +373,18 @@ JMGatt_client/
 | `ble_toilet_wake()` | ble_toilet.c | 唤醒词触发，开始扫描连接 |
 | `ble_toilet_execute(cmd)` | ble_toilet.c | 发送指令到马桶（需 READY 状态） |
 | `ble_toilet_is_ready()` | ble_toilet.c | 查询是否已连接就绪 |
+| `ble_toilet_disconnect()` | ble_toilet.c | 主动断开（省电模式执行完立即释放蓝牙） |
+| `ble_toilet_wait_ready()` | ble_toilet.c | 阻塞等待连接就绪（省电模式用） |
 | `asr_pro_init()` | asr_pro.c | 初始化 UART 并启动接收任务 |
-| `asr_pro_inject_cmd()` | asr_pro.c | 直接注入命令字节（调试控制台用） |
-| `asr_pro_feed_byte()` | asr_pro.c | 向帧解析器喂入原始字节 |
+| `asr_pro_inject_cmd()` | asr_pro.c | 直接注入命令字节（控制台/Web 共用） |
 | `asr_pro_send_feedback()` | asr_pro.c | 发送反馈码到 ASR-PRO 触发语音播报 |
-| `ble_toilet_set_event_cb()` | ble_toilet.c | 注册 BLE 状态事件回调（连接/断开/失败） |
-| `debug_console_init()` | debug_console.c | 启动 UART0 交互式调试控制台 |
+| `app_wifi_start()` | app_wifi.c | 读取 NVS 凭据, STA 连接或进入配网热点模式 |
+| `app_config_ps_load/save()` | app_config.c | 省电模式配置 NVS 读写 |
+| `app_config_wifi_save()` | app_config.c | WiFi 凭据 NVS 保存（配网页提交） |
+| `web_server_start()` | web_server.c | 启动 HTTP 服务与 REST API |
+| `power_save_start()` | power_save.c | 启动省电模式调度任务 |
+| `power_save_reload()` | power_save.c | 网页保存配置后热加载（立即生效） |
+| `power_save_report_manual()` | power_save.c | 语音/网页手动开关座圈后通知调度器 |
 | `build_cmd_frame()` | ble_toilet.c | 根据业务命令构造 BLE 指令帧 |
 
 ---
@@ -374,7 +402,7 @@ JMGatt_client/
 # 1. 设置目标芯片
 idf.py set-target esp32
 
-# 2. (可选) 图形化配置 MAC/引脚/波特率
+# 2. (可选) 图形化配置 MAC/引脚/波特率/热点名称
 idf.py menuconfig
 
 # 3. 编译
@@ -383,6 +411,8 @@ idf.py build
 # 4. 烧录 + 监控串口 (COM口按实际修改)
 idf.py -p COM3 flash monitor
 ```
+
+> **从旧版本升级**：v2 起启用了 WiFi 与 TCP/IP（软件共存），若之前编译过请先执行 `idf.py fullclean`（或删除 `sdkconfig`）再重新编译。
 
 退出串口监控：`Ctrl + ]`
 
@@ -400,6 +430,8 @@ idf.py -p COM3 flash monitor
 | `ASR_UART_TX_PIN` | `16` | ESP32 发送引脚（接 ASR-PRO PA3，**语音反馈必需**） |
 | `BLE_IDLE_TIMEOUT_SEC` | `30` | 空闲多少秒后自动断开 BLE |
 | `ENABLE_DEBUG_CONSOLE` | `y` | 是否在 UART0 启用调试控制台（量产可关） |
+| `TOILET_AP_SSID` | `Toilet-Setup` | 配网热点 SSID 前缀（自动追加 MAC 后 4 位） |
+| `TOILET_AP_PASS` | `12345678` | 配网热点密码（WPA2，至少 8 位） |
 
 ---
 
@@ -497,7 +529,88 @@ I BLE_TOILET: Write char OK
 
 ---
 
-## 十二、注意事项
+## 十二、Web 配网与省电模式
+
+### 12.1 首次配网流程
+
+```
+上电 ──> NVS 无 WiFi 凭据 ──> 开启热点 "Toilet-Setup-XXXX" (密码 12345678)
+                                        │
+                        手机连接该热点, 浏览器打开 192.168.4.1
+                                        │
+                        填入家里 WiFi 的 SSID/密码, 点"保存并重启"
+                                        │
+                        ESP32 保存凭据到 NVS 并重启
+                                        │
+                        STA 连接路由器 ──> NTP 校时 ──> Web 服务就绪
+```
+
+- 配网热点 SSID 前缀/密码可在 menuconfig 中修改
+- 之后可通过路由器后台查看 ESP32 获取的 IP（设备名 `esp32-toilet`），或看串口日志 `Got IP: x.x.x.x`
+- 若 STA 连接失败（改密码/换路由器），设备会自动回落到配网热点模式重新配网
+- 网页"网络设置"页签也提供"清除 WiFi 配置"按钮（等价恢复出厂）
+
+### 12.2 Web 页面功能
+
+浏览器访问设备 IP（或配网模式下的 `192.168.4.1`）：
+
+| 页签 | 功能 |
+|---|---|
+| 省电模式 | 启用开关；工作日/周末各最多 4 个时间段（时:分 下拉选择，5 分钟粒度）；保存后立即生效 |
+| 马桶控制 | 唤醒连接、脚感开/关、大冲、小冲、停止、座圈加热开/关（与语音控制同路径，含语音播报反馈） |
+| 网络设置 | 查看/修改 WiFi、清除配置重新配网 |
+
+页面为单文件 `main/www/index.html`，**编译时嵌入固件**，无 CDN 依赖，离线可用。
+
+### 12.3 省电模式工作规则
+
+1. **默认时段**（首次保存前）：工作日 `07:00-08:30` 与 `17:30-24:00`，周末无；总开关默认关闭
+2. 时间来自 NTP（`ntp.aliyun.com` / `cn.pool.ntp.org` / `pool.ntp.org`，时区 UTC+8），**时间未同步时调度自动挂起**
+3. 跨入时段 → 自动连接马桶 → 开座圈加热（标准档）→ 立即断开；跨出时段 → 同样流程下发关闭
+4. **手动操作优先**：语音或网页手动开关座圈后，调度器记录该状态，同一时段内不会自动改回，直到下一次时段边界
+5. 每次执行完命令立即断开 BLE，不占用家人手机小程序的蓝牙连接
+6. 执行失败（蓝牙忙/马桶不在）时 30 秒后自动重试
+7. 支持跨夜时段（开始时间 > 结束时间，如 `22:00-06:00`）；结束时间选 `24:00` 表示到午夜
+
+### 12.4 REST API 一览（可供智能家居集成）
+
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| `GET` | `/api/status` | 设备状态（模式/IP/时间/BLE/省电模式） |
+| `GET` / `POST` | `/api/config` | 读取 / 保存省电模式配置（JSON） |
+| `POST` | `/api/cmd` | 马桶控制 `{"cmd":"wake\|footon\|footoff\|flushl\|flushs\|stop\|seaton\|seatoff"}` |
+| `POST` | `/api/wifi` | 保存 WiFi 凭据并重启 `{"ssid":"...","pass":"..."}` |
+| `POST` | `/api/factory` | 清除 WiFi 凭据，重启进入配网模式 |
+
+配置 JSON 示例：
+
+```json
+{
+  "enable": true,
+  "weekday": [ {"start": 420, "end": 510}, {"start": 1050, "end": 1440} ],
+  "weekend": [ {"start": 480, "end": 600} ]
+}
+```
+
+> `start`/`end` 为当日分钟数（0 = 00:00，1440 = 24:00）。
+
+### 12.5 预期串口日志（新增部分）
+
+```
+I APP_WIFI: Got IP: 192.168.100.42
+I APP_WIFI: SNTP time synced
+I WEB_SRV: Web server started (7 pages, 21384 bytes)
+I PWR_SAVE: Power-save scheduler started (enable=1)
+I PWR_SAVE: Want seat heat: ON (weekday, applied=-1)
+I BLE_TOILET: State: IDLE -> SCANNING
+I BLE_TOILET: State: DISCOVERING -> READY
+I PWR_SAVE: Applying seat heat ON (connect...)
+I PWR_SAVE: Seat heat ON applied OK
+```
+
+---
+
+## 十三、注意事项
 
 1. **手机蓝牙需关闭**：测试时手机小程序若连着马桶，ESP32 会连不上（BLE 从机通常只允许 1 个 central 连接）。
 
@@ -512,6 +625,12 @@ I BLE_TOILET: Write char OK
 6. **写入模式**：BLE 写特征使用 `ESP_GATT_WRITE_TYPE_NO_RSP`（无响应写），与小程序一致。
 
 7. **断线处理**：READY 状态下若马桶意外断开（如休眠），会触发 `DISCONNECT_EVT` 自动回到 IDLE，需重新说唤醒词。
+
+8. **WiFi 与 BLE 共存**：sdkconfig 已启用 `ESP_COEX_SW_COEXIST_ENABLE`（软件共存），两者可同时工作；若用非常老旧的 ESP-IDF 或自行精简配置，需确认该项开启，否则 BLE 连接会不稳。
+
+9. **省电模式依赖联网校时**：断电重启后需等 NTP 重新同步（几秒内），期间调度挂起属正常现象。
+
+10. **Web 控制走语音路径**：网页按钮下发命令与语音完全同路径，所以 ESP32 上若有语音模块，网页点按钮也会听到语音播报确认。
 
 ---
 
