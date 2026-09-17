@@ -40,6 +40,27 @@ void asr_pro_inject_cmd(uint8_t cmd);
  */
 void asr_pro_feed_byte(uint8_t byte);
 
+/* ---------------- 语音反馈码 (ESP32 -> ASR-PRO, 单字节, GPIO16/TX) ----------------
+ * ASR-PRO 端在天问Block里配置: 串口收到对应字节 -> 播报对应语音
+ */
+#define FB_CONNECTED        0xB1    /* 已连接 */
+#define FB_DISCONNECTED     0xB2    /* 已断开 */
+#define FB_CONNECT_FAIL     0xB3    /* 连接失败/未找到设备 */
+#define FB_FOOT_ON          0xB4    /* 已打开脚感 */
+#define FB_FOOT_OFF         0xB5    /* 已关闭脚感 */
+#define FB_FLUSH_LARGE      0xB6    /* 已大冲 */
+#define FB_FLUSH_SMALL      0xB7    /* 已小冲 */
+#define FB_STOP             0xB8    /* 已停止 */
+#define FB_SEAT_HEAT_ON     0xB9    /* 座圈加热已开 */
+#define FB_SEAT_HEAT_OFF    0xBA    /* 座圈加热已关 */
+#define FB_BUSY             0xBB    /* 蓝牙忙, 请稍后 */
+#define FB_NOT_READY        0xBC    /* 未连接, 请先唤醒 */
+
+/**
+ * @brief 向 ASR-PRO 发送一个反馈码, 触发对应语音播报 (传 0 则忽略)
+ */
+void asr_pro_send_feedback(uint8_t code);
+
 #ifdef __cplusplus
 }
 #endif

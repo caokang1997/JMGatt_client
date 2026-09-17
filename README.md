@@ -258,6 +258,41 @@ SUM = ( byte[2] + byte[3] + ... + byte[len-2] ) & 0xFF
 
 > 天问Block 版本迭代较快，积木的**具体名称/位置**可能略有出入。找不到对应积木时，参考天问官方论坛（haohaodada.com）的 ASRPRO 教程或对应版本手册。
 
+### 5.5 语音反馈（ESP32 → ASR-PRO）
+
+ESP32 执行动作后，会通过 **GPIO16(TX) → ASR-PRO PA3(UART1_RX)** 回传一个**单字节反馈码**，ASR-PRO 收到后播报对应语音，实现"已连接""已打开脚感"等语音反馈。
+
+**反馈码定义（单字节 0xB1~0xBC）：**
+
+| 反馈码 | 语音内容 | 触发时机 |
+|---|---|---|
+| `0xB1` | 已连接 | BLE 连接到达 READY |
+| `0xB2` | 已断开 | 空闲超时/正常断开 |
+| `0xB3` | 连接失败 | 扫描超时/连接失败/找不到服务 |
+| `0xB4` | 已打开脚感 | 脚感开命令发送成功 |
+| `0xB5` | 已关闭脚感 | 脚感关命令发送成功 |
+| `0xB6` | 已大冲 | 大冲命令发送成功 |
+| `0xB7` | 已小冲 | 小冲命令发送成功 |
+| `0xB8` | 已停止 | 停止命令发送成功 |
+| `0xB9` | 座圈加热已开 | 座圈加热开命令发送成功 |
+| `0xBA` | 座圈加热已关 | 座圈加热关命令发送成功 |
+| `0xBB` | 蓝牙忙请稍后 | 忙时又发唤醒词 |
+| `0xBC` | 未连接请先唤醒 | 未连接就发动作命令 |
+
+**天问Block 配置（接收方向）：** 在 ASR-PRO 端用「串口接收」+「语音播报」积木：
+
+```
+当 串口1 收到 0xB1  →  播报 "已连接"
+当 串口1 收到 0xB4  →  播报 "已打开脚感"
+当 串口1 收到 0xB5  →  播报 "已关闭脚感"
+当 串口1 收到 0xB3  →  播报 "连接失败"
+... 其余按需
+```
+
+> - 命令确认音（0xB4~0xBA）是在 ESP32 **成功发出 BLE 指令**时播报（写用无响应模式，不等马桶回执），属"指令已发送"确认。
+> - `0xB2 已断开` 若嫌吵（每次空闲超时都播报），在天问Block里不配该字节的语音即可。
+> - **硬件**：GPIO16 → ASR-PRO PA3 这根线现在是**必需**的（反馈方向），不再是可选。
+
 ---
 
 ## 六、连接状态机
@@ -319,6 +354,8 @@ JMGatt_client/
 | `asr_pro_init()` | asr_pro.c | 初始化 UART 并启动接收任务 |
 | `asr_pro_inject_cmd()` | asr_pro.c | 直接注入命令字节（调试控制台用） |
 | `asr_pro_feed_byte()` | asr_pro.c | 向帧解析器喂入原始字节 |
+| `asr_pro_send_feedback()` | asr_pro.c | 发送反馈码到 ASR-PRO 触发语音播报 |
+| `ble_toilet_set_event_cb()` | ble_toilet.c | 注册 BLE 状态事件回调（连接/断开/失败） |
 | `debug_console_init()` | debug_console.c | 启动 UART0 交互式调试控制台 |
 | `build_cmd_frame()` | ble_toilet.c | 根据业务命令构造 BLE 指令帧 |
 
@@ -360,7 +397,7 @@ idf.py -p COM3 flash monitor
 | `TOILET_TARGET_MAC` | `A4:C1:38:5E:79:76` | 目标马桶 BLE MAC 地址 |
 | `ASR_UART_BAUD_RATE` | `115200` | ASR-PRO UART 波特率 |
 | `ASR_UART_RX_PIN` | `17` | ESP32 接收引脚（接 ASR-PRO TXD） |
-| `ASR_UART_TX_PIN` | `16` | ESP32 发送引脚（接 ASR-PRO RXD，暂未用） |
+| `ASR_UART_TX_PIN` | `16` | ESP32 发送引脚（接 ASR-PRO PA3，**语音反馈必需**） |
 | `BLE_IDLE_TIMEOUT_SEC` | `30` | 空闲多少秒后自动断开 BLE |
 | `ENABLE_DEBUG_CONSOLE` | `y` | 是否在 UART0 启用调试控制台（量产可关） |
 
@@ -372,7 +409,7 @@ idf.py -p COM3 flash monitor
 天问 ASR-PRO          ESP32
 ─────────────         ─────────────
    TXD  ───────────>  GPIO17 (UART2 RX)
-   RXD  <───────────  GPIO16 (UART2 TX)  [可选]
+   RXD  <───────────  GPIO16 (UART2 TX)  [必需:语音反馈]
    GND  ───────────   GND
    VCC  ───────────   5V 或 3.3V (看模块要求)
 ```

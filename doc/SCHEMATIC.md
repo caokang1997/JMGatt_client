@@ -108,8 +108,8 @@ ASRPRO-CORE 是天问五幺的模块，**立创商城标准库没有现成符号
 | 1 | 3V3 | 电源输出 | 接 C13(4.7μF)→GND，**不外带负载** |
 | 2 | PA6 | IO | UART2_RX（未用，可空） |
 | 3 | PA5 | IO | UART2_TX（未用，可空） |
-| 4 | PA3 | IO | **UART1_RX ← ESP32 GPIO16** |
-| 5 | PA2 | IO | **UART1_TX → ESP32 GPIO17** |
+| 4 | PA3 | IO | **UART1_RX ← ESP32 GPIO16**（语音反馈，必需） |
+| 5 | PA2 | IO | **UART1_TX → ESP32 GPIO17**（语音命令） |
 | 6 | PA1 | IO | 空 |
 | 7 | PA0 | IO | 空 |
 | 8 | SPKL- | 输出 | 喇叭负（J2-2） |
@@ -136,8 +136,8 @@ ASRPRO-CORE 是天问五幺的模块，**立创商城标准库没有现成符号
 | 2 | 3V3 | 接 3.3V（C7/C8去耦） |
 | 3 | EN | RC复位 + 自动下载 |
 | 25 | IO0 | BOOT按键 + 自动下载 |
-| 27 | IO16 | **UART2 TX → ASR-PRO PA3** |
-| 28 | IO17 | **UART2 RX ← ASR-PRO PA2** |
+| 27 | IO16 | **UART2 TX → ASR-PRO PA3**（语音反馈） |
+| 28 | IO17 | **UART2 RX ← ASR-PRO PA2**（语音命令） |
 | 34 | RXD0(GPIO3) | ← CH340C TXD（烧录） |
 | 35 | TXD0(GPIO1) | → CH340C RXD（烧录） |
 | 14 | IO12(MTDI) | **必须低电平**，加10kΩ下拉或悬空 |

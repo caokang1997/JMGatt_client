@@ -185,13 +185,15 @@ Type-C VBUS (5V)
 
 ## 四、引脚连接表
 
-### 4.1 ESP32 ↔ ASR-PRO 通信（UART1，3.3V电平直连）
+### 4.1 ESP32 ↔ ASR-PRO 通信（UART1，3.3V电平直连，**双向**）
 
-| ESP32-WROOM-32E | 方向 | ASRPRO-CORE |
-|---|---|---|
-| GPIO16（Pin27，U2TXD） | ESP32 TX → | PA3（Pin4，UART1_RX） |
-| GPIO17（Pin28，U2RXD） | ← ASR TX | PA2（Pin5，UART1_TX） |
-| GND（Pin1/15/38） | 共地 | GND（Pin18） |
+| ESP32-WROOM-32E | 方向 | ASRPRO-CORE | 用途 |
+|---|---|---|---|
+| GPIO16（Pin27，U2TXD） | ESP32 TX → | PA3（Pin4，UART1_RX） | **语音反馈**（ESP32回传状态码，必需） |
+| GPIO17（Pin28，U2RXD） | ← ASR TX | PA2（Pin5，UART1_TX） | **语音命令**（ASR-PRO发命令帧） |
+| GND（Pin1/15/38） | 共地 | GND（Pin18） | — |
+
+> **两根信号线都必需**：GPIO17←PA2 收语音命令，GPIO16→PA3 发语音反馈（“已连接”“已打开脚感”等）。早期版本 TX 可省，加入语音反馈后必须连接。
 
 ### 4.2 ESP32 烧录（CH340C，UART0）
 

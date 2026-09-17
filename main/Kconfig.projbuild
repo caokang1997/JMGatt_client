@@ -23,8 +23,10 @@ menu "JOMOO SQ9650 Voice Controller"
         int "ESP32 TX to ASR-PRO RXD GPIO number"
         default 16
         help
-            GPIO number for UART2 TX pin (sends data to ASR-PRO RXD).
-            Currently unused, reserved for future feedback.
+            GPIO number for UART2 TX pin (sends data to ASR-PRO PA3/RXD).
+            Used for voice feedback: ESP32 sends a single status byte back
+            to ASR-PRO, which plays the matching voice prompt (e.g.
+            'connected', 'foot sensor on'). This line is required.
 
     config BLE_IDLE_TIMEOUT_SEC
         int "BLE idle timeout in seconds (auto disconnect)"

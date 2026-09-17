@@ -24,6 +24,17 @@
 
 #define TAG     "APP_MAIN"
 
+/* BLE 状态事件 -> 语音反馈 (通过 ASR-PRO 播报) */
+static void on_ble_event(ble_toilet_event_t evt)
+{
+    switch (evt) {
+    case BLE_TOILET_EVT_READY:        asr_pro_send_feedback(FB_CONNECTED);    break;  /* 已连接 */
+    case BLE_TOILET_EVT_DISCONNECTED: asr_pro_send_feedback(FB_DISCONNECTED); break;  /* 已断开 */
+    case BLE_TOILET_EVT_CONNECT_FAIL: asr_pro_send_feedback(FB_CONNECT_FAIL); break;  /* 连接失败 */
+    default: break;
+    }
+}
+
 void app_main(void)
 {
     ESP_LOGI(TAG, "============ JOMOO SQ9650 Voice Controller ============");
@@ -52,6 +63,9 @@ void app_main(void)
 
     /* 3. 初始化 UART 语音命令接收 */
     ESP_ERROR_CHECK(asr_pro_init());
+
+    /* 3.1 注册 BLE 状态事件回调 -> 语音反馈(已连接/已断开/连接失败) */
+    ble_toilet_set_event_cb(on_ble_event);
 
     /* 4. 启动调试控制台 (烧录串口 UART0), 语音模块未到货时可手动敲命令测试 */
 #if CONFIG_ENABLE_DEBUG_CONSOLE

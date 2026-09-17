@@ -39,6 +39,16 @@ typedef enum {
     TOILET_CMD_MAX
 } toilet_cmd_t;
 
+/* BLE 状态事件 (用于语音反馈等上层通知) */
+typedef enum {
+    BLE_TOILET_EVT_READY = 0,       /* 已连接并就绪 */
+    BLE_TOILET_EVT_DISCONNECTED,    /* 已断开连接 (正常会话结束) */
+    BLE_TOILET_EVT_CONNECT_FAIL,    /* 连接失败 (扫描超时/open失败/服务未找到) */
+} ble_toilet_event_t;
+
+/* 状态事件回调类型 */
+typedef void (*ble_toilet_event_cb_t)(ble_toilet_event_t evt);
+
 /**
  * @brief 初始化 BLE 控制器 + Bluedroid + GATTC (不会自动扫描)
  */
@@ -67,6 +77,12 @@ bool ble_toilet_is_ready(void);
  * @brief 检查 BLE 是否忙碌 (正在扫描或连接中)
  */
 bool ble_toilet_is_busy(void);
+
+/**
+ * @brief 注册 BLE 状态事件回调 (连接就绪/断开/失败), 用于语音反馈
+ *        回调可能在 BLE 任务上下文触发, 不要做耗时操作
+ */
+void ble_toilet_set_event_cb(ble_toilet_event_cb_t cb);
 
 #ifdef __cplusplus
 }

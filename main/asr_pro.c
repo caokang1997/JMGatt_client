@@ -35,7 +35,7 @@
 #define ASR_UART_TX_PIN         ((gpio_num_t)CONFIG_ASR_UART_TX_PIN)  /* ESP32 -> ASR-PRO RXD */
 #define ASR_UART_RX_PIN         ((gpio_num_t)CONFIG_ASR_UART_RX_PIN)  /* ASR-PRO TXD -> ESP32 */
 #define ASR_UART_RX_BUF_SIZE    256
-#define ASR_UART_TX_BUF_SIZE    0             /* 不用发送, 省内存 */
+#define ASR_UART_TX_BUF_SIZE    256           /* 发送语音反馈码用; 必须为0或>128(UART_TX_BUFFER_LEN_MIN) */
 
 /* ---------------- 帧格式 ---------------- */
 #define FRAME_HEAD0             0xAA
@@ -77,6 +77,29 @@ static toilet_cmd_t lookup_toilet_cmd(uint8_t asr_cmd)
     return TOILET_CMD_NONE;
 }
 
+/* toilet_cmd -> 反馈语音码 */
+static uint8_t cmd_to_feedback(toilet_cmd_t cmd)
+{
+    switch (cmd) {
+    case TOILET_CMD_FOOT_SENSOR_ON:  return FB_FOOT_ON;
+    case TOILET_CMD_FOOT_SENSOR_OFF: return FB_FOOT_OFF;
+    case TOILET_CMD_FLUSH_LARGE:     return FB_FLUSH_LARGE;
+    case TOILET_CMD_FLUSH_SMALL:     return FB_FLUSH_SMALL;
+    case TOILET_CMD_STOP:            return FB_STOP;
+    case TOILET_CMD_SEAT_HEAT_ON:    return FB_SEAT_HEAT_ON;
+    case TOILET_CMD_SEAT_HEAT_OFF:   return FB_SEAT_HEAT_OFF;
+    default:                         return 0;
+    }
+}
+
+/* 发送反馈码到 ASR-PRO (触发语音播报); 可从任意任务上下文调用 */
+void asr_pro_send_feedback(uint8_t code)
+{
+    if (code == 0) return;
+    uart_write_bytes(ASR_UART_PORT, &code, 1);
+    ESP_LOGI(TAG, "Feedback -> ASR-PRO: 0x%02X", code);
+}
+
 /* 处理一条 ASR 命令 (可能来自完整帧, 也可能来自裸字节) */
 static void handle_asr_cmd(uint8_t asr_cmd)
 {
@@ -86,7 +109,9 @@ static void handle_asr_cmd(uint8_t asr_cmd)
         esp_err_t ret = ble_toilet_wake();
         if (ret == ESP_ERR_INVALID_STATE) {
             ESP_LOGW(TAG, "BLE busy, wake ignored");
+            asr_pro_send_feedback(FB_BUSY);   /* 语音: 蓝牙忙 */
         }
+        /* "已连接"反馈由 BLE 到达 READY 时通过事件回调发出, 此处不发 */
         return;
     }
 
@@ -98,11 +123,15 @@ static void handle_asr_cmd(uint8_t asr_cmd)
     }
     if (!ble_toilet_is_ready()) {
         ESP_LOGW(TAG, "BLE not ready (wake first), cmd 0x%02X dropped", asr_cmd);
+        asr_pro_send_feedback(FB_NOT_READY);   /* 语音: 未连接请先唤醒 */
         return;
     }
     esp_err_t ret = ble_toilet_execute(tcmd);
-    if (ret != ESP_OK) {
+    if (ret == ESP_OK) {
+        asr_pro_send_feedback(cmd_to_feedback(tcmd));   /* 语音: 命令确认 */
+    } else {
         ESP_LOGE(TAG, "Execute failed: %s", esp_err_to_name(ret));
+        asr_pro_send_feedback(FB_CONNECT_FAIL);
     }
 }
 

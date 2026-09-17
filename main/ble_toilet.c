@@ -59,6 +59,8 @@ static const char *state_names[] = {
 };
 
 static ble_state_t s_state = STATE_IDLE;
+static bool s_was_ready = false;                 /* 本次连接是否到过 READY (区分正常断开与连接失败) */
+static ble_toilet_event_cb_t s_event_cb = NULL;  /* 状态事件回调 (语音反馈) */
 
 /* ---------------- 目标 MAC 地址 ---------------- */
 static uint8_t s_target_mac_be[6];
@@ -136,16 +138,28 @@ static esp_ble_scan_params_t s_ble_scan_params = {
 };
 
 /* ---------------- 状态切换辅助函数 ---------------- */
+
+/* 触发状态事件回调 (若已注册), 用于语音反馈 */
+static void fire_event(ble_toilet_event_t evt)
+{
+    if (s_event_cb) s_event_cb(evt);
+}
+
 static void set_state(ble_state_t new_state)
 {
     ESP_LOGI(TAG, "State: %s -> %s", state_names[s_state], state_names[new_state]);
     s_state = new_state;
+    if (new_state == STATE_READY) {
+        s_was_ready = true;
+        fire_event(BLE_TOILET_EVT_READY);   /* 通知上层: 已连接 */
+    }
 }
 
 static void reset_to_idle(const char *reason)
 {
     ESP_LOGW(TAG, "Reset to IDLE: %s", reason);
     s_service_found = false;
+    s_was_ready     = false;
     gl_profile_tab[PROFILE_A_APP_ID].conn_id     = 0;
     gl_profile_tab[PROFILE_A_APP_ID].char_handle = 0;
     gl_profile_tab[PROFILE_A_APP_ID].service_start_handle = 0;
@@ -274,6 +288,7 @@ static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *par
         case ESP_GAP_SEARCH_INQ_CMPL_EVT:
             if (s_state == STATE_SCANNING) {
                 ESP_LOGE(TAG, "Scan timeout! Target not found.");
+                fire_event(BLE_TOILET_EVT_CONNECT_FAIL);   /* 语音: 连接失败 */
                 reset_to_idle("scan timeout");
             }
             break;
@@ -314,6 +329,7 @@ static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_
     case ESP_GATTC_OPEN_EVT:
         if (p_data->open.status != ESP_GATT_OK) {
             ESP_LOGE(TAG, "Open failed status=%d", p_data->open.status);
+            fire_event(BLE_TOILET_EVT_CONNECT_FAIL);   /* 语音: 连接失败 */
             reset_to_idle("gattc open failed");
         }
         break;
@@ -481,7 +497,9 @@ static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_
         }
         break;
 
-    case ESP_GATTC_DISCONNECT_EVT:
+    case ESP_GATTC_DISCONNECT_EVT: {
+        bool was_ready = s_was_ready;                 /* reset_to_idle 会清除, 先保存 */
+        bool was_idle  = (s_state == STATE_IDLE);     /* 已 reset 过(如open失败), 避免重复播报 */
         ESP_LOGI(TAG, "Disconnected (reason=%d)", p_data->disconnect.reason);
         if (s_state == STATE_DISCONNECTING) {
             reset_to_idle("session ended");
@@ -489,7 +507,12 @@ static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_
         } else {
             reset_to_idle("unexpected disconnect");
         }
+        /* 到过 READY -> "已断开"; 从未就绪 -> 属连接失败 -> "连接失败" */
+        if (!was_idle) {
+            fire_event(was_ready ? BLE_TOILET_EVT_DISCONNECTED : BLE_TOILET_EVT_CONNECT_FAIL);
+        }
         break;
+    }
 
     default:
         break;
@@ -526,6 +549,11 @@ bool ble_toilet_is_ready(void)
 bool ble_toilet_is_busy(void)
 {
     return (s_state == STATE_SCANNING || s_state == STATE_CONNECTING || s_state == STATE_DISCOVERING);
+}
+
+void ble_toilet_set_event_cb(ble_toilet_event_cb_t cb)
+{
+    s_event_cb = cb;
 }
 
 esp_err_t ble_toilet_wake(void)
