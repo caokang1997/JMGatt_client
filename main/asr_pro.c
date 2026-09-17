@@ -62,8 +62,40 @@ static const cmd_map_t s_cmd_map[] = {
     { 0x03, TOILET_CMD_FLUSH_LARGE,     "大冲" },
     { 0x04, TOILET_CMD_FLUSH_SMALL,     "小冲" },
     { 0x05, TOILET_CMD_STOP,            "停止" },
-    { 0x06, TOILET_CMD_SEAT_HEAT_ON,    "座圈加热开" },
+    { 0x06, TOILET_CMD_SEAT_HEAT_ON,    "座圈加热开(高档)" },
     { 0x07, TOILET_CMD_SEAT_HEAT_OFF,   "座圈加热关" },
+    { 0x08, TOILET_CMD_COVER_ON,        "翻盖开" },
+    { 0x09, TOILET_CMD_COVER_OFF,       "翻盖关" },
+    { 0x0A, TOILET_CMD_RING_ON,         "翻圈开" },
+    { 0x0B, TOILET_CMD_RING_OFF,        "翻圈关" },
+    { 0x0C, TOILET_CMD_NIGHT_LIGHT_ON,  "夜灯开" },
+    { 0x0D, TOILET_CMD_NIGHT_LIGHT_OFF, "夜灯关" },
+    { 0x0E, TOILET_CMD_SEAT_HEAT_LOW,   "座温低档" },
+    { 0x0F, TOILET_CMD_SEAT_HEAT_MID,   "座温中档" },
+    { 0x10, TOILET_CMD_SEAT_HEAT_ON,    "座温高档" },
+    { 0x11, TOILET_CMD_AUTO_FLUSH_ON,   "自动冲刷开" },
+    { 0x12, TOILET_CMD_AUTO_FLUSH_OFF,  "自动冲刷关" },
+    { 0x13, TOILET_CMD_SMART_POWER_ON,  "智能节电开" },
+    { 0x14, TOILET_CMD_SMART_POWER_OFF, "智能节电关" },
+    { 0x15, TOILET_CMD_HIBERNATE,       "休眠" },
+    { 0x16, TOILET_CMD_SELF_CLEAN,      "自清洁" },
+    { 0x17, TOILET_CMD_AUTO_COVER_ON,   "自动翻盖开" },
+    { 0x18, TOILET_CMD_AUTO_COVER_OFF,  "自动翻盖关" },
+    { 0x19, TOILET_CMD_QUERY_STATE,     "查询状态" },
+    { 0x1A, TOILET_CMD_SEAT_TOO_LONG_ON,   "久坐提醒开" },
+    { 0x1B, TOILET_CMD_SEAT_TOO_LONG_OFF,  "久坐提醒关" },
+    { 0x1C, TOILET_CMD_AUTO_TEMP_ON,       "四季温感开" },
+    { 0x1D, TOILET_CMD_AUTO_TEMP_OFF,      "四季温感关" },
+    { 0x1E, TOILET_CMD_AUTO_SMALL_ON,      "自动小冲开" },
+    { 0x1F, TOILET_CMD_AUTO_SMALL_OFF,     "自动小冲关" },
+    { 0x20, TOILET_CMD_CLOSE_COVER_FLUSH_ON,  "关盖冲厕开" },
+    { 0x21, TOILET_CMD_CLOSE_COVER_FLUSH_OFF, "关盖冲厕关" },
+    { 0x22, TOILET_CMD_PRE_WETTING_ON,    "预润湿开" },
+    { 0x23, TOILET_CMD_PRE_WETTING_OFF,   "预润湿关" },
+    { 0x24, TOILET_CMD_LIGHT_SENSOR_ON,   "光感夜灯开" },
+    { 0x25, TOILET_CMD_LIGHT_SENSOR_OFF,  "光感夜灯关" },
+    { 0x26, TOILET_CMD_REGULAR_FLUSH_ON,  "定期冲刷开" },
+    { 0x27, TOILET_CMD_REGULAR_FLUSH_OFF, "定期冲刷关" },
 };
 #define CMD_MAP_SIZE    (sizeof(s_cmd_map) / sizeof(s_cmd_map[0]))
 
@@ -88,6 +120,8 @@ static uint8_t cmd_to_feedback(toilet_cmd_t cmd)
     case TOILET_CMD_FLUSH_SMALL:     return FB_FLUSH_SMALL;
     case TOILET_CMD_STOP:            return FB_STOP;
     case TOILET_CMD_SEAT_HEAT_ON:    return FB_SEAT_HEAT_ON;
+    case TOILET_CMD_SEAT_HEAT_LOW:   return FB_SEAT_HEAT_ON;
+    case TOILET_CMD_SEAT_HEAT_MID:   return FB_SEAT_HEAT_ON;
     case TOILET_CMD_SEAT_HEAT_OFF:   return FB_SEAT_HEAT_OFF;
     default:                         return 0;
     }
@@ -131,7 +165,11 @@ static void handle_asr_cmd(uint8_t asr_cmd)
     if (ret == ESP_OK) {
         asr_pro_send_feedback(cmd_to_feedback(tcmd));   /* 语音: 命令确认 */
         /* 通知省电模式调度器: 座圈加热被手动改过, 避免自动调度覆盖用户操作 */
-        if (tcmd == TOILET_CMD_SEAT_HEAT_ON)  power_save_report_manual(true);
+        if (tcmd == TOILET_CMD_SEAT_HEAT_ON  ||
+            tcmd == TOILET_CMD_SEAT_HEAT_LOW ||
+            tcmd == TOILET_CMD_SEAT_HEAT_MID) {
+            power_save_report_manual(true);
+        }
         if (tcmd == TOILET_CMD_SEAT_HEAT_OFF) power_save_report_manual(false);
     } else {
         ESP_LOGE(TAG, "Execute failed: %s", esp_err_to_name(ret));

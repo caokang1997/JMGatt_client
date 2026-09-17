@@ -102,19 +102,42 @@ static esp_err_t handler_status(httpd_req_t *req)
     power_save_cfg_t cfg;
     power_save_get_cfg(&cfg);
 
-    char json[576];
+    /* 马桶实时状态 (notify 0x30 解析结果, 断开后保留最后一次快照) */
+    toilet_state_t t;
+    ble_toilet_get_state(&t);
+
+    char json[768];
     snprintf(json, sizeof(json),
              "{\"mode\":\"%s\",\"ip\":\"%s\",\"ssid\":\"%s\","
              "\"time\":\"%s\",\"time_synced\":%s,"
              "\"ble\":\"%s\",\"ps_enable\":%s,\"ps_desired\":%d,"
-             "\"mac\":\"%02X:%02X:%02X:%02X:%02X:%02X\"}",
+             "\"mac\":\"%02X:%02X:%02X:%02X:%02X:%02X\","
+             "\"t_valid\":%s,\"t_work\":%u,\"t_seat_temp\":%u,"
+             "\"t_on_seat\":%s,\"t_cover\":%s,\"t_ring\":%s,"
+             "\"t_flushing\":%s,\"t_night\":%s,\"t_fault\":%s,"
+             "\"t_auto_flush\":%s,\"t_auto_cover\":%s,\"t_save\":%s,"
+             "\"t_foot\":%s,\"t_hibernate\":%s,\"t_selfclean\":%s}",
              app_wifi_is_sta() ? "sta" : "ap",
              ip, ssid, tstr,
              app_time_is_synced() ? "true" : "false",
              ble_toilet_state_name(),
              cfg.enable ? "true" : "false",
              power_save_desired_state(),
-             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+             t.valid ? "true" : "false",
+             t.work_state, t.seat_temp_level,
+             t.on_seat ? "true" : "false",
+             t.cover_on ? "true" : "false",
+             t.ring_on ? "true" : "false",
+             (t.flushing_large || t.flushing_small) ? "true" : "false",
+             t.night_light ? "true" : "false",
+             (t.error_bits[0] | t.error_bits[1] | t.error_bits[2]) ? "true" : "false",
+             t.auto_flush ? "true" : "false",
+             t.auto_cover ? "true" : "false",
+             t.smart_power_save ? "true" : "false",
+             t.foot_sensor ? "true" : "false",
+             t.hibernating ? "true" : "false",
+             t.self_clean ? "true" : "false");
 
     return send_json(req, json, true);
 }
@@ -235,6 +258,38 @@ static const web_cmd_map_t s_web_cmds[] = {
     { "stop",    0x05 },
     { "seaton",  0x06 },
     { "seatoff", 0x07 },
+    { "coveron",     0x08 },   /* 翻盖开 */
+    { "coveroff",    0x09 },   /* 翻盖关 */
+    { "ringon",      0x0A },   /* 翻圈开 */
+    { "ringoff",     0x0B },   /* 翻圈关 */
+    { "lighton",     0x0C },   /* 夜灯开 */
+    { "lightoff",    0x0D },   /* 夜灯关 */
+    { "seatlow",     0x0E },   /* 座温低档 */
+    { "seatmid",     0x0F },   /* 座温中档 */
+    { "seathigh",    0x10 },   /* 座温高档 */
+    { "autoflushon", 0x11 },   /* 自动冲刷开 */
+    { "autoflushoff",0x12 },   /* 自动冲刷关 */
+    { "poweron",     0x13 },   /* 智能节电开 */
+    { "poweroff",    0x14 },   /* 智能节电关 */
+    { "hibernate",   0x15 },   /* 休眠 */
+    { "selfclean",   0x16 },   /* 自清洁 */
+    { "autocoveron", 0x17 },   /* 自动翻盖开 */
+    { "autocoveroff",0x18 },   /* 自动翻盖关 */
+    { "querystate",  0x19 },   /* 查询状态 */
+    { "seatlongon",     0x1A },   /* 久坐提醒开 */
+    { "seatlongoff",    0x1B },   /* 久坐提醒关 */
+    { "autotempon",     0x1C },   /* 四季温感开 */
+    { "autotempoff",    0x1D },   /* 四季温感关 */
+    { "smallflushon",   0x1E },   /* 自动小冲开 */
+    { "smallflushoff",  0x1F },   /* 自动小冲关 */
+    { "coverflushon",   0x20 },   /* 关盖冲厕开 */
+    { "coverflushoff",  0x21 },   /* 关盖冲厕关 */
+    { "prewetton",      0x22 },   /* 预润湿开 */
+    { "prewettoff",     0x23 },   /* 预润湿关 */
+    { "lightsensoron",  0x24 },   /* 光感夜灯开 */
+    { "lightsensoroff", 0x25 },   /* 光感夜灯关 */
+    { "regularon",      0x26 },   /* 定期冲刷开 */
+    { "regularoff",     0x27 },   /* 定期冲刷关 */
 };
 
 static esp_err_t handler_cmd(httpd_req_t *req)

@@ -231,23 +231,56 @@
 
 <!-- ============ 马桶控制 ============ -->
 <div class="page" id="page-ctrl">
+
+  <!-- 马桶实时状态 (唤醒连接后自动更新) -->
   <div class="card">
-    <h2>手动控制</h2>
+    <h2>马桶状态</h2>
+    <div class="status-grid" id="toilet-state">
+      <div class="status-item">
+        <div class="k">工作状态</div>
+        <div class="v" id="ts-work">未连接</div>
+      </div>
+      <div class="status-item">
+        <div class="k">座温档位</div>
+        <div class="v" id="ts-temp">-</div>
+      </div>
+      <div class="status-item">
+        <div class="k">盖板 / 座圈</div>
+        <div class="v" id="ts-cover">-</div>
+      </div>
+      <div class="status-item">
+        <div class="k">着座</div>
+        <div class="v" id="ts-seat">-</div>
+      </div>
+      <div class="status-item">
+        <div class="k">夜灯</div>
+        <div class="v" id="ts-night">-</div>
+      </div>
+      <div class="status-item">
+        <div class="k">故障</div>
+        <div class="v" id="ts-fault">-</div>
+      </div>
+    </div>
+    <div class="hint">点下方"唤醒连接"后自动读取马桶状态（连接保持期间持续更新）。</div>
+  </div>
+
+  <div class="card">
+    <h2>基本控制</h2>
     <div class="ctrl-grid">
       <button class="ctrl-btn blue wide" data-cmd="wake" onclick="sendCmd(this)">
         <span class="ico">🔗</span>唤醒连接马桶
       </button>
-      <button class="ctrl-btn green" data-cmd="seaton" onclick="sendCmd(this)">
-        <span class="ico">♨️</span>座圈加热 开
+      <button class="ctrl-btn blue" data-cmd="coveron" onclick="sendCmd(this)">
+        <span class="ico">🔺</span>翻盖 开
       </button>
-      <button class="ctrl-btn gray" data-cmd="seatoff" onclick="sendCmd(this)">
-        <span class="ico">❄️</span>座圈加热 关
+      <button class="ctrl-btn blue" data-cmd="coveroff" onclick="sendCmd(this)">
+        <span class="ico">🔻</span>翻盖 关
       </button>
-      <button class="ctrl-btn green" data-cmd="footon" onclick="sendCmd(this)">
-        <span class="ico">🦶</span>脚感 开
+      <button class="ctrl-btn blue" data-cmd="ringon" onclick="sendCmd(this)">
+        <span class="ico">⭕</span>翻圈 开
       </button>
-      <button class="ctrl-btn gray" data-cmd="footoff" onclick="sendCmd(this)">
-        <span class="ico">🚫</span>脚感 关
+      <button class="ctrl-btn blue" data-cmd="ringoff" onclick="sendCmd(this)">
+        <span class="ico">⭕</span>翻圈 关
       </button>
       <button class="ctrl-btn blue" data-cmd="flushl" onclick="sendCmd(this)">
         <span class="ico">🌊</span>大冲
@@ -255,13 +288,137 @@
       <button class="ctrl-btn blue" data-cmd="flushs" onclick="sendCmd(this)">
         <span class="ico">💧</span>小冲
       </button>
+      <button class="ctrl-btn green" data-cmd="footon" onclick="sendCmd(this)">
+        <span class="ico">🦶</span>脚感 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="footoff" onclick="sendCmd(this)">
+        <span class="ico">🚫</span>脚感 关
+      </button>
       <button class="ctrl-btn red wide" data-cmd="stop" onclick="sendCmd(this)">
         <span class="ico">⏹️</span>停止
       </button>
     </div>
+  </div>
+
+  <div class="card">
+    <h2>座圈加热</h2>
+    <div class="ctrl-grid">
+      <button class="ctrl-btn green" data-cmd="seatlow" onclick="sendCmd(this)">
+        <span class="ico">🌡️</span>低档
+      </button>
+      <button class="ctrl-btn green" data-cmd="seatmid" onclick="sendCmd(this)">
+        <span class="ico">🌡️</span>中档
+      </button>
+      <button class="ctrl-btn green" data-cmd="seathigh" onclick="sendCmd(this)">
+        <span class="ico">♨️</span>高档
+      </button>
+      <button class="ctrl-btn gray" data-cmd="seatoff" onclick="sendCmd(this)">
+        <span class="ico">❄️</span>关闭
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>灯光与维护</h2>
+    <div class="ctrl-grid">
+      <button class="ctrl-btn orange" data-cmd="lighton" onclick="sendCmd(this)">
+        <span class="ico">💡</span>夜灯 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="lightoff" onclick="sendCmd(this)">
+        <span class="ico">🌙</span>夜灯 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="selfclean" onclick="sendCmd(this)">
+        <span class="ico">🧼</span>自清洁
+      </button>
+      <button class="ctrl-btn gray" data-cmd="hibernate" onclick="sendCmd(this)">
+        <span class="ico">😴</span>休眠
+      </button>
+      <button class="ctrl-btn blue wide" data-cmd="querystate" onclick="sendCmd(this)">
+        <span class="ico">🔄</span>刷新马桶状态
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>自动化设置</h2>
+    <div class="ctrl-grid">
+      <button class="ctrl-btn green" data-cmd="autoflushon" onclick="sendCmd(this)">
+        <span class="ico">♻️</span>自动冲刷 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="autoflushoff" onclick="sendCmd(this)">
+        <span class="ico">♻️</span>自动冲刷 关
+      </button>
+      <button class="ctrl-btn green" data-cmd="autocoveron" onclick="sendCmd(this)">
+        <span class="ico">🤖</span>自动翻盖 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="autocoveroff" onclick="sendCmd(this)">
+        <span class="ico">🤖</span>自动翻盖 关
+      </button>
+      <button class="ctrl-btn green" data-cmd="poweron" onclick="sendCmd(this)">
+        <span class="ico">🔋</span>智能节电 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="poweroff" onclick="sendCmd(this)">
+        <span class="ico">🔋</span>智能节电 关
+      </button>
+    </div>
     <div class="hint">
-      · 点击按钮后指令通过语音通道下发，效果与语音控制完全一致<br>
-      · 连接后 30 秒无操作将自动断开，不占用家人手机小程序的蓝牙
+      · 自动冲刷：离座后自动冲水；自动翻盖：人靠近自动开盖<br>
+      · 智能节电是马桶本体功能，与本项目"省电模式"（时间段控制）相互独立<br>
+      · 部分功能取决于马桶型号是否支持，无反应说明硬件不支持
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>更多设置</h2>
+    <div class="ctrl-grid">
+      <button class="ctrl-btn blue" data-cmd="seatlongon" onclick="sendCmd(this)">
+        <span class="ico">⏰</span>久坐提醒 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="seatlongoff" onclick="sendCmd(this)">
+        <span class="ico">⏰</span>久坐提醒 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="autotempon" onclick="sendCmd(this)">
+        <span class="ico">🍂</span>四季温感 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="autotempoff" onclick="sendCmd(this)">
+        <span class="ico">🍂</span>四季温感 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="smallflushon" onclick="sendCmd(this)">
+        <span class="ico">✨</span>自动小冲 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="smallflushoff" onclick="sendCmd(this)">
+        <span class="ico">✨</span>自动小冲 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="coverflushon" onclick="sendCmd(this)">
+        <span class="ico">🚪</span>关盖冲厕 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="coverflushoff" onclick="sendCmd(this)">
+        <span class="ico">🚪</span>关盖冲厕 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="prewetton" onclick="sendCmd(this)">
+        <span class="ico">💦</span>预润湿 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="prewettoff" onclick="sendCmd(this)">
+        <span class="ico">💦</span>预润湿 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="lightsensoron" onclick="sendCmd(this)">
+        <span class="ico">🔆</span>光感夜灯 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="lightsensoroff" onclick="sendCmd(this)">
+        <span class="ico">🔆</span>光感夜灯 关
+      </button>
+      <button class="ctrl-btn blue" data-cmd="regularon" onclick="sendCmd(this)">
+        <span class="ico">📅</span>定期冲刷 开
+      </button>
+      <button class="ctrl-btn gray" data-cmd="regularoff" onclick="sendCmd(this)">
+        <span class="ico">📅</span>定期冲刷 关
+      </button>
+    </div>
+    <div class="hint">
+      · 久坐提醒：如厕时间过长提醒；四季温感：座温随季节自动调节<br>
+      · 自动小冲：小号后自动小冲；关盖冲厕：关盖自动触发冲水<br>
+      · 预润湿：使用前润湿便池；定期冲刷：长期不用时自动冲水防臭<br>
+      · 光感夜灯：环境变暗自动亮夜灯
     </div>
   </div>
 </div>
@@ -366,6 +523,26 @@ async function refreshStatus() {
     const macInput = $('mac-input');
     if (document.activeElement !== macInput && !macInput.dataset.dirty) {
       macInput.value = s.mac || '';
+    }
+
+    /* 马桶状态面板 (t_valid = 收到过状态上报) */
+    if (s.t_valid) {
+      const workMap = { 0: '待机', 1: '休眠中', 16: '自清洁中', 17: '预湿润中', 31: '自检中' };
+      let work = workMap[s.t_work] || ('工作中(' + s.t_work + ')');
+      if (s.t_flushing) work += ' · 冲水中';
+      $('ts-work').innerHTML = '<span class="dot ok"></span>' + work;
+      $('ts-temp').textContent = ['关闭', '低档', '中档', '高档'][s.t_seat_temp] || ('档位' + s.t_seat_temp);
+      const coverTxt = (s.t_cover ? '盖开' : '盖合') + ' / ' + (s.t_ring ? '圈开' : '圈合');
+      $('ts-cover').textContent = coverTxt;
+      $('ts-seat').innerHTML = s.t_seat ? '<span class="dot ok"></span>已着座' : '<span class="dot idle"></span>未着座';
+      $('ts-night').textContent = s.t_night ? '亮' : '灭';
+      $('ts-fault').innerHTML = s.t_fault
+        ? '<span class="dot err"></span>有故障, 详见小程序'
+        : '<span class="dot ok"></span>正常';
+    } else if (s.ble === 'READY') {
+      $('ts-work').innerHTML = '<span class="dot warn"></span>读取中...';
+    } else {
+      $('ts-work').innerHTML = '<span class="dot idle"></span>未连接';
     }
 
     const apMode = (s.mode === 'ap');
@@ -487,10 +664,28 @@ async function savePsConfig() {
 }
 
 /* ---------- 马桶控制 ---------- */
+const CMD_NAMES = {
+  wake: '唤醒连接', footon: '打开脚感', footoff: '关闭脚感', flushl: '大冲', flushs: '小冲',
+  stop: '停止', seaton: '座圈加热-高档', seatoff: '座圈加热关',
+  coveron: '翻盖开', coveroff: '翻盖关', ringon: '翻圈开', ringoff: '翻圈关',
+  lighton: '夜灯开', lightoff: '夜灯关',
+  seatlow: '座温低档', seatmid: '座温中档', seathigh: '座温高档',
+  autoflushon: '自动冲刷开', autoflushoff: '自动冲刷关',
+  poweron: '智能节电开', poweroff: '智能节电关',
+  hibernate: '休眠', selfclean: '自清洁',
+  autocoveron: '自动翻盖开', autocoveroff: '自动翻盖关',
+  querystate: '刷新状态',
+  seatlongon: '久坐提醒开', seatlongoff: '久坐提醒关',
+  autotempon: '四季温感开', autotempoff: '四季温感关',
+  smallflushon: '自动小冲开', smallflushoff: '自动小冲关',
+  coverflushon: '关盖冲厕开', coverflushoff: '关盖冲厕关',
+  prewetton: '预润湿开', prewettoff: '预润湿关',
+  lightsensoron: '光感夜灯开', lightsensoroff: '光感夜灯关',
+  regularon: '定期冲刷开', regularoff: '定期冲刷关'
+};
+
 async function sendCmd(btn) {
   const cmd = btn.dataset.cmd;
-  const names = { wake: '唤醒连接', footon: '打开脚感', footoff: '关闭脚感', flushl: '大冲',
-                  flushs: '小冲', stop: '停止', seaton: '座圈加热开', seatoff: '座圈加热关' };
   btn.disabled = true;
   try {
     await api('/api/cmd', {
@@ -498,8 +693,8 @@ async function sendCmd(btn) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cmd })
     });
-    toast('已下发: ' + (names[cmd] || cmd));
-    /* 唤醒类指令需要时间建立连接, 连续刷新几次状态 */
+    toast('已下发: ' + (CMD_NAMES[cmd] || cmd));
+    /* 唤醒/查询类指令需要时间建立连接, 连续刷新几次状态 */
     let n = 0;
     const timer = setInterval(() => { refreshStatus(); if (++n >= 5) clearInterval(timer); }, 2000);
   } catch (e) {
