@@ -352,10 +352,11 @@ JMGatt_client/
 │   ├── ble_toilet.h/.c     # BLE 客户端: 扫描/连接/指令帧构造/状态机
 │   ├── asr_pro.h/.c        # UART 驱动 + 语音帧解析状态机
 │   ├── debug_console.h/.c  # UART0 调试控制台 (无语音模块时手动测试)
-│   ├── app_config.h/.c     # NVS 配置管理 (WiFi 凭据 + 省电模式时间段)
+│   ├── app_config.h/.c     # NVS 配置管理 (WiFi 凭据 + 省电模式 + 马桶 MAC)
 │   ├── app_wifi.h/.c       # WiFi STA/AP 配网切换 + SNTP 时间同步
 │   ├── web_server.h/.c     # HTTP 服务 (REST API + 静态页面分发)
 │   ├── power_save.h/.c     # 省电模式调度 (时间段边界检测 + 自动开/关座圈加热)
+│   ├── reset_button.h/.c   # 实体重置按键 (长按 BOOT 5 秒清除配网信息)
 │   ├── www/index.html      # 前端页面 (编译时嵌入固件, 无外部依赖)
 │   ├── CMakeLists.txt      # 组件注册 (bt/wifi/http_server/json 等依赖)
 │   └── Kconfig.projbuild   # menuconfig 配置项 (纯英文, 避免GBK问题)
@@ -385,6 +386,9 @@ JMGatt_client/
 | `power_save_start()` | power_save.c | 启动省电模式调度任务 |
 | `power_save_reload()` | power_save.c | 网页保存配置后热加载（立即生效） |
 | `power_save_report_manual()` | power_save.c | 语音/网页手动开关座圈后通知调度器 |
+| `ble_toilet_set_target_mac()` | ble_toilet.c | 运行时修改目标马桶 MAC (网页配置) |
+| `app_config_mac_save/get()` | app_config.c | 马桶蓝牙地址 NVS 读写 |
+| `reset_button_start()` | reset_button.c | 启动实体重置按键监测任务 |
 | `build_cmd_frame()` | ble_toilet.c | 根据业务命令构造 BLE 指令帧 |
 
 ---
@@ -432,6 +436,10 @@ idf.py -p COM3 flash monitor
 | `ENABLE_DEBUG_CONSOLE` | `y` | 是否在 UART0 启用调试控制台（量产可关） |
 | `TOILET_AP_SSID` | `Toilet-Setup` | 配网热点 SSID 前缀（自动追加 MAC 后 4 位） |
 | `TOILET_AP_PASS` | `12345678` | 配网热点密码（WPA2，至少 8 位） |
+| `RESET_BUTTON_GPIO` | `0` | 实体重置按键 GPIO（低电平有效，默认 BOOT 键） |
+| `RESET_BUTTON_HOLD_MS` | `5000` | 长按多久触发恢复出厂（毫秒） |
+
+> `TOILET_TARGET_MAC` 仅作为**初始默认值**；网页"网络设置"页签可随时修改马桶蓝牙地址（存 NVS，优先级高于编译值）。
 
 ---
 
@@ -558,9 +566,24 @@ I BLE_TOILET: Write char OK
 |---|---|
 | 省电模式 | 启用开关；工作日/周末各最多 4 个时间段（时:分 下拉选择，5 分钟粒度）；保存后立即生效 |
 | 马桶控制 | 唤醒连接、脚感开/关、大冲、小冲、停止、座圈加热开/关（与语音控制同路径，含语音播报反馈） |
-| 网络设置 | 查看/修改 WiFi、清除配置重新配网 |
+| 网络设置 | 查看/修改 WiFi、马桶蓝牙 MAC 地址、清除配置重新配网 |
 
 页面为单文件 `main/www/index.html`，**编译时嵌入固件**，无 CDN 依赖，离线可用。
+
+### 12.2.1 马桶蓝牙地址配置
+
+- 网页"网络设置"页签 → "马桶蓝牙地址"卡片，输入 `AA:BB:CC:DD:EE:FF` 格式保存
+- 存入 NVS，**优先级高于** menuconfig 的 `TOILET_TARGET_MAC` 编译默认值（上电时覆盖）
+- 保存后立即生效，无需重启；当前已建立的连接不受影响，下次唤醒按新地址扫描连接
+- 适用场景：更换新马桶 / 换了主控板导致 MAC 变化，无需重新编译固件
+
+### 12.2.2 实体重置按键（恢复出厂）
+
+- **长按 BOOT 键（GPIO0）5 秒**清除 NVS 中的 WiFi 配网信息，设备自动重启进入配网热点模式
+- 省电模式时间段与马桶蓝牙地址配置**保留**，不受影响
+- 按住期间串口每秒打印倒计时（`RESET_BTN: Button held 1/5 s ...`）
+- GPIO 与长按时长可在 menuconfig 中修改（`RESET_BUTTON_GPIO` / `RESET_BUTTON_HOLD_MS`）
+- 注意：GPIO0 是启动模式选择引脚，**上电瞬间**按住会进入烧录模式；正常运行时长按才会触发重置
 
 ### 12.3 省电模式工作规则
 
@@ -576,9 +599,10 @@ I BLE_TOILET: Write char OK
 
 | 方法 | 路径 | 说明 |
 |---|---|---|
-| `GET` | `/api/status` | 设备状态（模式/IP/时间/BLE/省电模式） |
+| `GET` | `/api/status` | 设备状态（模式/IP/时间/BLE/省电模式/马桶 MAC） |
 | `GET` / `POST` | `/api/config` | 读取 / 保存省电模式配置（JSON） |
 | `POST` | `/api/cmd` | 马桶控制 `{"cmd":"wake\|footon\|footoff\|flushl\|flushs\|stop\|seaton\|seatoff"}` |
+| `GET` / `POST` | `/api/mac` | 读取 / 设置马桶蓝牙 MAC `{"mac":"AA:BB:CC:DD:EE:FF"}` |
 | `POST` | `/api/wifi` | 保存 WiFi 凭据并重启 `{"ssid":"...","pass":"..."}` |
 | `POST` | `/api/factory` | 清除 WiFi 凭据，重启进入配网模式 |
 

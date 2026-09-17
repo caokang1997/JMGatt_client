@@ -16,6 +16,7 @@
 #define NVS_KEY_PS      "ps_cfg"        /* 省电模式配置 blob */
 #define NVS_KEY_SSID    "wifi_ssid"     /* WiFi SSID string */
 #define NVS_KEY_PASS    "wifi_pass"     /* WiFi 密码 string */
+#define NVS_KEY_MAC     "ble_mac"       /* 马桶 BLE MAC (6 字节 blob) */
 
 #define APP_CONFIG_MAGIC    0x50534A4DU  /* "PSJM" (Power-save Jomoo) */
 
@@ -140,5 +141,44 @@ esp_err_t app_config_wifi_clear(void)
     ret = nvs_commit(h);
     nvs_close(h);
     ESP_LOGW(TAG, "WiFi cred cleared (enter provisioning mode)");
+    return ret;
+}
+
+/* ---------------- 马桶蓝牙 MAC ---------------- */
+
+bool app_config_mac_get(uint8_t mac[6])
+{
+    nvs_handle_t h;
+    if (nvs_open(NVS_NAMESPACE, NVS_READONLY, &h) != ESP_OK) {
+        return false;
+    }
+
+    size_t len = 6;
+    esp_err_t ret = nvs_get_blob(h, NVS_KEY_MAC, mac, &len);
+    nvs_close(h);
+
+    if (ret != ESP_OK || len != 6) {
+        return false;
+    }
+    return true;
+}
+
+esp_err_t app_config_mac_save(const uint8_t mac[6])
+{
+    nvs_handle_t h;
+    esp_err_t ret = nvs_open(NVS_NAMESPACE, NVS_READWRITE, &h);
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG, "nvs_open failed: %s", esp_err_to_name(ret));
+        return ret;
+    }
+
+    ret = nvs_set_blob(h, NVS_KEY_MAC, mac, 6);
+    if (ret == ESP_OK) {
+        ret = nvs_commit(h);
+    }
+    nvs_close(h);
+
+    ESP_LOGI(TAG, "Toilet MAC saved (%02X:%02X:%02X:%02X:%02X:%02X)",
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     return ret;
 }

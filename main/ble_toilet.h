@@ -101,6 +101,17 @@ bool ble_toilet_wait_ready(int timeout_ms);
  */
 const char *ble_toilet_state_name(void);
 
+/**
+ * @brief 运行时修改目标马桶 MAC (网页配置用, 优先级高于 Kconfig 默认值)
+ *        立即生效: 当前连接不受影响, 下次唤醒扫描按新地址连接
+ */
+void ble_toilet_set_target_mac(const uint8_t mac[6]);
+
+/**
+ * @brief 读取当前生效的目标 MAC (6 字节, 大端序)
+ */
+void ble_toilet_get_target_mac(uint8_t mac[6]);
+
 #ifdef __cplusplus
 }
 #endif

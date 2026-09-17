@@ -579,6 +579,19 @@ bool ble_toilet_wait_ready(int timeout_ms)
     return false;
 }
 
+void ble_toilet_set_target_mac(const uint8_t mac[6])
+{
+    memcpy(s_target_mac_be, mac, 6);
+    for (int i = 0; i < 6; i++) s_target_mac_le[i] = s_target_mac_be[5 - i];
+    ESP_LOGI(TAG, "Target MAC updated: %02X:%02X:%02X:%02X:%02X:%02X",
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+}
+
+void ble_toilet_get_target_mac(uint8_t mac[6])
+{
+    memcpy(mac, s_target_mac_be, 6);
+}
+
 void ble_toilet_set_event_cb(ble_toilet_event_cb_t cb)
 {
     s_event_cb = cb;

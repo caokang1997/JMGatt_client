@@ -96,20 +96,25 @@ static esp_err_t handler_status(httpd_req_t *req)
     app_wifi_get_ssid(ssid, sizeof(ssid));
     app_wifi_get_time_str(tstr, sizeof(tstr));
 
+    uint8_t mac[6];
+    ble_toilet_get_target_mac(mac);
+
     power_save_cfg_t cfg;
     power_save_get_cfg(&cfg);
 
-    char json[512];
+    char json[576];
     snprintf(json, sizeof(json),
              "{\"mode\":\"%s\",\"ip\":\"%s\",\"ssid\":\"%s\","
              "\"time\":\"%s\",\"time_synced\":%s,"
-             "\"ble\":\"%s\",\"ps_enable\":%s,\"ps_desired\":%d}",
+             "\"ble\":\"%s\",\"ps_enable\":%s,\"ps_desired\":%d,"
+             "\"mac\":\"%02X:%02X:%02X:%02X:%02X:%02X\"}",
              app_wifi_is_sta() ? "sta" : "ap",
              ip, ssid, tstr,
              app_time_is_synced() ? "true" : "false",
              ble_toilet_state_name(),
              cfg.enable ? "true" : "false",
-             power_save_desired_state());
+             power_save_desired_state(),
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 
     return send_json(req, json, true);
 }
@@ -273,6 +278,67 @@ static esp_err_t handler_cmd(httpd_req_t *req)
     return resp;
 }
 
+/* ---------------- /api/mac ---------------- */
+
+/* 解析 "AA:BB:CC:DD:EE:FF" 形式的 MAC 字符串, 成功返回 true */
+static bool parse_mac_str(const char *str, uint8_t mac[6])
+{
+    unsigned v[6];
+    if (sscanf(str, "%2x:%2x:%2x:%2x:%2x:%2x",
+               &v[0], &v[1], &v[2], &v[3], &v[4], &v[5]) != 6) {
+        return false;
+    }
+    for (int i = 0; i < 6; i++) {
+        if (v[i] > 0xFF) return false;
+        mac[i] = (uint8_t)v[i];
+    }
+    return true;
+}
+
+static esp_err_t handler_get_mac(httpd_req_t *req)
+{
+    uint8_t mac[6];
+    ble_toilet_get_target_mac(mac);
+    char txt[20];
+    snprintf(txt, sizeof(txt), "%02X:%02X:%02X:%02X:%02X:%02X",
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    httpd_resp_set_type(req, "text/plain");
+    return httpd_resp_send(req, txt, strlen(txt));
+}
+
+static esp_err_t handler_set_mac(httpd_req_t *req)
+{
+    char *body = read_body(req);
+    if (!body) {
+        return send_json(req, "{\"ok\":false,\"msg\":\"bad body\"}", false);
+    }
+
+    cJSON *root = cJSON_Parse(body);
+    free(body);
+    if (!root) {
+        return send_json(req, "{\"ok\":false,\"msg\":\"bad json\"}", false);
+    }
+
+    cJSON *jmac = cJSON_GetObjectItem(root, "mac");
+    esp_err_t resp;
+
+    uint8_t mac[6];
+    if (cJSON_IsString(jmac) && jmac->valuestring &&
+        parse_mac_str(jmac->valuestring, mac)) {
+        if (app_config_mac_save(mac) == ESP_OK) {
+            ble_toilet_set_target_mac(mac);      /* 立即生效 (当前连接不受影响) */
+            resp = send_json(req, "{\"ok\":true}", true);
+        } else {
+            resp = send_json(req, "{\"ok\":false,\"msg\":\"save failed\"}", false);
+        }
+    } else {
+        resp = send_json(req, "{\"ok\":false,\"msg\":\"bad mac (AA:BB:CC:DD:EE:FF)\"}", false);
+    }
+
+    cJSON_Delete(root);
+    return resp;
+}
+
 /* ---------------- /api/wifi & /api/factory ---------------- */
 
 static esp_err_t handler_wifi(httpd_req_t *req)
@@ -331,6 +397,8 @@ static const httpd_uri_t s_uris[] = {
     { .uri = "/api/config", .method = HTTP_GET,  .handler = handler_get_config },
     { .uri = "/api/config", .method = HTTP_POST, .handler = handler_set_config },
     { .uri = "/api/cmd",    .method = HTTP_POST, .handler = handler_cmd },
+    { .uri = "/api/mac",    .method = HTTP_GET,  .handler = handler_get_mac },
+    { .uri = "/api/mac",    .method = HTTP_POST, .handler = handler_set_mac },
     { .uri = "/api/wifi",   .method = HTTP_POST, .handler = handler_wifi },
     { .uri = "/api/factory",.method = HTTP_POST, .handler = handler_factory },
 };

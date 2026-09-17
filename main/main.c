@@ -27,9 +27,11 @@
 #include "ble_toilet.h"
 #include "asr_pro.h"
 #include "debug_console.h"
+#include "app_config.h"
 #include "app_wifi.h"
 #include "web_server.h"
 #include "power_save.h"
+#include "reset_button.h"
 
 #define TAG     "APP_MAIN"
 
@@ -70,6 +72,13 @@ void app_main(void)
     /* 2. 初始化 BLE 协议栈 (不自动扫描, 等待唤醒词) */
     ESP_ERROR_CHECK(ble_toilet_init());
 
+    /* 2.1 NVS 中有网页配置的马桶 MAC 时覆盖 Kconfig 默认值 */
+    uint8_t toilet_mac[6];
+    if (app_config_mac_get(toilet_mac)) {
+        ble_toilet_set_target_mac(toilet_mac);
+        ESP_LOGI(TAG, "Using MAC from NVS (web configured)");
+    }
+
     /* 3. 初始化 UART 语音命令接收 */
     ESP_ERROR_CHECK(asr_pro_init());
 
@@ -89,7 +98,10 @@ void app_main(void)
         ESP_LOGW(TAG, "AP provisioning mode, power-save scheduler NOT started");
     }
 
-    /* 7. 启动调试控制台 (烧录串口 UART0), 语音模块未到货时可手动敲命令测试 */
+    /* 7. 启动实体重置按键 (长按 BOOT 5 秒清除配网信息) */
+    ESP_ERROR_CHECK(reset_button_start());
+
+    /* 8. 启动调试控制台 (烧录串口 UART0), 语音模块未到货时可手动敲命令测试 */
 #if CONFIG_ENABLE_DEBUG_CONSOLE
     ESP_ERROR_CHECK(debug_console_init());
 #endif

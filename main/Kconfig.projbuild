@@ -59,4 +59,19 @@ menu "JOMOO SQ9650 Voice Controller"
         help
             WPA2 password of the provisioning hotspot (min 8 chars).
 
+    config RESET_BUTTON_GPIO
+        int "Factory reset button GPIO (active low, internal pull-up)"
+        default 0
+        help
+            GPIO of the physical reset button. Hold for RESET_BUTTON_HOLD_MS
+            to clear WiFi credentials and reboot into provisioning mode.
+            Default 0 is the BOOT button on ESP32 dev boards.
+
+    config RESET_BUTTON_HOLD_MS
+        int "Factory reset hold time (ms)"
+        default 5000
+        range 1000 60000
+        help
+            How long the button must be held to trigger a factory reset.
+
 endmenu

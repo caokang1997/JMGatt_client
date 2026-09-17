@@ -283,9 +283,26 @@
   </div>
 
   <div class="card">
+    <h2>马桶蓝牙地址</h2>
+    <div class="field">
+      <label>目标马桶 BLE MAC（格式 AA:BB:CC:DD:EE:FF）</label>
+      <input type="text" id="mac-input" maxlength="17" placeholder="AA:BB:CC:DD:EE:FF" autocomplete="off" spellcheck="false">
+    </div>
+    <button class="btn primary" id="mac-save" onclick="saveMac()">保存地址</button>
+    <div class="hint">
+      · 更换新马桶 / 控制第二台马桶时修改此项<br>
+      · MAC 可用手机小程序或 nRF Connect 扫描获得（设备名含 JOMOO）<br>
+      · 保存后立即生效，无需重启
+    </div>
+  </div>
+
+  <div class="card">
     <h2>恢复出厂</h2>
     <button class="btn danger" onclick="factoryReset()">清除 WiFi 配置</button>
-    <div class="hint">清除后设备将重启进入配网模式（热点 Toilet-Setup-XXXX），需重新配网。</div>
+    <div class="hint">
+      · 也可以<b>长按设备上的 BOOT 键 5 秒</b>清除配网信息（省电模式与蓝牙地址配置保留）<br>
+      · 清除后设备将重启进入配网模式（热点 Toilet-Setup-XXXX），需重新配网
+    </div>
   </div>
 </div>
 
@@ -344,6 +361,12 @@ async function refreshStatus() {
     else if (s.ps_desired === 0) psTxt = '<span class="dot idle"></span>待机时段';
     else psTxt = '已开启';
     $('st-ps').innerHTML = psTxt;
+
+    /* MAC 输入框: 用户未编辑时跟随实际值 */
+    const macInput = $('mac-input');
+    if (document.activeElement !== macInput && !macInput.dataset.dirty) {
+      macInput.value = s.mac || '';
+    }
 
     const apMode = (s.mode === 'ap');
     $('ap-banner').style.display = apMode ? 'block' : 'none';
@@ -486,6 +509,35 @@ async function sendCmd(btn) {
   }
 }
 
+/* ---------- 马桶蓝牙地址 ---------- */
+async function saveMac() {
+  const input = $('mac-input');
+  const mac = input.value.trim().toUpperCase();
+  const re = /^([0-9A-F]{2}:){5}[0-9A-F]{2}$/;
+  if (!re.test(mac)) {
+    toast('MAC 格式错误，应为 AA:BB:CC:DD:EE:FF');
+    input.focus();
+    return;
+  }
+  const btn = $('mac-save');
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    await api('/api/mac', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mac })
+    });
+    toast('✓ 蓝牙地址已保存并生效');
+    input.dataset.dirty = '';
+    input.value = mac;
+    refreshStatus();
+  } catch (e) {
+    toast('保存失败: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '保存地址';
+  }
+}
+
 /* ---------- 网络设置 ---------- */
 async function saveWifi() {
   const ssid = $('wf-ssid').value.trim();
@@ -518,6 +570,7 @@ window.addEventListener('load', () => {
   loadPsConfig();
   refreshStatus();
   setInterval(refreshStatus, 5000);
+  $('mac-input').addEventListener('input', function () { this.dataset.dirty = '1'; });
 });
 </script>
 </body>

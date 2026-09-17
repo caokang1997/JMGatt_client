@@ -67,6 +67,19 @@ esp_err_t app_config_wifi_clear(void);
 #define WIFI_SSID_MAX_LEN   33
 #define WIFI_PASS_MAX_LEN   65
 
+/* ---------------- 马桶蓝牙 MAC ---------------- */
+
+/**
+ * @brief 读取已保存的马桶 BLE MAC (6 字节)
+ * @return true: 有已保存的 MAC; false: 无 (使用 Kconfig 编译默认值)
+ */
+bool app_config_mac_get(uint8_t mac[6]);
+
+/**
+ * @brief 保存马桶 BLE MAC 到 NVS
+ */
+esp_err_t app_config_mac_save(const uint8_t mac[6]);
+
 #ifdef __cplusplus
 }
 #endif
