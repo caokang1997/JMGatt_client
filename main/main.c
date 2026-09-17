@@ -20,6 +20,7 @@
 
 #include "ble_toilet.h"
 #include "asr_pro.h"
+#include "debug_console.h"
 
 #define TAG     "APP_MAIN"
 
@@ -51,6 +52,11 @@ void app_main(void)
 
     /* 3. 初始化 UART 语音命令接收 */
     ESP_ERROR_CHECK(asr_pro_init());
+
+    /* 4. 启动调试控制台 (烧录串口 UART0), 语音模块未到货时可手动敲命令测试 */
+#if CONFIG_ENABLE_DEBUG_CONSOLE
+    ESP_ERROR_CHECK(debug_console_init());
+#endif
 
     ESP_LOGI(TAG, "System ready. Waiting for wake word...");
 }

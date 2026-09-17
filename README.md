@@ -299,7 +299,8 @@ JMGatt_client/
 │   ├── main.c              # 应用入口: NVS -> BLE init -> UART init
 │   ├── ble_toilet.h/.c     # BLE 客户端: 扫描/连接/指令帧构造/状态机
 │   ├── asr_pro.h/.c        # UART 驱动 + 语音帧解析状态机
-│   ├── CMakeLists.txt      # 组件注册 (依赖 bt/driver/nvs_flash)
+│   ├── debug_console.h/.c  # UART0 调试控制台 (无语音模块时手动测试)
+│   ├── CMakeLists.txt      # 组件注册 (依赖 bt/driver/nvs_flash/console)
 │   └── Kconfig.projbuild   # menuconfig 配置项 (纯英文, 避免GBK问题)
 ├── OUTPUT/                 # 反编译的九牧微信小程序 (协议参考)
 ├── sdkconfig.defaults      # 精简配置 (关闭WiFi等)
@@ -316,6 +317,9 @@ JMGatt_client/
 | `ble_toilet_execute(cmd)` | ble_toilet.c | 发送指令到马桶（需 READY 状态） |
 | `ble_toilet_is_ready()` | ble_toilet.c | 查询是否已连接就绪 |
 | `asr_pro_init()` | asr_pro.c | 初始化 UART 并启动接收任务 |
+| `asr_pro_inject_cmd()` | asr_pro.c | 直接注入命令字节（调试控制台用） |
+| `asr_pro_feed_byte()` | asr_pro.c | 向帧解析器喂入原始字节 |
+| `debug_console_init()` | debug_console.c | 启动 UART0 交互式调试控制台 |
 | `build_cmd_frame()` | ble_toilet.c | 根据业务命令构造 BLE 指令帧 |
 
 ---
@@ -358,6 +362,7 @@ idf.py -p COM3 flash monitor
 | `ASR_UART_RX_PIN` | `17` | ESP32 接收引脚（接 ASR-PRO TXD） |
 | `ASR_UART_TX_PIN` | `16` | ESP32 发送引脚（接 ASR-PRO RXD，暂未用） |
 | `BLE_IDLE_TIMEOUT_SEC` | `30` | 空闲多少秒后自动断开 BLE |
+| `ENABLE_DEBUG_CONSOLE` | `y` | 是否在 UART0 启用调试控制台（量产可关） |
 
 ---
 
@@ -378,7 +383,43 @@ idf.py -p COM3 flash monitor
 
 ## 十一、测试方法
 
-### 无语音模块时，用 USB-TTL 串口助手模拟
+### 方法一：调试控制台（最方便，语音模块未到货时首选）
+
+固件在烧录串口（UART0，即 `idf.py monitor` 那个口）上内置了交互式命令行。烧录后运行 `idf.py monitor`，直接在终端敲命令即可测试，**走的是和真实 ASR-PRO 完全相同的代码路径**。
+
+```
+idf.py -p COM3 monitor
+```
+
+看到 `toilet>` 提示符后，敲入命令：
+
+| 命令 | 作用 | 等价 ASR 帧 |
+|---|---|---|
+| `wake` | 扫描并连接马桶（等价唤醒词） | `AA 55 00 00 55` |
+| `footon` | 打开脚感 | `AA 55 01 00 55` |
+| `footoff` | 关闭脚感 | `AA 55 02 00 55` |
+| `flushl` | 大冲 | `AA 55 03 00 55` |
+| `flushs` | 小冲 | `AA 55 04 00 55` |
+| `stop` | 停止 | `AA 55 05 00 55` |
+| `seaton` | 座圈加热开 | `AA 55 06 00 55` |
+| `seatoff` | 座圈加热关 | `AA 55 07 00 55` |
+| `state` | 查询马桶状态 | - |
+| `status` | 查看当前 BLE 连接状态 | - |
+| `send AA 55 01 00 55` | 直接喂入原始 HEX 帧（测试帧解析器） | 原样 |
+| `help` | 列出所有命令 | - |
+
+**典型测试流程：**
+```
+toilet> wake          # 触发扫描连接, 等日志出现 "BLE READY"
+toilet> status        # 确认 BLE ready : YES
+toilet> footon        # 打开脚感, 马桶应响应
+toilet> seaton        # 座圈加热开
+toilet> send AA 55 02 00 55   # 也可用原始帧测试解析器
+```
+
+> 该控制台由 menuconfig 的 `ENABLE_DEBUG_CONSOLE` 控制（默认开启）。量产固件建议关闭，避免占用 UART0。
+
+### 方法二：USB-TTL 串口助手模拟 ASR-PRO（测 GPIO17 通路）
 
 1. USB-TTL 的 TX 接 ESP32 GPIO17，GND 共地
 2. 串口助手设为 **115200, 8N1, HEX 发送模式**
@@ -386,7 +427,7 @@ idf.py -p COM3 flash monitor
 
 ```
 第1步: 发送 AA 55 00 00 55   (唤醒)
-       → 等待日志出现 "=== BLE READY ==="
+       → 等待日志出现 "BLE READY"
 
 第2步: 发送 AA 55 01 00 55   (打开脚感)
        → 马桶应立即响应
@@ -447,7 +488,4 @@ I BLE_TOILET: Write char OK
 | `OUTPUT/utils/tool/deviceTool.js` | 协议分发（bleProtocol → 对应 Controller） |
 | `OUTPUT/utils/bluetooth/toilet/TechramicToiletController.js` | SQ9650 实际控制逻辑 |
 | `OUTPUT/utils/bluetooth/BLEController.js` | GATT UUID 定义 + 写命令 |
-| `OUTPUT/utils/bluetooth/bleutil.js` | MAC 过滤、校验、编解码工具 |
-#   J M G a t t _ c l i e n t 
- 
- 
+| `OUTPUT/utils/bluetooth/bleutil.js` | MAC 过滤、校验、编解码工�

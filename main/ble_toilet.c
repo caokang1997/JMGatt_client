@@ -17,7 +17,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "freertos/timers.h"
+#include "freertos/semphr.h"
 #include "esp_log.h"
 #include "esp_bt.h"
 #include "esp_bt_main.h"
@@ -85,7 +85,7 @@ static bool parse_mac_string(const char *str, uint8_t out[6])
 static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param);
 static void esp_gattc_cb(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gattc_cb_param_t *param);
 static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gattc_cb_param_t *param);
-static void idle_timeout_cb(TimerHandle_t xTimer);
+static void idle_monitor_task(void *arg);
 
 /* ---------------- Profile 实例 ---------------- */
 struct gattc_profile_inst {
@@ -110,8 +110,8 @@ static bool s_service_found = false;
 static esp_gattc_char_elem_t *s_char_elem_result   = NULL;
 static esp_gattc_descr_elem_t *s_descr_elem_result = NULL;
 
-/* 空闲超时定时器 (单次触发, 每次收到命令后重置) */
-static TimerHandle_t s_idle_timer = NULL;
+/* 空闲监控: 二值信号量 + 独立任务 (替代软件定时器, 避免 Tmr Svc 任务栈溢出) */
+static SemaphoreHandle_t s_idle_sem = NULL;
 
 static esp_bt_uuid_t s_remote_filter_service_uuid = {
     .len  = ESP_UUID_LEN_16,
@@ -145,7 +145,6 @@ static void set_state(ble_state_t new_state)
 static void reset_to_idle(const char *reason)
 {
     ESP_LOGW(TAG, "Reset to IDLE: %s", reason);
-    if (s_idle_timer) xTimerStop(s_idle_timer, 0);
     s_service_found = false;
     gl_profile_tab[PROFILE_A_APP_ID].conn_id     = 0;
     gl_profile_tab[PROFILE_A_APP_ID].char_handle = 0;
@@ -154,21 +153,30 @@ static void reset_to_idle(const char *reason)
     set_state(STATE_IDLE);
 }
 
+/* 通知有活动: 唤醒监控任务重置计时窗口 (任何任务上下文调用都安全, 仅给信号量) */
 static void restart_idle_timer(void)
 {
-    if (s_idle_timer) {
-        xTimerReset(s_idle_timer, 0);
-        ESP_LOGD(TAG, "Idle timer reset (%ds)", CONFIG_BLE_IDLE_TIMEOUT_SEC);
+    if (s_idle_sem) {
+        xSemaphoreGive(s_idle_sem);
     }
 }
 
-/* 空闲定时器超时回调 -> 主动断开连接 */
-static void idle_timeout_cb(TimerHandle_t xTimer)
+/* 空闲监控任务: 用带超时的信号量等待实现"计时 + 活动重置"。
+ * 超时(即 IDLE_TIMEOUT_MS 内无活动)且处于 READY 时, 在本任务(4096栈)里断开连接,
+ * 彻底不在 FreeRTOS Tmr Svc 任务里调用 BLE, 避免栈溢出。 */
+static void idle_monitor_task(void *arg)
 {
-    ESP_LOGI(TAG, "Idle timeout (%ds), disconnecting...", CONFIG_BLE_IDLE_TIMEOUT_SEC);
-    if (s_state == STATE_READY) {
-        set_state(STATE_DISCONNECTING);
-        esp_ble_gap_disconnect(gl_profile_tab[PROFILE_A_APP_ID].remote_bda);
+    while (1) {
+        /* 等待活动信号; 超时时间内收到信号则重置窗口, 否则视为空闲超时 */
+        if (xSemaphoreTake(s_idle_sem, pdMS_TO_TICKS(IDLE_TIMEOUT_MS)) == pdFALSE) {
+            /* 超时: 期间无任何活动 */
+            if (s_state == STATE_READY) {
+                ESP_LOGI(TAG, "Idle timeout (%ds), disconnecting...", CONFIG_BLE_IDLE_TIMEOUT_SEC);
+                set_state(STATE_DISCONNECTING);
+                esp_ble_gap_disconnect(gl_profile_tab[PROFILE_A_APP_ID].remote_bda);
+            }
+        }
+        /* 收到信号(有活动) -> 直接下一轮循环, 相当于重置计时 */
     }
 }
 
@@ -447,9 +455,23 @@ static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_
                  CONFIG_BLE_IDLE_TIMEOUT_SEC);
         break;
 
-    case ESP_GATTC_NOTIFY_EVT:
-        ESP_LOGD(TAG, "Notify (%d bytes)", p_data->notify.value_len);
+    case ESP_GATTC_NOTIFY_EVT: {
+        uint8_t *val = p_data->notify.value;
+        uint16_t len = p_data->notify.value_len;
+        ESP_LOGI(TAG, "Notify RX (%d bytes):", len);
+        esp_log_buffer_hex(TAG, val, len);
+        /* 协议识别: 根据帧头判断马桶用的是哪套协议 */
+        if (len >= 2) {
+            if (val[0] == 0xFC) {
+                ESP_LOGI(TAG, ">>> Protocol: FC (Techramic, bleProtocol=1/2) - MATCHES this firmware");
+            } else if (val[0] == 0xF3 && val[1] == 0xF4) {
+                ESP_LOGW(TAG, ">>> Protocol: F3F4 (old ToiletController, bleProtocol=0) - frames need changing!");
+            } else {
+                ESP_LOGW(TAG, ">>> Protocol: UNKNOWN header 0x%02X 0x%02X", val[0], val[1]);
+            }
+        }
         break;
+    }
 
     case ESP_GATTC_WRITE_CHAR_EVT:
         if (p_data->write.status != ESP_GATT_OK) {
@@ -580,11 +602,14 @@ esp_err_t ble_toilet_init(void)
              s_target_mac_be[0], s_target_mac_be[1], s_target_mac_be[2],
              s_target_mac_be[3], s_target_mac_be[4], s_target_mac_be[5]);
 
-    /* 创建空闲超时定时器 (单次触发) */
-    s_idle_timer = xTimerCreate("ble_idle", pdMS_TO_TICKS(IDLE_TIMEOUT_MS),
-                                pdFALSE, NULL, idle_timeout_cb);
-    if (!s_idle_timer) {
-        ESP_LOGE(TAG, "Failed to create idle timer");
+    /* 创建空闲监控: 二值信号量 + 独立任务 (4096 栈) */
+    s_idle_sem = xSemaphoreCreateBinary();
+    if (!s_idle_sem) {
+        ESP_LOGE(TAG, "Failed to create idle semaphore");
+        return ESP_FAIL;
+    }
+    if (xTaskCreate(idle_monitor_task, "ble_idle_mon", 4096, NULL, 5, NULL) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create idle monitor task");
         return ESP_FAIL;
     }
 

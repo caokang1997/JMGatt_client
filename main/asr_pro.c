@@ -106,7 +106,7 @@ static void handle_asr_cmd(uint8_t asr_cmd)
     }
 }
 
-/* ---------------- UART 接收状态机 ---------------- */
+/* ---------------- UART 接收解析状态机 ---------------- */
 typedef enum {
     ST_WAIT_HEAD0 = 0,
     ST_WAIT_HEAD1,
@@ -115,77 +115,89 @@ typedef enum {
     ST_WAIT_TAIL,
 } parse_state_t;
 
+/* 解析器状态 (文件级, 供 UART 任务与调试控制台共用) */
+static parse_state_t s_parse_state  = ST_WAIT_HEAD0;
+static uint8_t  s_parse_cmd         = 0;
+static uint32_t s_last_raw_tick     = 0;
+static uint8_t  s_last_raw_cmd      = 0xFF;
+
+/* 向解析器喂入一个字节 (核心状态机) */
+void asr_pro_feed_byte(uint8_t byte)
+{
+    switch (s_parse_state) {
+    case ST_WAIT_HEAD0:
+        if (byte == FRAME_HEAD0) {
+            s_parse_state = ST_WAIT_HEAD1;
+        } else if (byte <= 0x07) {
+            /* 兼容: 单字节裸命令 (方便串口助手直接发 01 测试) */
+            uint32_t now = xTaskGetTickCount();
+            /* 100ms 内同一命令重复触发, 认为是抖动, 忽略 */
+            if (byte != s_last_raw_cmd || (now - s_last_raw_tick) > pdMS_TO_TICKS(100)) {
+                ESP_LOGI(TAG, "Raw cmd byte 0x%02X", byte);
+                handle_asr_cmd(byte);
+                s_last_raw_cmd  = byte;
+                s_last_raw_tick = now;
+            }
+        }
+        break;
+
+    case ST_WAIT_HEAD1:
+        if (byte == FRAME_HEAD1) {
+            s_parse_state = ST_WAIT_CMD;
+        } else if (byte == FRAME_HEAD0) {
+            /* 连续两个 AA, 保持在等 55 */
+            s_parse_state = ST_WAIT_HEAD1;
+        } else {
+            s_parse_state = ST_WAIT_HEAD0;
+        }
+        break;
+
+    case ST_WAIT_CMD:
+        s_parse_cmd = byte;
+        s_parse_state = ST_WAIT_DATA;
+        break;
+
+    case ST_WAIT_DATA:
+        /* DATA 字节先忽略, 保留将来扩展参数 */
+        s_parse_state = ST_WAIT_TAIL;
+        break;
+
+    case ST_WAIT_TAIL:
+        if (byte == FRAME_TAIL) {
+            ESP_LOGI(TAG, "Frame OK: AA 55 %02X XX 55", s_parse_cmd);
+            handle_asr_cmd(s_parse_cmd);
+        } else {
+            ESP_LOGW(TAG, "Frame tail error, expect 0x55 got 0x%02X", byte);
+        }
+        s_parse_state = ST_WAIT_HEAD0;
+        break;
+
+    default:
+        s_parse_state = ST_WAIT_HEAD0;
+        break;
+    }
+}
+
+/* 直接注入一条命令 (跳过帧解析) */
+void asr_pro_inject_cmd(uint8_t cmd)
+{
+    handle_asr_cmd(cmd);
+}
+
+/* UART 接收任务: 逐字节读取并喂给解析器 */
 static void uart_rx_task(void *arg)
 {
-    uint8_t  byte;
-    uint8_t  cmd = 0;
-    parse_state_t state = ST_WAIT_HEAD0;
-    /* 上一次收到裸字节的 tick, 用于对连续裸字节的兼容判断 */
-    uint32_t last_raw_tick = 0;
-    uint8_t  last_raw_cmd  = 0xFF;
+    uint8_t byte;
 
     ESP_LOGI(TAG, "UART RX task started (port=%d, baud=%d, rx=%d, tx=%d)",
              ASR_UART_PORT, ASR_UART_BAUD, ASR_UART_RX_PIN, ASR_UART_TX_PIN);
 
     while (1) {
-        /* 一次读 1 字节, 超时 100ms; 有帧就逐字节进状态机 */
+        /* 一次读 1 字节, 超时 100ms */
         int len = uart_read_bytes(ASR_UART_PORT, &byte, 1, pdMS_TO_TICKS(100));
         if (len <= 0) continue;
-
-        ESP_LOGD(TAG, "RX 0x%02X (state=%d)", byte, state);
-
-        switch (state) {
-        case ST_WAIT_HEAD0:
-            if (byte == FRAME_HEAD0) {
-                state = ST_WAIT_HEAD1;
-            } else if (byte <= 0x07) {
-                /* 兼容: 单字节裸命令 (方便串口助手直接发 01 测试) */
-                uint32_t now = xTaskGetTickCount();
-                /* 100ms 内同一命令重复触发, 认为是抖动, 忽略 */
-                if (byte != last_raw_cmd || (now - last_raw_tick) > pdMS_TO_TICKS(100)) {
-                    ESP_LOGI(TAG, "Raw cmd byte 0x%02X", byte);
-                    handle_asr_cmd(byte);
-                    last_raw_cmd  = byte;
-                    last_raw_tick = now;
-                }
-            }
-            break;
-
-        case ST_WAIT_HEAD1:
-            if (byte == FRAME_HEAD1) {
-                state = ST_WAIT_CMD;
-            } else if (byte == FRAME_HEAD0) {
-                /* 连续两个 AA, 保持在等 55 */
-                state = ST_WAIT_HEAD1;
-            } else {
-                state = ST_WAIT_HEAD0;
-            }
-            break;
-
-        case ST_WAIT_CMD:
-            cmd = byte;
-            state = ST_WAIT_DATA;
-            break;
-
-        case ST_WAIT_DATA:
-            /* DATA 字节先忽略, 保留将来扩展参数 */
-            state = ST_WAIT_TAIL;
-            break;
-
-        case ST_WAIT_TAIL:
-            if (byte == FRAME_TAIL) {
-                ESP_LOGI(TAG, "Frame OK: AA 55 %02X XX 55", cmd);
-                handle_asr_cmd(cmd);
-            } else {
-                ESP_LOGW(TAG, "Frame tail error, expect 0x55 got 0x%02X", byte);
-            }
-            state = ST_WAIT_HEAD0;
-            break;
-
-        default:
-            state = ST_WAIT_HEAD0;
-            break;
-        }
+        ESP_LOGD(TAG, "RX 0x%02X (state=%d)", byte, s_parse_state);
+        asr_pro_feed_byte(byte);
     }
 }
 

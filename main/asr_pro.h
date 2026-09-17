@@ -15,6 +15,7 @@
  */
 #pragma once
 
+#include <stdint.h>
 #include "esp_err.h"
 
 #ifdef __cplusplus
@@ -26,6 +27,18 @@ extern "C" {
  *        必须在 ble_toilet_init() 之后调用
  */
 esp_err_t asr_pro_init(void);
+
+/**
+ * @brief 直接注入一条 ASR 命令字节 (跳过帧解析), 供调试控制台使用
+ *        cmd: 0x00=唤醒, 0x01-0x07=动作命令
+ */
+void asr_pro_inject_cmd(uint8_t cmd);
+
+/**
+ * @brief 向帧解析状态机喂入一个原始字节, 供调试控制台模拟 ASR-PRO 数据流
+ *        例: 依次喂入 AA 55 01 00 55 会触发"打开脚感"
+ */
+void asr_pro_feed_byte(uint8_t byte);
 
 #ifdef __cplusplus
 }

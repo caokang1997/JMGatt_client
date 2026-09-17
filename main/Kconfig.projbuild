@@ -34,4 +34,13 @@ menu "JOMOO SQ9650 Voice Controller"
             received within this many seconds, ESP32 will automatically
             disconnect from the toilet to free the BLE slot.
 
+    config ENABLE_DEBUG_CONSOLE
+        bool "Enable debug console on UART0 (test without ASR-PRO)"
+        default y
+        help
+            Start an interactive command console on the flashing/monitor
+            UART (UART0), so you can type commands like 'wake', 'footon'
+            to test BLE control before the ASR-PRO voice module arrives.
+            Disable this for production firmware.
+
 endmenu
