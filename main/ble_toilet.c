@@ -267,7 +267,11 @@ static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *par
             ESP_LOGE(TAG, "Scan start failed: %x", param->scan_start_cmpl.status);
             reset_to_idle("scan start failed");
         } else {
-            ESP_LOGI(TAG, "Scanning for " TOILET_TARGET_MAC_STR " (timeout %ds)...", SCAN_TIMEOUT_SEC);
+            /* 打印运行时生效的 MAC (可能是网页/NVS 配置, 而非编译期 Kconfig 值) */
+            ESP_LOGI(TAG, "Scanning for %02X:%02X:%02X:%02X:%02X:%02X (timeout %ds)...",
+                     s_target_mac_be[0], s_target_mac_be[1], s_target_mac_be[2],
+                     s_target_mac_be[3], s_target_mac_be[4], s_target_mac_be[5],
+                     SCAN_TIMEOUT_SEC);
         }
         break;
 

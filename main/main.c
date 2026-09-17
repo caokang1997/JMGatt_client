@@ -49,7 +49,6 @@ static void on_ble_event(ble_toilet_event_t evt)
 void app_main(void)
 {
     ESP_LOGI(TAG, "============ JOMOO SQ9650 Voice Controller ============");
-    ESP_LOGI(TAG, "Target MAC : " TOILET_TARGET_MAC_STR);
     ESP_LOGI(TAG, "Mode       : Wake-on-demand (wake->connect, timeout->disconnect)");
     ESP_LOGI(TAG, "Protocol   : AA 55 CMD DATA 55");
     ESP_LOGI(TAG, "  CMD 0x00 = Wake (start BLE connection)");
@@ -72,12 +71,17 @@ void app_main(void)
     /* 2. 初始化 BLE 协议栈 (不自动扫描, 等待唤醒词) */
     ESP_ERROR_CHECK(ble_toilet_init());
 
-    /* 2.1 NVS 中有网页配置的马桶 MAC 时覆盖 Kconfig 默认值 */
+    /* 2.1 NVS 中有网页配置的马桶 MAC 时覆盖 Kconfig 默认值 (优先级: NVS > menuconfig) */
     uint8_t toilet_mac[6];
-    if (app_config_mac_get(toilet_mac)) {
+    bool mac_from_nvs = app_config_mac_get(toilet_mac);
+    if (mac_from_nvs) {
         ble_toilet_set_target_mac(toilet_mac);
-        ESP_LOGI(TAG, "Using MAC from NVS (web configured)");
     }
+    ble_toilet_get_target_mac(toilet_mac);       /* 打印实际生效值 */
+    ESP_LOGI(TAG, "Target MAC : %02X:%02X:%02X:%02X:%02X:%02X (%s)",
+             toilet_mac[0], toilet_mac[1], toilet_mac[2],
+             toilet_mac[3], toilet_mac[4], toilet_mac[5],
+             mac_from_nvs ? "from NVS/web" : "menuconfig default");
 
     /* 3. 初始化 UART 语音命令接收 */
     ESP_ERROR_CHECK(asr_pro_init());
