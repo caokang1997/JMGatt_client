@@ -342,6 +342,9 @@ esp_err_t web_server_start(void)
     cfg.stack_size = 8192;
     cfg.max_uri_handlers = sizeof(s_uris) / sizeof(s_uris[0]);
     cfg.lru_purge_enable = true;
+    /* LWIP_MAX_SOCKETS=8 时 httpd 上限为 5 (内部占用 3 个);
+       限制为 4, 给 SNTP/DNS 留 socket 余量 */
+    cfg.max_open_sockets = 4;
 
     esp_err_t ret = httpd_start(&server, &cfg);
     if (ret != ESP_OK) {

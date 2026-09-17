@@ -19,7 +19,8 @@ CONFIG_ESP_COEX_SW_COEXIST_ENABLE=y
 
 # ==================== LWIP / TCP-IP ====================
 CONFIG_LWIP_LOCAL_HOSTNAME="esp32-toilet"
-CONFIG_LWIP_MAX_SOCKETS=8
+# httpd (4 clients + 3 internal) + SNTP + 余量
+CONFIG_LWIP_MAX_SOCKETS=10
 # SNTP time sync (power-save schedule depends on it)
 CONFIG_LWIP_SNTP_MAX_SERVERS=3
 CONFIG_LWIP_SNTP_UPDATE_DELAY=3600000
