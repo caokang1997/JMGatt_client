@@ -12,13 +12,27 @@ CONFIG_BT_GATTS_ENABLE=n
 CONFIG_BT_GATT_MAX_SR_PROFILES=1
 CONFIG_BT_BLE_SMP_ENABLE=n
 
-# ==================== WiFi (disabled) ====================
-CONFIG_ESP_WIFI_ENABLED=n
+# ==================== WiFi (STA + AP provisioning) ====================
+CONFIG_ESP_WIFI_ENABLED=y
+# WiFi + BLE software coexistence (REQUIRED when both active)
+CONFIG_ESP_COEX_SW_COEXIST_ENABLE=y
 
-# ==================== LWIP / TCP-IP (disabled) ====================
+# ==================== LWIP / TCP-IP ====================
 CONFIG_LWIP_LOCAL_HOSTNAME="esp32-toilet"
-CONFIG_LWIP_MAX_SOCKETS=0
-CONFIG_LWIP_NETIF_LOOPBACK=n
+# httpd (4 clients + 3 internal) + SNTP + 余量
+CONFIG_LWIP_MAX_SOCKETS=10
+# SNTP time sync (power-save schedule depends on it)
+CONFIG_LWIP_SNTP_MAX_SERVERS=3
+CONFIG_LWIP_SNTP_UPDATE_DELAY=3600000
+
+# ==================== HTTP Server (web config page) ====================
+# Note: httpd task stack is set in code (web_server.c: cfg.stack_size = 8192)
+CONFIG_HTTPD_MAX_REQ_HDR_LEN=512
+
+# ==================== Partition Table ====================
+# WiFi + BLE + HTTP stack exceeds default 1MB factory partition, use 2MB
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
 
 # ==================== Compiler ====================
 # Optimize for size (-Os)
@@ -36,8 +50,8 @@ CONFIG_FREERTOS_GENERATE_RUN_TIME_STATS=n
 CONFIG_ESP_COREDUMP_ENABLE_NONE=y
 # Disable panic handler backtrace
 CONFIG_ESP_SYSTEM_PANIC_PRINT_HALT=y
-# Reduce main task stack (we don't need much)
-CONFIG_ESP_MAIN_TASK_STACK_SIZE=4096
+# Main task stack (WiFi init + web server start run here)
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
 # Disable deep sleep wake stub
 CONFIG_ESP_SLEEP_DEEP_SLEEP_WAKEUP_DELAY=0
 
@@ -45,7 +59,9 @@ CONFIG_ESP_SLEEP_DEEP_SLEEP_WAKEUP_DELAY=0
 CONFIG_LOG_DEFAULT_LEVEL_INFO=y
 CONFIG_LOG_MAXIMUM_LEVEL_WARN=y
 
-# ==================== mDNS / HTTP (disabled) ====================
-CONFIG_MDNS_ENABLED=n
+# ==================== Flash / Flasher ====================
+# 4MB flash (ESP32-DevKitC standard), partitions.csv factory = 2MB
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+
+# ==================== mDNS (disabled) ====================
 CONFIG_ESP_HTTPS_SERVER_ENABLE=n
-CONFIG_HTTPD_MAX_REQ_HDR_LEN=512

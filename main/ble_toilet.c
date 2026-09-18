@@ -236,15 +236,136 @@ static size_t build_cmd_frame(toilet_cmd_t cmd, uint8_t *frame)
         build_single_value_frame(frame, 53, 1); return 9;
     case TOILET_CMD_STOP:              /* 停止: _setSingleValue(50, 0) */
         build_single_value_frame(frame, 50, 0); return 9;
-    case TOILET_CMD_SEAT_HEAT_ON:      /* 座圈加热开(标准档): _setSingleValue(60, 3) */
+    case TOILET_CMD_SEAT_HEAT_ON:      /* 座圈加热-高档: _setSingleValue(60, 3) */
         build_single_value_frame(frame, 60, 3); return 9;
     case TOILET_CMD_SEAT_HEAT_OFF:     /* 座圈加热关: _setSingleValue(60, 0) */
         build_single_value_frame(frame, 60, 0); return 9;
     case TOILET_CMD_QUERY_STATE:       /* 查询状态: _setSingleValue(17, 0) */
         build_single_value_frame(frame, 17, 0); return 9;
+    case TOILET_CMD_SEAT_HEAT_LOW:     /* 座圈加热-低档: (60, 1) */
+        build_single_value_frame(frame, 60, 1); return 9;
+    case TOILET_CMD_SEAT_HEAT_MID:     /* 座圈加热-中档: (60, 2) */
+        build_single_value_frame(frame, 60, 2); return 9;
+    case TOILET_CMD_COVER_ON:          /* 翻盖开: _setSingleValue(51, 1) */
+        build_single_value_frame(frame, 51, 1); return 9;
+    case TOILET_CMD_COVER_OFF:         /* 翻盖关: _setSingleValue(51, 0) */
+        build_single_value_frame(frame, 51, 0); return 9;
+    case TOILET_CMD_RING_ON:           /* 翻圈开: _setSingleValue(52, 1) */
+        build_single_value_frame(frame, 52, 1); return 9;
+    case TOILET_CMD_RING_OFF:          /* 翻圈关: _setSingleValue(52, 0) */
+        build_single_value_frame(frame, 52, 0); return 9;
+    case TOILET_CMD_NIGHT_LIGHT_ON:    /* 夜灯开: _set41H(0, 1) */
+        build_double_value_frame(frame, 0x41, 0x00, 0x01); return 10;
+    case TOILET_CMD_NIGHT_LIGHT_OFF:   /* 夜灯关: _set41H(0, 0) */
+        build_double_value_frame(frame, 0x41, 0x00, 0x00); return 10;
+    case TOILET_CMD_AUTO_FLUSH_ON:     /* 自动冲刷开: _set40H(5, 1) */
+        build_double_value_frame(frame, 0x40, 0x05, 0x01); return 10;
+    case TOILET_CMD_AUTO_FLUSH_OFF:    /* 自动冲刷关: _set40H(5, 0) */
+        build_double_value_frame(frame, 0x40, 0x05, 0x00); return 10;
+    case TOILET_CMD_AUTO_COVER_ON:     /* 自动翻盖开: _set40H(0, 1) */
+        build_double_value_frame(frame, 0x40, 0x00, 0x01); return 10;
+    case TOILET_CMD_AUTO_COVER_OFF:    /* 自动翻盖关: _set40H(0, 0) */
+        build_double_value_frame(frame, 0x40, 0x00, 0x00); return 10;
+    case TOILET_CMD_SMART_POWER_ON:    /* 智能节电开: _set40H(3, 1) */
+        build_double_value_frame(frame, 0x40, 0x03, 0x01); return 10;
+    case TOILET_CMD_SMART_POWER_OFF:   /* 智能节电关: _set40H(3, 0) */
+        build_double_value_frame(frame, 0x40, 0x03, 0x00); return 10;
+    case TOILET_CMD_HIBERNATE:         /* 休眠: _setSwitch(23, 1) */
+        build_single_value_frame(frame, 23, 1); return 9;
+    case TOILET_CMD_SELF_CLEAN:        /* 自清洁: _set61H(1) */
+        build_single_value_frame(frame, 97, 1); return 9;
+    case TOILET_CMD_SEAT_TOO_LONG_ON:  /* 久坐提醒开: _set40H(26, 1) */
+        build_double_value_frame(frame, 0x40, 0x1A, 0x01); return 10;
+    case TOILET_CMD_SEAT_TOO_LONG_OFF: /* 久坐提醒关: _set40H(26, 0) */
+        build_double_value_frame(frame, 0x40, 0x1A, 0x00); return 10;
+    case TOILET_CMD_AUTO_TEMP_ON:      /* 四季温感开: _set40H(15, 1) */
+        build_double_value_frame(frame, 0x40, 0x0F, 0x01); return 10;
+    case TOILET_CMD_AUTO_TEMP_OFF:     /* 四季温感关: _set40H(15, 0) */
+        build_double_value_frame(frame, 0x40, 0x0F, 0x00); return 10;
+    case TOILET_CMD_REGULAR_FLUSH_ON:  /* 定期冲刷开: _set40H(23, 1) */
+        build_double_value_frame(frame, 0x40, 0x17, 0x01); return 10;
+    case TOILET_CMD_REGULAR_FLUSH_OFF: /* 定期冲刷关: _set40H(23, 0) */
+        build_double_value_frame(frame, 0x40, 0x17, 0x00); return 10;
+    case TOILET_CMD_AUTO_SMALL_ON:     /* 自动小冲开: _set40H(19, 1) */
+        build_double_value_frame(frame, 0x40, 0x13, 0x01); return 10;
+    case TOILET_CMD_AUTO_SMALL_OFF:    /* 自动小冲关: _set40H(19, 0) */
+        build_double_value_frame(frame, 0x40, 0x13, 0x00); return 10;
+    case TOILET_CMD_CLOSE_COVER_FLUSH_ON:  /* 关盖冲厕开: _set40H(20, 1) */
+        build_double_value_frame(frame, 0x40, 0x14, 0x01); return 10;
+    case TOILET_CMD_CLOSE_COVER_FLUSH_OFF: /* 关盖冲厕关: _set40H(20, 0) */
+        build_double_value_frame(frame, 0x40, 0x14, 0x00); return 10;
+    case TOILET_CMD_PRE_WETTING_ON:    /* 预润湿开: _set40H(18, 1) */
+        build_double_value_frame(frame, 0x40, 0x12, 0x01); return 10;
+    case TOILET_CMD_PRE_WETTING_OFF:   /* 预润湿关: _set40H(18, 0) */
+        build_double_value_frame(frame, 0x40, 0x12, 0x00); return 10;
+    case TOILET_CMD_LIGHT_SENSOR_ON:   /* 光感夜灯开: _set40H(2, 1) */
+        build_double_value_frame(frame, 0x40, 0x02, 0x01); return 10;
+    case TOILET_CMD_LIGHT_SENSOR_OFF:  /* 光感夜灯关: _set40H(2, 0) */
+        build_double_value_frame(frame, 0x40, 0x02, 0x00); return 10;
     default:
         return 0;
     }
+}
+
+/* ---------------- 马桶状态解析 (notify 0x30 上报帧, 参照小程序 dealWith30) ---------------- */
+
+static toilet_state_t s_dev_state = { 0 };
+
+/* 取字节 t 的第 bit 位 (bit0=LSB) */
+static inline bool bit_at(uint8_t v, int bit)
+{
+    return (v >> bit) & 0x01;
+}
+
+/* 解析 0x30 状态上报帧: FC SUM 01 00 00 00 30 [t7..t24] FC, 数据从帧[7]开始 */
+static void parse_state_report(const uint8_t *f, uint16_t len)
+{
+    if (len < 26) return;               /* 至少要含到 t[18] 的数据 */
+
+    toilet_state_t s = { 0 };
+    const uint8_t *t = f + 7;           /* t[0] 即帧[7], 与小程序 dealWith30(t) 对齐 */
+
+    s.work_state      = t[0] & 0x1F;
+    s.hibernating     = (s.work_state == 1);
+    s.self_clean      = (s.work_state == 16);
+
+    s.error_bits[0]   = t[1];
+    s.error_bits[1]   = t[2];
+    s.error_bits[2]   = t[3];
+
+    s.foot_sensor     = bit_at(t[4], 3);
+    s.cover_on        = bit_at(t[4], 4);
+    s.ring_on         = bit_at(t[4], 5);
+    s.on_seat         = bit_at(t[4], 7);
+
+    uint8_t fl        = t[5] & 0x03;
+    s.flushing_large  = (fl == 2);
+    s.flushing_small  = (fl == 1);
+    s.auto_temp       = bit_at(t[5], 2);
+
+    s.ring_running    = bit_at(t[6], 0);
+    s.cover_running   = bit_at(t[6], 1);
+    s.auto_small_flush  = bit_at(t[6], 3);
+    s.close_cover_flush = bit_at(t[6], 4);
+    s.regular_flush   = bit_at(t[6], 7);
+
+    s.auto_cover      = bit_at(t[8], 7);            /* t[15] */
+    s.night_light     = bit_at(t[9], 6);            /* t[16] */
+    s.light_sensor    = bit_at(t[9], 7);
+    s.auto_flush      = bit_at(t[10], 7);           /* t[17] */
+    s.seat_temp_level = (t[10] >> 3) & 0x07;
+    s.smart_power_save = bit_at(t[10], 6);
+
+    s.valid = true;
+    s_dev_state = s;
+
+    ESP_LOGI(TAG, "State: work=%u seat_temp=%u %s%s%s%s%s",
+             s.work_state, s.seat_temp_level,
+             s.on_seat ? "[on-seat] " : "",
+             s.cover_on ? "[cover-open] " : "",
+             s.ring_on ? "[ring-open] " : "",
+             (s.flushing_large || s.flushing_small) ? "[flushing] " : "",
+             (s.error_bits[0] | s.error_bits[1] | s.error_bits[2]) ? "[FAULT!]" : "");
 }
 
 /* ---------------- MAC 地址匹配 ---------------- */
@@ -267,7 +388,11 @@ static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *par
             ESP_LOGE(TAG, "Scan start failed: %x", param->scan_start_cmpl.status);
             reset_to_idle("scan start failed");
         } else {
-            ESP_LOGI(TAG, "Scanning for " TOILET_TARGET_MAC_STR " (timeout %ds)...", SCAN_TIMEOUT_SEC);
+            /* 打印运行时生效的 MAC (可能是网页/NVS 配置, 而非编译期 Kconfig 值) */
+            ESP_LOGI(TAG, "Scanning for %02X:%02X:%02X:%02X:%02X:%02X (timeout %ds)...",
+                     s_target_mac_be[0], s_target_mac_be[1], s_target_mac_be[2],
+                     s_target_mac_be[3], s_target_mac_be[4], s_target_mac_be[5],
+                     SCAN_TIMEOUT_SEC);
         }
         break;
 
@@ -469,6 +594,8 @@ static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_
         restart_idle_timer();
         ESP_LOGI(TAG, "=== BLE READY. Waiting for voice commands (timeout %ds). ===",
                  CONFIG_BLE_IDLE_TIMEOUT_SEC);
+        /* 就绪后自动查一次状态 (与小程序 onDeviceReady 一致), 回包由 notify 0x30 解析 */
+        ble_toilet_execute(TOILET_CMD_QUERY_STATE);
         break;
 
     case ESP_GATTC_NOTIFY_EVT: {
@@ -476,14 +603,22 @@ static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_
         uint16_t len = p_data->notify.value_len;
         ESP_LOGI(TAG, "Notify RX (%d bytes):", len);
         esp_log_buffer_hex(TAG, val, len);
-        /* 协议识别: 根据帧头判断马桶用的是哪套协议 */
-        if (len >= 2) {
-            if (val[0] == 0xFC) {
-                ESP_LOGI(TAG, ">>> Protocol: FC (Techramic, bleProtocol=1/2) - MATCHES this firmware");
-            } else if (val[0] == 0xF3 && val[1] == 0xF4) {
-                ESP_LOGW(TAG, ">>> Protocol: F3F4 (old ToiletController, bleProtocol=0) - frames need changing!");
-            } else {
-                ESP_LOGW(TAG, ">>> Protocol: UNKNOWN header 0x%02X 0x%02X", val[0], val[1]);
+
+        /* Techramic 应答帧: FC ... FC, 帧第 7 字节 (index 6) 为命令码回显 */
+        if (len >= 8 && val[0] == 0xFC && val[len - 1] == 0xFC) {
+            switch (val[6]) {
+            case 0x30:                          /* 状态上报 -> 解析到 s_dev_state */
+                parse_state_report(val, len);
+                break;
+            case 0x01:                          /* 版本信息应答 (未解析, 仅日志) */
+                ESP_LOGI(TAG, "Version report (parsing not implemented)");
+                break;
+            case 0x60:                          /* 60 命令应答 (座温等) */
+                ESP_LOGI(TAG, "Cmd 0x60 ack");
+                break;
+            default:
+                ESP_LOGI(TAG, "Cmd 0x%02X ack", val[6]);
+                break;
             }
         }
         break;
@@ -549,6 +684,52 @@ bool ble_toilet_is_ready(void)
 bool ble_toilet_is_busy(void)
 {
     return (s_state == STATE_SCANNING || s_state == STATE_CONNECTING || s_state == STATE_DISCOVERING);
+}
+
+const char *ble_toilet_state_name(void)
+{
+    return state_names[s_state];
+}
+
+esp_err_t ble_toilet_disconnect(void)
+{
+    if (s_state != STATE_READY) {
+        return ESP_ERR_INVALID_STATE;
+    }
+    ESP_LOGI(TAG, "Manual disconnect requested");
+    set_state(STATE_DISCONNECTING);
+    esp_ble_gap_disconnect(gl_profile_tab[PROFILE_A_APP_ID].remote_bda);
+    return ESP_OK;
+}
+
+bool ble_toilet_wait_ready(int timeout_ms)
+{
+    int waited = 0;
+    while (waited < timeout_ms) {
+        if (s_state == STATE_READY) return true;
+        if (s_state == STATE_IDLE)  return false;   /* 连接失败已复位 */
+        vTaskDelay(pdMS_TO_TICKS(100));
+        waited += 100;
+    }
+    return false;
+}
+
+void ble_toilet_set_target_mac(const uint8_t mac[6])
+{
+    memcpy(s_target_mac_be, mac, 6);
+    for (int i = 0; i < 6; i++) s_target_mac_le[i] = s_target_mac_be[5 - i];
+    ESP_LOGI(TAG, "Target MAC updated: %02X:%02X:%02X:%02X:%02X:%02X",
+             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+}
+
+void ble_toilet_get_target_mac(uint8_t mac[6])
+{
+    memcpy(mac, s_target_mac_be, 6);
+}
+
+void ble_toilet_get_state(toilet_state_t *state)
+{
+    if (state) memcpy(state, &s_dev_state, sizeof(*state));
 }
 
 void ble_toilet_set_event_cb(ble_toilet_event_cb_t cb)
