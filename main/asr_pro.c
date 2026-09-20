@@ -127,12 +127,21 @@ static uint8_t cmd_to_feedback(toilet_cmd_t cmd)
     }
 }
 
+/* 反馈静音标志: 省电模式自动调度连接期间置位, 屏蔽"已连接/已断开/失败"播报 */
+static volatile bool s_feedback_mute = false;
+
 /* 发送反馈码到 ASR-PRO (触发语音播报); 可从任意任务上下文调用 */
 void asr_pro_send_feedback(uint8_t code)
 {
-    if (code == 0) return;
+    if (code == 0 || s_feedback_mute) return;
     uart_write_bytes(ASR_UART_PORT, &code, 1);
     ESP_LOGI(TAG, "Feedback -> ASR-PRO: 0x%02X", code);
+}
+
+void asr_pro_set_mute(bool mute)
+{
+    s_feedback_mute = mute;
+    ESP_LOGI(TAG, "Voice feedback %s", mute ? "muted (auto scheduler)" : "resumed");
 }
 
 /* 处理一条 ASR 命令 (可能来自完整帧, 也可能来自裸字节) */

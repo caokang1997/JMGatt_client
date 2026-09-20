@@ -9,6 +9,8 @@
  *     - 时段边界跨越 -> 执行开/关
  *     - 其余时间不动 -> 用户手动操作不被覆盖
  *   BLE 被语音/网页占用时跳过本周期, 下周期重试
+ *   自动调度的连接全程静音 (不触发"已连接/已断开"语音播报)
+ *   执行失败: 30 秒后重试; 连续失败 3 次后退避为每 5 分钟重试一次
  */
 
 #include <string.h>
@@ -22,6 +24,7 @@
 
 #include "power_save.h"
 #include "ble_toilet.h"
+#include "asr_pro.h"
 #include "app_wifi.h"
 
 #define TAG                 "PWR_SAVE"
@@ -29,6 +32,8 @@
 #define CHECK_PERIOD_SEC    30          /* 检查周期(秒) */
 #define WAIT_READY_MS       25000       /* 等待 BLE 就绪超时 */
 #define CMD_SETTLE_MS       800         /* 命令写入后的等待 */
+#define FAIL_BACKOFF_CYCLES 10          /* 连续失败后的退避周期数 (10*30s = 5分钟) */
+#define FAIL_STREAK_LIMIT   3           /* 连续失败多少次后进入退避 */
 
 /* ---------------- 内部状态 ---------------- */
 
@@ -36,6 +41,8 @@ static power_save_cfg_t s_cfg;              /* 当前生效配置 (reload 时更
 static volatile int s_applied = -1;         /* 最近一次下发的状态: -1 未知, 0 关, 1 开 */
 static volatile int s_prev_want = -1;       /* 上一周期计算出的期望值 (边界检测) */
 static volatile bool s_time_ever_synced = false;
+static int s_fail_streak = 0;               /* 连续执行失败次数 */
+static int s_skip_cycles = 0;               /* 退避期间跳过的检查周期数 */
 
 /* ---------------- 时间段判断 ---------------- */
 
@@ -85,11 +92,16 @@ static bool apply_seat_heat(bool on)
 
     ESP_LOGI(TAG, "Applying seat heat %s (connect...)", on ? "ON" : "OFF");
 
+    /* 静默执行: 自动调度的连接/断开/失败不触发语音播报, 只有用户主动唤醒才播报 */
+    asr_pro_set_mute(true);
+
     if (ble_toilet_wake() != ESP_OK) {
+        asr_pro_set_mute(false);
         return false;
     }
     if (!ble_toilet_wait_ready(WAIT_READY_MS)) {
         ESP_LOGE(TAG, "BLE not ready in %d ms", WAIT_READY_MS);
+        asr_pro_set_mute(false);
         return false;
     }
 
@@ -103,6 +115,7 @@ static bool apply_seat_heat(bool on)
     /* 给写入留一点时间, 然后立即断开释放蓝牙 */
     vTaskDelay(pdMS_TO_TICKS(CMD_SETTLE_MS));
     ble_toilet_disconnect();
+    asr_pro_set_mute(false);     /* 恢复语音反馈 */
 
     return (ret == ESP_OK);
 }
@@ -131,6 +144,12 @@ static void power_save_task(void *arg)
             continue;
         }
 
+        /* 失败退避: 连续失败后拉长重试间隔, 避免深夜每 30 秒重连打扰 */
+        if (s_skip_cycles > 0) {
+            s_skip_cycles--;
+            continue;
+        }
+
         bool is_wd = false;
         bool want = compute_want(&is_wd);
 
@@ -145,9 +164,18 @@ static void power_save_task(void *arg)
         if (apply_seat_heat(want)) {
             s_applied = want;
             s_prev_want = want;
+            s_fail_streak = 0;
             ESP_LOGI(TAG, "Seat heat %s applied OK", want ? "ON" : "OFF");
+        } else {
+            /* 失败则不更新 s_prev_want, 下个周期自动重试;
+             * 连续失败 3 次 (如手机占用蓝牙/马桶不在) 后退避为每 5 分钟一次 */
+            if (++s_fail_streak >= FAIL_STREAK_LIMIT) {
+                s_skip_cycles = FAIL_BACKOFF_CYCLES;
+                s_fail_streak = 0;
+                ESP_LOGW(TAG, "Apply failed %d times, backoff %d min",
+                         FAIL_STREAK_LIMIT, FAIL_BACKOFF_CYCLES * CHECK_PERIOD_SEC / 60);
+            }
         }
-        /* 失败则不更新 s_prev_want, 下个周期自动重试 */
     }
 }
 
@@ -170,6 +198,8 @@ void power_save_reload(void)
 {
     app_config_ps_load(&s_cfg);
     s_prev_want = -1;      /* 强制下个周期重新评估并同步 */
+    s_fail_streak = 0;     /* 重置失败退避 */
+    s_skip_cycles = 0;
     ESP_LOGI(TAG, "Config reloaded (enable=%u)", s_cfg.enable);
 }
 

@@ -77,6 +77,12 @@ void asr_pro_feed_byte(uint8_t byte);
  */
 void asr_pro_send_feedback(uint8_t code);
 
+/**
+ * @brief 反馈静音开关 (true = 暂停所有反馈码发送)
+ *        省电模式自动调度连接马桶时使用, 避免"已连接/已断开"在深夜反复播报
+ */
+void asr_pro_set_mute(bool mute);
+
 #ifdef __cplusplus
 }
 #endif
