@@ -15,13 +15,13 @@ menu "JOMOO SQ9650 Voice Controller"
 
     config ASR_UART_RX_PIN
         int "ASR-PRO TXD to ESP32 RX GPIO number"
-        default 17
+        default 19
         help
             GPIO number for UART2 RX pin (receives data from ASR-PRO TXD).
 
     config ASR_UART_TX_PIN
         int "ESP32 TX to ASR-PRO RXD GPIO number"
-        default 16
+        default 18
         help
             GPIO number for UART2 TX pin (sends data to ASR-PRO PA3/RXD).
             Used for voice feedback: ESP32 sends a single status byte back

@@ -499,8 +499,8 @@ idf.py -p COM3 flash monitor
 |---|---|---|
 | `TOILET_TARGET_MAC` | `A4:C1:38:5E:79:76` | 目标马桶 BLE MAC 地址 |
 | `ASR_UART_BAUD_RATE` | `115200` | ASR-PRO UART 波特率 |
-| `ASR_UART_RX_PIN` | `17` | ESP32 接收引脚（接 ASR-PRO TXD） |
-| `ASR_UART_TX_PIN` | `16` | ESP32 发送引脚（接 ASR-PRO PA3，**语音反馈必需**） |
+| `ASR_UART_RX_PIN` | `19` | ESP32 接收引脚（接 ASR-PRO TXD） |
+| `ASR_UART_TX_PIN` | `18` | ESP32 发送引脚（接 ASR-PRO PA3，**语音反馈必需**） |
 | `BLE_IDLE_TIMEOUT_SEC` | `30` | 空闲多少秒后自动断开 BLE |
 | `ENABLE_DEBUG_CONSOLE` | `y` | 是否在 UART0 启用调试控制台（量产可关） |
 | `TOILET_AP_SSID` | `Toilet-Setup` | 配网热点 SSID 前缀（自动追加 MAC 后 4 位） |
@@ -517,8 +517,8 @@ idf.py -p COM3 flash monitor
 ```
 天问 ASR-PRO          ESP32
 ─────────────         ─────────────
-   TXD  ───────────>  GPIO17 (UART2 RX)
-   RXD  <───────────  GPIO16 (UART2 TX)  [必需:语音反馈]
+   TXD  ───────────>  GPIO19 (UART2 RX)
+   RXD  <───────────  GPIO18 (UART2 TX)  [必需:语音反馈]
    GND  ───────────   GND
    VCC  ───────────   5V 或 3.3V (看模块要求)
 ```
