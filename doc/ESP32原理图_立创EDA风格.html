@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>ESP32 主控原理图 · 立创EDA风格</title>
+<style>
+  body{margin:0;padding:16px;background:#f4f6f8;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;}
+  .sheet{background:#fff;border:1px solid #dfe3e8;border-radius:10px;overflow:hidden;max-width:1220px;margin:0 auto;}
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #eef1f4;background:#fafbfc;}
+  .bar b{font-size:14px;font-weight:500;color:#1b2430;}
+  .bar span{font-size:11px;color:#8a95a1;}
+  .wrap{overflow:auto;padding:6px;}
+  svg{display:block;}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="bar"><b>ESP32 主控原理图 · 立创EDA 风格</b><span>U2 ESP32-WROOM-32E-N4 · Rev 1.0</span></div>
+  <div class="wrap">
+
+<svg viewBox="0 0 1180 880" width="1180" height="880" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,'Segoe UI','Microsoft YaHei',sans-serif">
+<defs>
+<pattern id="q1" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0 L0 0 L0 20" fill="none" stroke="#eff2f5" stroke-width="0.8"/></pattern>
+<pattern id="q2" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0 L0 0 L0 100" fill="none" stroke="#e3e8ed" stroke-width="1"/></pattern>
+<g id="gnd" stroke="#00802b" stroke-width="1.6" fill="none"><path d="M0,0 L0,7 M-16,7 L16,7 M-9,13 L9,13 M-2,19 L2,19"/></g>
+<g id="gndu" stroke="#00802b" stroke-width="1.6" fill="none"><path d="M0,0 L0,-7 M-16,-7 L16,-7 M-9,-13 L9,-13 M-2,-19 L2,-19"/></g>
+<g id="capv" stroke="#8b0000" stroke-width="2.4" fill="none"><path d="M-16,0 L16,0 M-16,14 L16,14"/></g>
+<g id="resv" stroke="#8b0000" stroke-width="1.8" fill="none"><rect x="-10" y="0" width="20" height="40"/></g>
+</defs>
+<rect x="0" y="0" width="1180" height="880" fill="#ffffff"/>
+<rect x="0" y="0" width="1180" height="880" fill="url(#q1)"/>
+<rect x="0" y="0" width="1180" height="880" fill="url(#q2)"/>
+
+<g stroke="#00802b" stroke-width="1.6" fill="none">
+<path d="M140,70 L345,70"/>
+<path d="M385,174 L340,174 L340,70"/>
+<path d="M150,70 L150,120 M150,134 L150,190"/>
+<path d="M210,70 L210,230 M210,244 L210,300"/>
+<path d="M270,70 L270,140 M270,180 L270,206"/>
+<path d="M385,206 L270,206"/>
+<path d="M270,206 L270,270 M270,284 L270,340"/>
+<path d="M550,110 L550,82"/>
+<path d="M680,238 L985,238"/>
+<path d="M680,270 L985,270"/>
+<path d="M985,174 L940,174"/>
+<path d="M985,206 L940,206"/>
+<path d="M985,302 L930,302"/>
+<path d="M680,398 L940,398"/>
+<path d="M940,398 L940,460 M940,474 L940,530"/>
+<path d="M680,366 L1000,366"/>
+<path d="M1000,366 L1000,440 M1000,454 L1000,510"/>
+<path d="M680,558 L900,558"/>
+<path d="M790,558 L790,520 M790,480 L790,450"/>
+<path d="M880,558 L880,600 M880,640 L880,680"/>
+</g>
+
+<g stroke="#8b0000" stroke-width="2" fill="none">
+<rect x="420" y="110" width="260" height="640"/>
+<path d="M420,142 L385,142 M420,174 L385,174 M420,206 L385,206 M420,238 L385,238 M420,270 L385,270 M420,302 L385,302 M420,334 L385,334 M420,366 L385,366 M420,398 L385,398 M420,430 L385,430 M420,462 L385,462 M420,494 L385,494 M420,526 L385,526 M420,558 L385,558 M420,590 L385,590 M420,622 L385,622 M420,654 L385,654 M420,686 L385,686 M420,718 L385,718"/>
+<path d="M680,142 L715,142 M680,174 L715,174 M680,206 L715,206 M680,238 L715,238 M680,270 L715,270 M680,302 L715,302 M680,334 L715,334 M680,366 L715,366 M680,398 L715,398 M680,430 L715,430 M680,462 L715,462 M680,494 L715,494 M680,526 L715,526 M680,558 L715,558 M680,590 L715,590 M680,622 L715,622 M680,654 L715,654 M680,686 L715,686 M680,718 L715,718"/>
+<circle cx="436" cy="126" r="3.5" stroke-width="1.5"/>
+<rect x="1020" y="150" width="90" height="208"/>
+<path d="M1020,174 L985,174 M1020,206 L985,206 M1020,238 L985,238 M1020,270 L985,270 M1020,302 L985,302 M1020,334 L985,334"/>
+<path d="M880,600 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0"/>
+<path d="M880,640 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0"/>
+<path d="M888,594 L888,646 M878,620 L862,620"/>
+<path d="M80,770 L80,793 M160,770 L160,793 M240,770 L240,793 M320,770 L320,793 M400,770 L400,793"/>
+</g>
+
+<use href="#resv" x="270" y="140"/>
+<use href="#resv" x="790" y="480"/>
+<use href="#capv" x="150" y="120"/>
+<use href="#capv" x="210" y="230"/>
+<use href="#capv" x="270" y="270"/>
+<use href="#capv" x="940" y="460"/>
+<use href="#capv" x="1000" y="440"/>
+
+<use href="#gnd" x="385" y="142"/><use href="#gnd" x="385" y="590"/>
+<use href="#gnd" x="150" y="190"/><use href="#gnd" x="210" y="300"/><use href="#gnd" x="270" y="340"/>
+<use href="#gndu" x="550" y="82"/>
+<use href="#gnd" x="715" y="142"/><use href="#gnd" x="985" y="334"/><use href="#gnd" x="940" y="530"/>
+<use href="#gnd" x="1000" y="510"/><use href="#gnd" x="880" y="680"/>
+
+<g fill="#00802b">
+<circle cx="150" cy="70" r="3.6"/><circle cx="210" cy="70" r="3.6"/><circle cx="270" cy="70" r="3.6"/><circle cx="340" cy="70" r="3.6"/>
+<circle cx="270" cy="206" r="3.6"/><circle cx="790" cy="558" r="3.6"/><circle cx="880" cy="558" r="3.6"/>
+<circle cx="940" cy="398" r="3.6"/><circle cx="1000" cy="366" r="3.6"/>
+<circle cx="80" cy="800" r="7" stroke="#8b0000" stroke-width="2" fill="#fff"/>
+<circle cx="160" cy="800" r="7" stroke="#8b0000" stroke-width="2" fill="#fff"/>
+<circle cx="240" cy="800" r="7" stroke="#8b0000" stroke-width="2" fill="#fff"/>
+<circle cx="320" cy="800" r="7" stroke="#8b0000" stroke-width="2" fill="#fff"/>
+<circle cx="400" cy="800" r="7" stroke="#8b0000" stroke-width="2" fill="#fff"/>
+</g>
+
+<g font-size="11" fill="#8b0000">
+<text x="415" y="138" text-anchor="end">1</text><text x="415" y="170" text-anchor="end">2</text><text x="415" y="202" text-anchor="end">3</text><text x="415" y="234" text-anchor="end">4</text><text x="415" y="266" text-anchor="end">5</text><text x="415" y="298" text-anchor="end">6</text><text x="415" y="330" text-anchor="end">7</text><text x="415" y="362" text-anchor="end">8</text><text x="415" y="394" text-anchor="end">9</text><text x="415" y="426" text-anchor="end">10</text><text x="415" y="458" text-anchor="end">11</text><text x="415" y="490" text-anchor="end">12</text><text x="415" y="522" text-anchor="end">13</text><text x="415" y="554" text-anchor="end">14</text><text x="415" y="586" text-anchor="end">15</text><text x="415" y="618" text-anchor="end">16</text><text x="415" y="650" text-anchor="end">17</text><text x="415" y="682" text-anchor="end">18</text><text x="415" y="714" text-anchor="end">19</text>
+<text x="686" y="138">38</text><text x="686" y="170">37</text><text x="686" y="202">36</text><text x="686" y="234">35</text><text x="686" y="266">34</text><text x="686" y="298">33</text><text x="686" y="330">32</text><text x="686" y="362">31</text><text x="686" y="394">30</text><text x="686" y="426">29</text><text x="686" y="458">28</text><text x="686" y="490">27</text><text x="686" y="522">26</text><text x="686" y="554">25</text><text x="686" y="586">24</text><text x="686" y="618">23</text><text x="686" y="650">22</text><text x="686" y="682">21</text><text x="686" y="714">20</text>
+<text x="558" y="104">39</text>
+<text x="1012" y="170" text-anchor="end">1</text><text x="1012" y="202" text-anchor="end">2</text><text x="1012" y="234" text-anchor="end">3</text><text x="1012" y="266" text-anchor="end">4</text><text x="1012" y="298" text-anchor="end">5</text><text x="1012" y="330" text-anchor="end">6</text>
+</g>
+
+<g font-size="13" fill="#202020">
+<text x="430" y="147">GND</text><text x="430" y="179">3V3</text><text x="430" y="211">EN</text><text x="430" y="243">SENSOR_VP</text><text x="430" y="275">SENSOR_VN</text><text x="430" y="307">IO34</text><text x="430" y="339">IO35</text><text x="430" y="371">IO32</text><text x="430" y="403">IO33</text><text x="430" y="435">IO25</text><text x="430" y="467">IO26</text><text x="430" y="499">IO27</text><text x="430" y="531">IO14</text><text x="430" y="563">IO12</text><text x="430" y="595">GND</text><text x="430" y="627">IO13</text><text x="430" y="659">NC</text><text x="430" y="691">NC</text><text x="430" y="723">NC</text>
+<text x="670" y="147" text-anchor="end">GND</text><text x="670" y="179" text-anchor="end">IO23</text><text x="670" y="211" text-anchor="end">IO22</text><text x="670" y="243" text-anchor="end">TXD0</text><text x="670" y="275" text-anchor="end">RXD0</text><text x="670" y="307" text-anchor="end">IO21</text><text x="670" y="339" text-anchor="end">NC</text><text x="670" y="371" text-anchor="end">IO19</text><text x="670" y="403" text-anchor="end">IO18</text><text x="670" y="435" text-anchor="end">IO5</text><text x="670" y="467" text-anchor="end">IO17</text><text x="670" y="499" text-anchor="end">IO16</text><text x="670" y="531" text-anchor="end">IO4</text><text x="670" y="563" text-anchor="end">IO0</text><text x="670" y="595" text-anchor="end">IO2</text><text x="670" y="627" text-anchor="end">IO15</text><text x="670" y="659" text-anchor="end">NC</text><text x="670" y="691" text-anchor="end">NC</text><text x="670" y="723" text-anchor="end">NC</text>
+<text x="550" y="134" text-anchor="middle">GND</text>
+<text x="1028" y="179">EN</text><text x="1028" y="211">IO0</text><text x="1028" y="243">TXD0</text><text x="1028" y="275">RXD0</text><text x="1028" y="307">3V3</text><text x="1028" y="339">GND</text>
+</g>
+
+<text x="420" y="774" fill="#1f4fd8" font-size="16">U2</text>
+<text x="420" y="796" fill="#1f4fd8" font-size="15">2.4GHz</text>
+<text x="700" y="94" fill="#8a95a1" font-size="12">模组天线位于板边，需全层净空</text>
+<text x="1024" y="140" fill="#1f4fd8" font-size="16">J1</text>
+<text x="1020" y="378" fill="#1f4fd8" font-size="15">1×6P 2.54</text>
+
+<text x="142" y="62" fill="#1f4fd8" font-size="13" font-weight="500">+3.3V</text>
+<text x="138" y="126" fill="#1f4fd8" font-size="15" text-anchor="end">C8</text>
+<text x="138" y="150" fill="#1f4fd8" font-size="13" text-anchor="end">10µF</text>
+<text x="198" y="236" fill="#1f4fd8" font-size="15" text-anchor="end">C9</text>
+<text x="198" y="260" fill="#1f4fd8" font-size="13" text-anchor="end">100nF</text>
+<text x="282" y="150" fill="#1f4fd8" font-size="15">R4</text>
+<text x="282" y="172" fill="#1f4fd8" font-size="13">10k</text>
+<text x="282" y="276" fill="#1f4fd8" font-size="15">C10</text>
+<text x="282" y="298" fill="#1f4fd8" font-size="13">1µF</text>
+<text x="362" y="200" fill="#1f4fd8" font-size="13" font-weight="500" text-anchor="middle">EN</text>
+<text x="750" y="550" fill="#1f4fd8" font-size="13" font-weight="500">IO0</text>
+
+<text x="936" y="169" fill="#1f4fd8" font-size="13" font-weight="500" text-anchor="end">EN</text>
+<text x="936" y="201" fill="#1f4fd8" font-size="13" font-weight="500" text-anchor="end">IO0</text>
+<text x="926" y="297" fill="#1f4fd8" font-size="13" font-weight="500" text-anchor="end">+3.3V</text>
+
+<text x="790" y="442" fill="#1f4fd8" font-size="13" font-weight="500" text-anchor="middle">+3.3V</text>
+<text x="802" y="490" fill="#1f4fd8" font-size="15">R5</text>
+<text x="802" y="512" fill="#1f4fd8" font-size="13">10k</text>
+<text x="902" y="610" fill="#1f4fd8" font-size="15">SW1</text>
+<text x="902" y="632" fill="#8a95a1" font-size="12">BOOT / 重置</text>
+
+<text x="830" y="390" fill="#1f4fd8" font-size="13" font-weight="500">UART1_TX → ASR PA3(pin4)</text>
+<text x="830" y="358" fill="#1f4fd8" font-size="13" font-weight="500">UART1_RX ← ASR PA2(pin5)</text>
+<text x="928" y="466" fill="#1f4fd8" font-size="15" text-anchor="end">C12A</text>
+<text x="928" y="488" fill="#1f4fd8" font-size="13" text-anchor="end">33pF</text>
+<text x="988" y="446" fill="#1f4fd8" font-size="15" text-anchor="end">C12B</text>
+<text x="988" y="468" fill="#1f4fd8" font-size="13" text-anchor="end">33pF</text>
+
+<text x="68" y="806" fill="#1f4fd8" font-size="15" text-anchor="end">TP1</text>
+<g font-size="11" fill="#1f4fd8" text-anchor="middle">
+<text x="80" y="758">3V3</text><text x="160" y="758">5V</text><text x="240" y="758">GND</text><text x="320" y="758">U1_TX</text><text x="400" y="758">U1_RX</text>
+</g>
+
+<g stroke="#c9d2da" stroke-width="1" fill="none">
+<path d="M940,770 L1160,770 L1160,860 L940,860 Z M940,800 L1160,800 M940,830 L1160,830 M1045,800 L1045,860 M1100,830 L1100,860"/>
+</g>
+<g fill="#5f6b78" font-size="11">
+<text x="948" y="788">Sheet: MCU / 主控</text>
+<text x="948" y="818">File: ESP32.sch</text>
+<text x="1053" y="818">Rev 1.0</text>
+<text x="948" y="848">Date: 2026-10-09</text>
+<text x="1106" y="848">1 / 1</text>
+</g>
+
+<g font-size="12">
+<path d="M940,60 L970,60" stroke="#00802b" stroke-width="1.6" fill="none"/>
+<text x="978" y="64" fill="#5f6b78">导线</text>
+</g>
+<g font-size="12" fill="#5f6b78">
+<rect x="1040" y="50" width="24" height="14" stroke="#8b0000" stroke-width="1.6" fill="none"/>
+<text x="1072" y="64">元件 / 引脚</text>
+</g>
+<text x="940" y="94" fill="#1f4fd8" font-size="12">位号 / 网络标签</text>
+<text x="940" y="118" fill="#8a95a1" font-size="12">引脚 17-22、32、20-22 为 NC（内部接 Flash）</text>
+</svg>
+  </div>
+</div>
+</body>
+</html>

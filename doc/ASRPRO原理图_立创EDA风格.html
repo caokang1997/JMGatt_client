@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>ASRPRO 语音模块原理图 · 立创EDA风格</title>
+<style>
+  body{margin:0;padding:16px;background:#f4f6f8;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;}
+  .sheet{background:#fff;border:1px solid #dfe3e8;border-radius:10px;overflow:hidden;max-width:1440px;margin:0 auto;}
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #eef1f4;background:#fafbfc;}
+  .bar b{font-size:14px;font-weight:500;color:#1b2430;}
+  .bar span{font-size:11px;color:#8a95a1;}
+  .wrap{overflow:auto;padding:6px;}
+  svg{display:block;}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="bar"><b>ASRPRO 语音模块原理图 · 立创EDA 风格</b><span>U3 ASRPRO-CORE-2M（内置 8002A 功放） · Rev 1.0</span></div>
+  <div class="wrap">
+
+<svg viewBox="0 0 1400 1060" width="1400" height="1060" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,'Segoe UI','Microsoft YaHei',sans-serif">
+<defs>
+<pattern id="q1" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0 L0 0 L0 20" fill="none" stroke="#eff2f5" stroke-width="0.8"/></pattern>
+<pattern id="q2" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0 L0 0 L0 100" fill="none" stroke="#e3e8ed" stroke-width="1"/></pattern>
+<g id="gnd" stroke="#00802b" stroke-width="1.6" fill="none"><path d="M0,0 L0,7 M-16,7 L16,7 M-9,13 L9,13 M-2,19 L2,19"/></g>
+<g id="gndu" stroke="#00802b" stroke-width="1.6" fill="none"><path d="M0,0 L0,-7 M-16,-7 L16,-7 M-9,-13 L9,-13 M-2,-19 L2,-19"/></g>
+<g id="capv" stroke="#8b0000" stroke-width="2.4" fill="none"><path d="M-16,0 L16,0 M-16,14 L16,14"/></g>
+<g id="resv" stroke="#8b0000" stroke-width="1.8" fill="none"><rect x="-10" y="0" width="20" height="40"/></g>
+<g id="nc" stroke="#c0392b" stroke-width="1.6" fill="none"><path d="M-5,-5 L5,5 M-5,5 L5,-5"/></g>
+<g id="bead" stroke="#8b0000" stroke-width="1.4" fill="#8b0000"><rect x="-17" y="-7" width="34" height="14"/></g>
+</defs>
+<rect x="0" y="0" width="1400" height="1060" fill="#ffffff"/>
+<rect x="0" y="0" width="1400" height="1060" fill="url(#q1)"/>
+<rect x="0" y="0" width="1400" height="1060" fill="url(#q2)"/>
+
+<g stroke="#00802b" stroke-width="1.6" fill="none">
+<path d="M525,202 L415,202 L415,164"/>
+<path d="M415,150 L415,130"/>
+<path d="M525,234 L495,234"/>
+<path d="M525,266 L495,266"/>
+<path d="M525,298 L250,298 L250,400"/>
+<path d="M250,414 L250,460"/>
+<path d="M525,330 L300,330 L300,400"/>
+<path d="M300,414 L300,460"/>
+<path d="M525,362 L495,362"/>
+<path d="M525,394 L495,394"/>
+<path d="M525,426 L360,426"/>
+<path d="M525,458 L360,458"/>
+<path d="M840,202 L900,202"/>
+<path d="M840,234 L940,234 L1012,234"/>
+<path d="M940,234 L940,200"/>
+<path d="M940,186 L940,140"/>
+<path d="M1062,234 L1140,234"/>
+<path d="M840,266 L950,266"/>
+<path d="M840,298 L950,298"/>
+<path d="M840,330 L870,330"/>
+<path d="M840,362 L950,362"/>
+<path d="M840,394 L950,394"/>
+<path d="M840,426 L950,426"/>
+<path d="M840,458 L950,458"/>
+<path d="M70,680 L150,680"/>
+<path d="M184,680 L300,680"/>
+<path d="M70,800 L150,800"/>
+<path d="M184,800 L300,800"/>
+<path d="M240,680 L240,620"/>
+<path d="M240,590 L240,560"/>
+<path d="M740,690 L800,690"/>
+<path d="M740,730 L790,730"/>
+<path d="M740,770 L830,770"/>
+<path d="M740,810 L830,810"/>
+<path d="M1004,620 L1200,620"/>
+<path d="M1004,760 L1200,760"/>
+<path d="M1080,620 L1080,560"/>
+<path d="M1080,520 L1080,500"/>
+<path d="M1150,620 L1150,548"/>
+<path d="M1150,534 L1150,490"/>
+<path d="M1150,760 L1150,812"/>
+<path d="M1150,826 L1150,870"/>
+</g>
+
+<g stroke="#8b0000" stroke-width="2" fill="none">
+<rect x="560" y="170" width="280" height="320"/>
+<path d="M525,202 L560,202 M525,234 L560,234 M525,266 L560,266 M525,298 L560,298 M525,330 L560,330 M525,362 L560,362 M525,394 L560,394 M525,426 L560,426 M525,458 L560,458"/>
+<path d="M840,202 L875,202 M840,234 L875,234 M840,266 L875,266 M840,298 L875,298 M840,330 L875,330 M840,362 L875,362 M840,394 L875,394 M840,426 L875,426 M840,458 L875,458"/>
+<path d="M1012,226 h12 v16 h-12 Z"/>
+<path d="M1050,226 h12 v16 h-12 Z"/>
+<path d="M1018,226 C1018,210 1056,210 1056,226"/>
+<rect x="310" y="650" width="80" height="180"/>
+<path d="M300,680 L310,680 M300,800 L310,800"/>
+<rect x="660" y="650" width="80" height="210"/>
+<rect x="1200" y="590" width="110" height="200"/>
+</g>
+
+<g stroke="#8b0000" stroke-width="1.8" fill="none">
+<path d="M226,620 L254,620 L240,605 Z"/>
+<path d="M226,590 L254,590 L240,605 Z"/>
+<path d="M226,605 L254,605"/>
+<rect x="460" y="710" width="40" height="60"/>
+<path d="M500,710 L500,770 L560,800 L560,680 Z"/>
+</g>
+
+<path d="M390,740 L450,740" stroke="#8a95a1" stroke-width="1.4" stroke-dasharray="5 4" fill="none"/>
+
+<use href="#bead" x="167" y="680"/>
+<use href="#bead" x="167" y="800"/>
+<use href="#capv" x="415" y="150"/>
+<use href="#capv" x="250" y="400"/>
+<use href="#capv" x="300" y="400"/>
+<use href="#capv" x="940" y="186"/>
+<use href="#capv" x="1150" y="534"/>
+<use href="#capv" x="1150" y="812"/>
+<use href="#resv" x="1080" y="520"/>
+
+<use href="#gndu" x="415" y="130"/>
+<use href="#gnd" x="250" y="460"/>
+<use href="#gnd" x="300" y="460"/>
+<use href="#gnd" x="900" y="202"/>
+<use href="#gndu" x="940" y="140"/>
+<use href="#gndu" x="240" y="560"/>
+<use href="#gnd" x="790" y="730"/>
+<use href="#gndu" x="1150" y="490"/>
+<use href="#gnd" x="1150" y="870"/>
+
+<use href="#nc" x="495" y="234"/>
+<use href="#nc" x="495" y="266"/>
+<use href="#nc" x="495" y="362"/>
+<use href="#nc" x="495" y="394"/>
+<use href="#nc" x="870" y="330"/>
+
+<g fill="#00802b">
+<circle cx="940" cy="234" r="3.6"/>
+<circle cx="1080" cy="620" r="3.6"/>
+<circle cx="1150" cy="620" r="3.6"/>
+<circle cx="1150" cy="760" r="3.6"/>
+</g>
+
+<g font-size="11" fill="#8b0000">
+<text x="555" y="198" text-anchor="end">1</text><text x="555" y="230" text-anchor="end">2</text><text x="555" y="262" text-anchor="end">3</text><text x="555" y="294" text-anchor="end">4</text><text x="555" y="326" text-anchor="end">5</text><text x="555" y="358" text-anchor="end">6</text><text x="555" y="390" text-anchor="end">7</text><text x="555" y="422" text-anchor="end">8</text><text x="555" y="454" text-anchor="end">9</text>
+<text x="845" y="198">18</text><text x="845" y="230">17</text><text x="845" y="262">16</text><text x="845" y="294">15</text><text x="845" y="326">14</text><text x="845" y="358">13</text><text x="845" y="390">12</text><text x="845" y="422">11</text><text x="845" y="454">10</text>
+</g>
+
+<g font-size="13" fill="#202020">
+<text x="572" y="207">3V3</text><text x="572" y="239">PA6</text><text x="572" y="271">PA5</text><text x="572" y="303">PA3</text><text x="572" y="335">PA2</text><text x="572" y="367">PA1</text><text x="572" y="399">PA0</text><text x="572" y="431">SPKL-</text><text x="572" y="463">SPKL+</text>
+<text x="828" y="207" text-anchor="end">GND</text><text x="828" y="239" text-anchor="end">5V</text><text x="828" y="271" text-anchor="end">PB5</text><text x="828" y="303" text-anchor="end">PB6</text><text x="828" y="335" text-anchor="end">PC4</text><text x="828" y="367" text-anchor="end">PA4</text><text x="828" y="399" text-anchor="end">MUTE</text><text x="828" y="431" text-anchor="end">MIC+</text><text x="828" y="463" text-anchor="end">MIC-</text>
+</g>
+
+<g font-size="11" fill="#c0392b" text-anchor="end">
+<text x="487" y="238">NC</text><text x="487" y="270">NC</text><text x="487" y="366">NC</text><text x="487" y="398">NC</text>
+</g>
+<text x="878" y="334" font-size="11" fill="#c0392b">NC</text>
+
+<text x="560" y="524" fill="#1f4fd8" font-size="16">U3</text>
+<text x="560" y="546" fill="#1f4fd8" font-size="15">ASRPRO-CORE-2M</text>
+
+<text x="60" y="58" fill="#1b2430" font-size="16">ASRPRO 语音模块原理图 · 立创EDA 风格</text>
+<text x="60" y="82" fill="#8a95a1" font-size="12">U3 ASRPRO-CORE-2M · 内置 8002A 功放（无外置功放方案） · 18×23×2.9mm · SMD-18</text>
+
+<g font-size="12" fill="#5f6b78">
+<path d="M1090,52 L1120,52" stroke="#00802b" stroke-width="1.6" fill="none"/>
+<text x="1128" y="56">导线</text>
+<rect x="1190" y="42" width="24" height="14" stroke="#8b0000" stroke-width="1.6" fill="none"/>
+<text x="1222" y="56">元件 / 引脚</text>
+</g>
+<text x="1090" y="86" fill="#1f4fd8" font-size="12">位号 / 网络标签</text>
+<text x="1090" y="110" fill="#c0392b" font-size="12">NC = 未连接（预留）</text>
+
+<text x="425" y="196" fill="#1f4fd8" font-size="13">ASR_3V3</text>
+<text x="428" y="152" fill="#1f4fd8" font-size="13">C7</text>
+<text x="428" y="172" fill="#1f4fd8" font-size="12">4.7µF</text>
+<text x="262" y="290" fill="#1f4fd8" font-size="13">UART1_TX</text>
+<text x="312" y="322" fill="#1f4fd8" font-size="13">UART1_RX</text>
+<text x="272" y="420" fill="#1f4fd8" font-size="13">C12</text>
+<text x="316" y="420" fill="#1f4fd8" font-size="13">C12</text>
+<text x="272" y="440" fill="#1f4fd8" font-size="12">33pF</text>
+<text x="316" y="440" fill="#1f4fd8" font-size="12">33pF</text>
+<text x="365" y="418" fill="#1f4fd8" font-size="13">SPKL-</text>
+<text x="365" y="450" fill="#1f4fd8" font-size="13">SPKL+</text>
+
+<text x="948" y="177" fill="#1f4fd8" font-size="13">C6</text>
+<text x="948" y="197" fill="#1f4fd8" font-size="12">100µF</text>
+<text x="1000" y="196" fill="#1f4fd8" font-size="12" text-anchor="middle">JP1 跳线帽</text>
+<text x="1145" y="228" fill="#1f4fd8" font-size="13">+5V</text>
+<text x="955" y="260" fill="#1f4fd8" font-size="13">ASR_UART0_TX</text>
+<text x="955" y="292" fill="#1f4fd8" font-size="13">ASR_UART0_RX</text>
+<text x="955" y="356" fill="#1f4fd8" font-size="13">PG_EN</text>
+<text x="955" y="388" fill="#1f4fd8" font-size="13">MUTE</text>
+<text x="955" y="420" fill="#1f4fd8" font-size="13">MIC+</text>
+<text x="955" y="452" fill="#1f4fd8" font-size="13">MIC-</text>
+
+<text x="72" y="672" fill="#1f4fd8" font-size="13">SPKL+</text>
+<text x="72" y="792" fill="#1f4fd8" font-size="13">SPKL-</text>
+<text x="167" y="664" fill="#1f4fd8" font-size="12" text-anchor="middle">FB1</text>
+<text x="167" y="784" fill="#1f4fd8" font-size="12" text-anchor="middle">FB1</text>
+<text x="350" y="722" fill="#1f4fd8" font-size="15" text-anchor="middle">J2</text>
+<text x="350" y="744" fill="#1f4fd8" font-size="12" text-anchor="middle">1.25-2P</text>
+<text x="322" y="674" font-size="11" fill="#8b0000">1</text>
+<text x="322" y="794" font-size="11" fill="#8b0000">2</text>
+<text x="240" y="550" fill="#1f4fd8" font-size="12" text-anchor="middle">TVS3</text>
+<text x="420" y="732" fill="#8a95a1" font-size="11" text-anchor="middle">喇叭引线</text>
+<text x="510" y="852" fill="#1f4fd8" font-size="15" text-anchor="middle">SP1</text>
+<text x="510" y="872" fill="#1f4fd8" font-size="12" text-anchor="middle">8Ω/2W 带腔体</text>
+
+<text x="700" y="672" fill="#1f4fd8" font-size="15" text-anchor="middle">J4</text>
+<text x="700" y="882" fill="#1f4fd8" font-size="12" text-anchor="middle">1×4P 2.54</text>
+<text x="728" y="694" fill="#202020" font-size="12" text-anchor="end">5V</text>
+<text x="728" y="734" fill="#202020" font-size="12" text-anchor="end">GND</text>
+<text x="728" y="774" fill="#202020" font-size="12" text-anchor="end">PB6</text>
+<text x="728" y="814" fill="#202020" font-size="12" text-anchor="end">PB5</text>
+<text x="746" y="686" font-size="11" fill="#8b0000">1</text>
+<text x="746" y="726" font-size="11" fill="#8b0000">2</text>
+<text x="746" y="766" font-size="11" fill="#8b0000">3</text>
+<text x="746" y="806" font-size="11" fill="#8b0000">4</text>
+<text x="805" y="682" fill="#1f4fd8" font-size="13">+5V</text>
+<text x="835" y="762" fill="#1f4fd8" font-size="13">ASR_UART0_RX</text>
+<text x="835" y="802" fill="#1f4fd8" font-size="13">ASR_UART0_TX</text>
+<text x="700" y="904" fill="#8a95a1" font-size="11" text-anchor="middle">脚位 1=5V　2=GND　3=PB6(RX0,pin15)　4=PB5(TX0,pin16)</text>
+
+<text x="1006" y="612" fill="#1f4fd8" font-size="13">MIC+</text>
+<text x="1006" y="752" fill="#1f4fd8" font-size="13">MIC-</text>
+<text x="1094" y="538" fill="#1f4fd8" font-size="13">R6</text>
+<text x="1094" y="558" fill="#1f4fd8" font-size="12">2.2k</text>
+<text x="1080" y="492" fill="#1f4fd8" font-size="13" text-anchor="middle">ASR_3V3</text>
+<text x="1164" y="536" fill="#1f4fd8" font-size="13">C11</text>
+<text x="1164" y="556" fill="#1f4fd8" font-size="12">100nF</text>
+<text x="1164" y="814" fill="#1f4fd8" font-size="13">C11</text>
+<text x="1164" y="834" fill="#1f4fd8" font-size="12">100nF</text>
+<text x="1255" y="662" fill="#1f4fd8" font-size="15" text-anchor="middle">MK1</text>
+<text x="1255" y="684" fill="#1f4fd8" font-size="12" text-anchor="middle">驻极体麦克风</text>
+<text x="1210" y="616" fill="#8b0000" font-size="12">+</text>
+<text x="1210" y="756" fill="#8b0000" font-size="12">−</text>
+<text x="1255" y="822" fill="#8a95a1" font-size="11" text-anchor="middle">MIC 差分走线短、加屏蔽</text>
+
+<g font-size="11" fill="#5f6b78">
+<text x="60" y="944">说明 1　pin1(3V3) 为模组内部 LDO 输出（≤10mA），仅接 C7 去耦；切勿与板上 +3.3V 轨相连。</text>
+<text x="60" y="964">说明 2　UART1：pin4 PA3(RX1) → 网络 UART1_TX → ESP32 GPIO18；pin5 PA2(TX1) → UART1_RX → ESP32 GPIO19；115200 8N1。</text>
+<text x="60" y="984">说明 3　烧录：pin16 PB5(TX0) / pin15 PB6(RX0) → J4；下载时需冷启动（取下 JP1 断电再插回）。</text>
+<text x="60" y="1004">说明 4　pin13 PA4/PG_EN：上电高电平启动编程，默认上拉，勿硬接地。pin12 MUTE：8002A 使能（低有效），内部默认使能，常规可悬空。</text>
+<text x="60" y="1024">说明 5　SPKL+/SPKL- 为 BTL 功放输出，直接驱动 8Ω 喇叭、无需隔直电容；走线短而粗，区域不得被其它走线跨越。</text>
+<text x="60" y="1044">说明 6　MIC 偏置 R6 与耦合/去耦 C11 的取值须按所选驻极体麦克风规格确认。NC：pin2/3/6/7/14 预留。</text>
+</g>
+
+<g stroke="#c9d2da" stroke-width="1" fill="none">
+<path d="M980,930 L1360,930 L1360,1040 L980,1040 Z M980,965 L1360,965 M980,1000 L1360,1000 M1200,965 L1200,1040"/>
+</g>
+<g fill="#5f6b78" font-size="11">
+<text x="990" y="950">Sheet: Voice / 语音模块</text>
+<text x="990" y="985">File: ASRPRO.sch</text>
+<text x="1210" y="985">Rev 1.0</text>
+<text x="990" y="1020">Date: 2026-10-09</text>
+<text x="1210" y="1020">2 / 2</text>
+</g>
+</svg>
+  </div>
+</div>
+</body>
+</html>
